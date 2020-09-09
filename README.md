@@ -1,7 +1,6 @@
 # Mediate
 
-A simple in-process messaging and event dispatching system for AspNetCore 3.1 
-heavily inspired by mediator pattern.
+A simple and little in-process messaging and event dispatching system heavily inspired by mediator pattern. Intended, but not only, for AspNetCore 3.1.
 
 This project attempts to provide
 a communication mechanism to develop interlayer decoupled communication or modular webapplications 
@@ -37,8 +36,7 @@ public class TestMsg:IMessage<TestMsgReply>
     public string Data { get; set; }
 }
 
-public class TestMsgReply
-{
+public class TestMsgReply{
     public string Reply { get; set; }
 }
 ```
