@@ -11,7 +11,7 @@ e.g. multitenant modular appplications where each tenant have different modules 
 ## Basic usage
 ### Messages
 
-Messages are just request->response communications. 
+Messages in Mediate are just request->response communications. 
 A specific message can only have one handler.
 
 ```csharp
@@ -64,7 +64,7 @@ public class TestMsgHandler : IMessageHandler<TestMsg, TestMsgReply>
 ```
 
 ### Events
-Events in Mediate are just requests without response communications. E.g. to inform a module that a customer have been created.
+Events in Mediate are just requests without response communications. E.g. to inform a module that a customer has been created.
 A specific event can have multiple handlers.
 
 ```csharp
@@ -136,7 +136,7 @@ By default we have two strategies
 ## Extensions
 
 In src/Mediate.Extensions.AspNetCore we have one more event dispatch strategy:
-- QueueEventDispatchStrategy: Queues all handlers from a specific event to be executed in background by a AspNetCore HostedService after one another.
+- QueueEventDispatchStrategy: Queues all handlers from a specific event to be executed in background by a AspNetCore HostedService in parallel.
 
 In src/Mediate.Extensions.AspNetCore.Microsoft.DependencyInjection we have helper servicecollection extension methods to seamlessly configure Mediate.
 ## Samples
