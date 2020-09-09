@@ -8,6 +8,6 @@ namespace Mediate.Samples.Shared
 {
     public class OnHomeInvoked:IEvent
     {
-        public string RequestId { get; set; }
+        public string TestData { get; set; }
     }
 }

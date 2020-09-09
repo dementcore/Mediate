@@ -34,7 +34,7 @@ namespace Mediate.Samples.AspNetCore.Autofac.Controllers
 
         public async Task<IActionResult> Privacy(CancellationToken cancellationToken)
         {
-            OnHomeInvoked @event = new OnHomeInvoked() { RequestId = Activity.Current.Id };
+            OnHomeInvoked @event = new OnHomeInvoked() { TestData = Activity.Current.Id };
 
             await _mediator.Dispatch(@event, cancellationToken);
 

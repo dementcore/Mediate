@@ -31,7 +31,7 @@ namespace Mediate.Extensions.AspNetCore.Queue
 
         protected internal override Task Handle(CancellationToken cancellationToken)
         {
-             var result = Parallel.ForEach(_handlers, (handler) =>
+             Parallel.ForEach(_handlers, (handler) =>
              {
                  handler.Handle(Event, cancellationToken);
              });

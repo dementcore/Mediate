@@ -23,13 +23,13 @@ namespace Mediate.Samples.AspNetCore.Autofac
 
         public async Task Handle(OnHomeInvoked @event, CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"OnHomeInvoked Event handler before delay {@event.RequestId}");
+            _logger.LogInformation($"OnHomeInvoked Event handler before delay {@event.TestData}");
 
             await Task.Delay(5000);
 
-            await _hubContext.Clients.All.SendAsync("ReceiveMessage", $"OnHomeInvoked after 5 seconds delay {@event.RequestId}");
+            await _hubContext.Clients.All.SendAsync("ReceiveMessage", $"OnHomeInvoked after 5 seconds delay {@event.TestData}");
 
-            _logger.LogInformation($"OnHomeInvoked Event handler after delay{@event.RequestId}");
+            _logger.LogInformation($"OnHomeInvoked Event handler after delay{@event.TestData}");
            
         }
     }
@@ -47,13 +47,13 @@ namespace Mediate.Samples.AspNetCore.Autofac
 
         public async Task Handle(OnHomeInvoked @event, CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"OnHomeInvoked Event handler 2 before delay {@event.RequestId}");
+            _logger.LogInformation($"OnHomeInvoked Event handler 2 before delay {@event.TestData}");
 
             await Task.Delay(5000);
 
-            await _hubContext.Clients.All.SendAsync("ReceiveMessage", $"OnHomeInvoked handler 2 after 5 seconds delay {@event.RequestId}");
+            await _hubContext.Clients.All.SendAsync("ReceiveMessage", $"OnHomeInvoked handler 2 after 5 seconds delay {@event.TestData}");
 
-            _logger.LogInformation($"OnHomeInvoked Event handler 2 after delay{@event.RequestId}");
+            _logger.LogInformation($"OnHomeInvoked Event handler 2 after delay{@event.TestData}");
 
         }
     }
