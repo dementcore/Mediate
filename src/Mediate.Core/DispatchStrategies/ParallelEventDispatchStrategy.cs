@@ -9,9 +9,9 @@ namespace Mediate.Core.DispatchStrategies
     {
         public Task Dispatch<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers, CancellationToken cancellationToken = default) where TEvent : IEvent
         {
-            Parallel.ForEach(handlers, async (handler) =>
+            Parallel.ForEach(handlers, (handler) =>
             {
-                await handler.Handle(@event, cancellationToken);
+                handler.Handle(@event, cancellationToken);
             });
 
             return Task.CompletedTask;
