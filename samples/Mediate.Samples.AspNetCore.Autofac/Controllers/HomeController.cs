@@ -1,5 +1,6 @@
 ﻿using Mediate.Core;
-using Mediate.Samples.AspNetCore.Models;
+using Mediate.Core.Abstractions;
+using Mediate.Samples.AspNetCore.Autofac.Models;
 using Mediate.Samples.Shared;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -7,7 +8,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Mediate.Samples.AspNetCore.Controllers
+namespace Mediate.Samples.AspNetCore.Autofac.Controllers
 {
     public class HomeController : Controller
     {
@@ -24,7 +25,7 @@ namespace Mediate.Samples.AspNetCore.Controllers
         {
             TestMsg test = new TestMsg() { Data = "Test Data" };
 
-            TestMsgReply res = await _mediator.Send<TestMsg,TestMsgReply>(test, cancellationToken);
+            TestMsgReply res = await _mediator.Send<TestMsg, TestMsgReply>(test, cancellationToken);
 
             ViewBag.TestMsg = res.Reply;
 
