@@ -15,7 +15,12 @@ namespace Mediate.Extensions.AspNetCore
             _eventQueue = eventQueue;
         }
 
-        public Task Dispatch<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers, CancellationToken cancellationToken = default) where TEvent : IEvent
+        public Task Dispatch<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers) where TEvent : IEvent
+        {
+            return Dispatch(@event, handlers, default);
+        }
+
+        public Task Dispatch<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers, CancellationToken cancellationToken) where TEvent : IEvent
         {
             var queuedEvent = (QueuedEventWrapperBase)
                 Activator.CreateInstance(typeof(QueuedEventWrapper<>).MakeGenericType(typeof(TEvent)), @event, handlers);

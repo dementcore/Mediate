@@ -9,21 +9,27 @@ namespace Mediate.Extensions.AspNetCore.Queue
         private readonly ConcurrentQueue<QueuedEventWrapperBase> _eventQueue =
             new ConcurrentQueue<QueuedEventWrapperBase>();
 
-        public async Task<QueuedEventWrapperBase> DequeueEvent(CancellationToken cancellationToken = default)
+        private readonly object lockObj = new object();
+        public async Task<QueuedEventWrapperBase> DequeueEvent()
+        {
+            return await DequeueEvent(default).ConfigureAwait(false);
+        }
+
+        public async Task<QueuedEventWrapperBase> DequeueEvent(CancellationToken cancellationToken)
         {
             QueuedEventWrapperBase eventHandler;
 
-            lock (this)
+            lock (lockObj)
             {
                 _eventQueue.TryDequeue(out eventHandler);
             }
 
-            return await Task.FromResult(eventHandler);
+            return await Task.FromResult(eventHandler).ConfigureAwait(false);
         }
 
         public void EnqueueEvent(QueuedEventWrapperBase @event)
         {
-            lock (this)
+            lock (lockObj)
             {
                 _eventQueue.Enqueue(@event);
             }

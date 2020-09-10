@@ -7,7 +7,7 @@ namespace Mediate.Extensions.AspNetCore.Queue
 {
     public abstract class QueuedEventWrapperBase
     {
-        public QueuedEventWrapperBase(string eventName)
+        protected QueuedEventWrapperBase(string eventName)
         {
             EventName = eventName;
         }

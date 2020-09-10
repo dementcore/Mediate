@@ -13,6 +13,9 @@ namespace Mediate.Extensions.AspNetCore.Queue
 
         void EnqueueEvent(QueuedEventWrapperBase @event);
 
-        Task<QueuedEventWrapperBase> DequeueEvent(CancellationToken cancellationToken = default);
+        Task<QueuedEventWrapperBase> DequeueEvent();
+        
+        Task<QueuedEventWrapperBase> DequeueEvent(CancellationToken cancellationToken);
+
     }
 }

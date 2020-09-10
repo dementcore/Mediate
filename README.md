@@ -43,7 +43,6 @@ public class TestMsgReply{
 }
 ```
 
-
 To create a handler to process the above message 
 we have to implement the `` IMessageHandler<in TMessage, TResult> `` interface.
 
@@ -123,20 +122,16 @@ OnHomeInvoked @event = new OnHomeInvoked() { TestData = Activity.Current.Id };
 
 await _mediator.Dispatch(@event, cancellationToken);
 ```
-
-
-
 ### Event Dispatching Strategies
 Event dispatching strategies controls how the event handlers are executed.
-By default we have two strategies
-- ParallelEventDispatchStrategy: Executes all handlers from a specific event in parallel.
-- SequentialEventDispatchStrategy: Executes all handlers from a specific event after one another.
-
+By default we have two strategies:
+-  ParallelEventDispatchStrategy: Executes all handlers from a specific event in parallel.
+-  SequentialEventDispatchStrategy: Executes all handlers from a specific event after one another.
 
 ## Extensions
 
 In src/Mediate.Extensions.AspNetCore we have one more event dispatch strategy:
-- QueueEventDispatchStrategy: Queues all handlers from a specific event to be executed in background by a AspNetCore HostedService in parallel.
+-  QueueEventDispatchStrategy: Queues all handlers from a specific event to be executed in background by a AspNetCore HostedService in parallel.
 
 In src/Mediate.Extensions.AspNetCore.Microsoft.DependencyInjection we have helper servicecollection extension methods to seamlessly configure Mediate.
 ## Samples
