@@ -1,5 +1,6 @@
 # Mediate
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/1d4f09d9989e4fb788dfe05af01e8fbb)](https://app.codacy.com/manual/dementcore/Mediate?utm_source=github.com&utm_medium=referral&utm_content=dementcore/Mediate&utm_campaign=Badge_Grade_Settings)
+![.NET Core](https://github.com/dementcore/Mediate/workflows/.NET%20Core/badge.svg?branch=master)
 
 A simple and little in-process messaging and event dispatching system heavily inspired by mediator pattern. Intended, but not only, for AspNetCore 3.1.
 
