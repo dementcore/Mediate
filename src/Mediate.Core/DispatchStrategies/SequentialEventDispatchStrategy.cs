@@ -16,7 +16,7 @@ namespace Mediate.Core.DispatchStrategies
         {
             foreach (IEventHandler<TEvent> handler in handlers)
             {
-                await handler.Handle(@event, cancellationToken);
+                await handler.Handle(@event, cancellationToken).ConfigureAwait(false);
             }
         }
     }

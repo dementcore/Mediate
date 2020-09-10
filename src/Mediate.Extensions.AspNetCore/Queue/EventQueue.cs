@@ -37,7 +37,7 @@ namespace Mediate.Extensions.AspNetCore.Queue
 
         public bool HasEvents()
         {
-            lock (this)
+            lock (lockObj)
             {
                 return !_eventQueue.IsEmpty;
             }
