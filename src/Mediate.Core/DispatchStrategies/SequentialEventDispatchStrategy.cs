@@ -5,14 +5,17 @@ using System.Threading.Tasks;
 
 namespace Mediate.Core.DispatchStrategies
 {
+    /// <summary>
+    /// Event dispatch strategy that executes event handlers after one another.
+    /// </summary>
     public sealed class SequentialEventDispatchStrategy : IEventDispatchStrategy
     {
-        public async Task Dispatch<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers) where TEvent : IEvent
+        public async Task ExecuteHandlers<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers) where TEvent : IEvent
         {
-            await Dispatch(@event, handlers, default).ConfigureAwait(false);
+            await ExecuteHandlers(@event, handlers, default).ConfigureAwait(false);
         }
 
-        public async Task Dispatch<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers, CancellationToken cancellationToken) where TEvent : IEvent
+        public async Task ExecuteHandlers<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers, CancellationToken cancellationToken) where TEvent : IEvent
         {
             foreach (IEventHandler<TEvent> handler in handlers)
             {

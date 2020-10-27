@@ -44,9 +44,9 @@ namespace Mediate.Samples.AspNetCore.Autofac
             builder.RegisterType<ServiceProviderHandlerProvider>().As<IMessageHandlerProvider>().InstancePerDependency();
             builder.RegisterType<ServiceProviderHandlerProvider>().As<IEventHandlerProvider>().InstancePerDependency();
             
-            builder.RegisterType<EventQueue>().As<IEventQueue>().SingleInstance();
+            builder.RegisterType<EventQueue>().As<EventQueue>().SingleInstance();
             builder.RegisterType<EventDispatcherService>().As<IHostedService>().InstancePerDependency();
-            builder.RegisterType<QueueEventDispatchStrategy>().As<IEventDispatchStrategy>().InstancePerDependency();
+            builder.RegisterType<EventQueueDispatchStrategy>().As<IEventDispatchStrategy>().InstancePerDependency();
 
             //this register the OnHomeInvokedEventHandler for OnHomeInvoked event
             builder.RegisterType<OnHomeInvokedEventHandler>().As<IEventHandler<OnHomeInvoked>>().InstancePerDependency();

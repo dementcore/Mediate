@@ -1,4 +1,4 @@
-using Mediate.Extensions.AspNetCore.Microsoft.DependencyInjection;
+using Mediate.Extensions.AspNetCore;
 using Mediate.Samples.Shared;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -24,8 +24,8 @@ namespace Mediate.Samples.AspNetCore
 
             services.AddMediate()
                 .AddDefaultMediator()
-                .AddDefaultHandlerProvider()
-                .AddQueuedEventDispatchStrategy();
+                .AddServiceProviderHandlerProvider()
+                .AddEventQueueDispatchStrategy();
 
             //this register the OnHomeInvokedEventHandler for OnHomeInvoked event
             services.AddMediateEventHandler<OnHomeInvoked, OnHomeInvokedEventHandler>();

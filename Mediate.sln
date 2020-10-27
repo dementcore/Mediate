@@ -17,8 +17,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6102BC18-555
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mediate.Extensions.AspNetCore", "src\Mediate.Extensions.AspNetCore\Mediate.Extensions.AspNetCore.csproj", "{5AB73BC3-B20C-4C10-A914-CCC97B18FB71}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mediate.Extensions.AspNetCore.Microsoft.DependencyInjection", "src\Mediate.Extensions.AspNetCore.Microsoft.DependencyInjection\Mediate.Extensions.AspNetCore.Microsoft.DependencyInjection.csproj", "{B22D5541-685F-4158-A65A-24AEA1942499}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3214D5EB-4D05-4D33-93F0-AC5A9E03F0FD}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
@@ -50,10 +48,6 @@ Global
 		{5AB73BC3-B20C-4C10-A914-CCC97B18FB71}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5AB73BC3-B20C-4C10-A914-CCC97B18FB71}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5AB73BC3-B20C-4C10-A914-CCC97B18FB71}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B22D5541-685F-4158-A65A-24AEA1942499}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B22D5541-685F-4158-A65A-24AEA1942499}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B22D5541-685F-4158-A65A-24AEA1942499}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B22D5541-685F-4158-A65A-24AEA1942499}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -64,7 +58,6 @@ Global
 		{21F4DBBF-73A3-44FF-8FEA-6DBC51701849} = {CC0EC04F-7413-4729-AB91-37A91D2C53B7}
 		{920A5CE4-5E85-4351-B89E-3B6EBC582C51} = {CC0EC04F-7413-4729-AB91-37A91D2C53B7}
 		{5AB73BC3-B20C-4C10-A914-CCC97B18FB71} = {6102BC18-555B-4BC8-A568-88F910BF1303}
-		{B22D5541-685F-4158-A65A-24AEA1942499} = {6102BC18-555B-4BC8-A568-88F910BF1303}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7FEF3263-13CF-4EBF-9942-840C38ECFB0A}

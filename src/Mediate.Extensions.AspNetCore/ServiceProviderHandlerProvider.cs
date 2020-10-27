@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Mediate.Extensions.AspNetCore
 {
+    /// <summary>
+    /// Message and event handler provider from IServiceProvider
+    /// </summary>
     public sealed class ServiceProviderHandlerProvider : IMessageHandlerProvider,IEventHandlerProvider
     {
         private readonly IServiceProvider _serviceProvider;
