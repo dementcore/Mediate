@@ -130,10 +130,12 @@ By default we have two strategies:
 
 ## Extensions
 
-In src/Mediate.Extensions.AspNetCore we have one more event dispatch strategy:
+In src/Mediate.Extensions.AspNetCore:
+- We have one more event dispatch strategy:
   - QueueEventDispatchStrategy: Queues all handlers from a specific event to be executed in background by a AspNetCore HostedService in parallel.
 
-In src/Mediate.Extensions.AspNetCore.Microsoft.DependencyInjection we have helper servicecollection extension methods to seamlessly configure Mediate.
+- We have Service Collection extension methods to seamlessly configure Mediate.
+
 ## Samples
 
 In samples folder are samples for AspNetCore with Microsoft DI and with Autofac DI.

@@ -9,8 +9,6 @@ namespace Mediate.Extensions.AspNetCore
 {
     /// <summary>
     /// Event dispatch strategy that enqueues events to be handled by a background job.
-    /// This class is public to allow registration into DI containers like Autofac, Unity, etc.
-    /// This shouldn't be used from user code. 
     /// </summary>
     public sealed class EventQueueDispatchStrategy : IEventDispatchStrategy
     {
@@ -20,12 +18,12 @@ namespace Mediate.Extensions.AspNetCore
             _eventQueue = eventQueue;
         }
 
-        public Task Dispatch<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers) where TEvent : IEvent
+        public Task ExecuteHandlers<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers) where TEvent : IEvent
         {
-            return Dispatch(@event, handlers, default);
+            return ExecuteHandlers(@event, handlers, default);
         }
 
-        public Task Dispatch<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers, CancellationToken cancellationToken) where TEvent : IEvent
+        public Task ExecuteHandlers<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers, CancellationToken cancellationToken) where TEvent : IEvent
         {
             var queuedEvent = (QueuedEventWrapperBase)
                 Activator.CreateInstance(typeof(QueuedEventWrapper<>).MakeGenericType(typeof(TEvent)), @event, handlers);

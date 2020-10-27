@@ -20,6 +20,9 @@ namespace Mediate.Extensions.AspNetCore.Queue
         internal abstract Task Handle(CancellationToken cancellationToken);
     }
 
+    /// <summary>
+    /// Wrapper class to represent a event into the event queue
+    /// </summary>
     internal sealed class QueuedEventWrapper<TEvent> : QueuedEventWrapperBase where TEvent : IEvent
     {
         private TEvent Event { get; }

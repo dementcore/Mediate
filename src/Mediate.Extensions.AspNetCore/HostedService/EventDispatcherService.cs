@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 namespace Mediate.Extensions.AspNetCore.HostedService
 {
     /// <summary>
-    /// Job to handle the enqueued events
-    /// This class is public to allow registration into DI containers like Autofac, Unity, etc.
-    /// This shouldn't be used from user code. 
+    /// Job to handle the enqueued events. <br/>
+    /// This class is public to allow registration into DI containers like Autofac, Unity, etc. <br/>
+    /// This shouldn't be used directly from user code. <br/>
     /// </summary>
     public sealed class EventDispatcherService : BackgroundService
     {

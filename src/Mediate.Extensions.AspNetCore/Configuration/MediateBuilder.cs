@@ -23,7 +23,7 @@ namespace Mediate.Extensions.AspNetCore
         {
             if (_services.Any(s => s.ServiceType == typeof(IEventHandlerProvider)))
             {
-                throw new InvalidOperationException("You have already registered a IEventHandlerProvider implementation");
+                throw new InvalidOperationException("You have already registered an event handler provider");
             }
 
             _services.AddTransient(typeof(IEventHandlerProvider), typeof(TEventHandlerProvider));
@@ -36,7 +36,7 @@ namespace Mediate.Extensions.AspNetCore
         {
             if (_services.Any(s => s.ServiceType == typeof(IMessageHandlerProvider)))
             {
-                throw new InvalidOperationException("You have already registered a IMessageHandlerProvider implementation");
+                throw new InvalidOperationException("You have already registered an message handler provider");
             }
 
             _services.AddTransient(typeof(IMessageHandlerProvider), typeof(TMessageHandlerProvider));
@@ -44,16 +44,16 @@ namespace Mediate.Extensions.AspNetCore
             return this;
         }
 
-        public IMediateBuilder AddDefaultHandlerProvider()
+        public IMediateBuilder AddServiceProviderHandlerProvider()
         {
             if (_services.Any(s => s.ServiceType == typeof(IMessageHandlerProvider)))
             {
-                throw new InvalidOperationException("You have already registered a IMessageHandlerProvider implementation");
+                throw new InvalidOperationException("You have already registered an message handler provider");
             }
 
             if (_services.Any(s => s.ServiceType == typeof(IEventHandlerProvider)))
             {
-                throw new InvalidOperationException("You have already registered a IEventHandlerProvider implementation");
+                throw new InvalidOperationException("You have already registered an event handler provider");
             }
 
             _services.AddTransient<IMessageHandlerProvider, ServiceProviderHandlerProvider>();
@@ -90,7 +90,7 @@ namespace Mediate.Extensions.AspNetCore
         {
             if (_services.Any(s => s.ServiceType == typeof(IEventDispatchStrategy)))
             {
-                throw new InvalidOperationException("You have already registered a IEventDispatchStrategy implementation");
+                throw new InvalidOperationException("You have already registered an event dispatch strategy");
             }
 
             _services.AddTransient<IEventDispatchStrategy, ParallelEventDispatchStrategy>();
@@ -102,12 +102,12 @@ namespace Mediate.Extensions.AspNetCore
         {
             if (_services.Any(s => s.ServiceType == typeof(IEventDispatchStrategy)))
             {
-                throw new InvalidOperationException("You have already registered a IEventDispatchStrategy implementation");
+                throw new InvalidOperationException("You have already registered an event dispatch strategy");
             }
 
             if (_services.Any(s => s.ServiceType == typeof(EventQueue)))
             {
-                throw new InvalidOperationException("You have already registered a IEventQueue implementation");
+                throw new InvalidOperationException("You have already registered the EventQueue");
             }
 
             if (_services.Any(s => s.ImplementationType == typeof(EventDispatcherService)))
@@ -126,7 +126,7 @@ namespace Mediate.Extensions.AspNetCore
         {
             if (_services.Any(s => s.ServiceType == typeof(IEventDispatchStrategy)))
             {
-                throw new InvalidOperationException("You have already registered a IEventDispatchStrategy implementation");
+                throw new InvalidOperationException("You have already registered an event dispatch strategy");
             }
 
             _services.AddTransient<IEventDispatchStrategy, SequentialEventDispatchStrategy>();
@@ -139,7 +139,7 @@ namespace Mediate.Extensions.AspNetCore
         {
             if (_services.Any(s => s.ServiceType == typeof(IEventDispatchStrategy)))
             {
-                throw new InvalidOperationException("You have already registered a IEventDispatchStrategy implementation");
+                throw new InvalidOperationException("You have already registered an event dispatch strategy");
             }
 
             _services.AddTransient(typeof(IEventDispatchStrategy), typeof(TDispatchStrategy));

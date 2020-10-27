@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Mediate.Core
 {
+    /// <summary>
+    /// Default mediator implementation
+    /// </summary>
     public sealed class Mediator : IMediator
     {
         private readonly IMessageHandlerProvider _messageHandlerProvider;
@@ -46,7 +49,7 @@ namespace Mediate.Core
 
             if (handlers.Count() > 0)
             {
-                await _eventDispatchStrategy.Dispatch(@event, handlers, cancellationToken).ConfigureAwait(false);
+                await _eventDispatchStrategy.ExecuteHandlers(@event, handlers, cancellationToken).ConfigureAwait(false);
             }
         }
 

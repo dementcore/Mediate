@@ -44,7 +44,7 @@ namespace Mediate.Samples.AspNetCore.Autofac
             builder.RegisterType<ServiceProviderHandlerProvider>().As<IMessageHandlerProvider>().InstancePerDependency();
             builder.RegisterType<ServiceProviderHandlerProvider>().As<IEventHandlerProvider>().InstancePerDependency();
             
-            builder.RegisterType<EventQueue>().As<IEventQueue>().SingleInstance();
+            builder.RegisterType<EventQueue>().As<EventQueue>().SingleInstance();
             builder.RegisterType<EventDispatcherService>().As<IHostedService>().InstancePerDependency();
             builder.RegisterType<EventQueueDispatchStrategy>().As<IEventDispatchStrategy>().InstancePerDependency();
 

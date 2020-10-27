@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 namespace Mediate.Extensions.AspNetCore.Queue
 {
     /// <summary>
-    /// Event queue for the EventQueueDispatchStrategy.
-    /// This class is public to allow registration into DI containers like Autofac, Unity, etc.
-    /// This shouldn't be used from user code. 
+    /// Event queue for the EventQueueDispatchStrategy. <br/>
+    /// This class is public to allow registration into DI containers like Autofac, Unity, etc.<br/>
+    /// This shouldn't be used directly from user code. <br/>
     /// </summary>
     public sealed class EventQueue
     {
