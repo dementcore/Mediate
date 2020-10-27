@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Mediate.Extensions.AspNetCore.Microsoft.DependencyInjection\Mediate.Extensions.AspNetCore.Microsoft.DependencyInjection.csproj" />
+    <ProjectReference Include="..\..\src\Mediate.Extensions.AspNetCore\Mediate.Extensions.AspNetCore.csproj" />
     <ProjectReference Include="..\Mediate.Samples.Shared\Mediate.Samples.Shared.csproj" />
   </ItemGroup>
 
