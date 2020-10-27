@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 
-namespace Mediate.Extensions.AspNetCore.Microsoft.DependencyInjection
+namespace Mediate.Extensions.AspNetCore
 {
     internal sealed class MediateBuilder : IMediateBuilder
     {
@@ -98,14 +98,14 @@ namespace Mediate.Extensions.AspNetCore.Microsoft.DependencyInjection
             return this;
         }
 
-        public IMediateBuilder AddQueuedEventDispatchStrategy()
+        public IMediateBuilder AddEventQueueDispatchStrategy()
         {
             if (_services.Any(s => s.ServiceType == typeof(IEventDispatchStrategy)))
             {
                 throw new InvalidOperationException("You have already registered a IEventDispatchStrategy implementation");
             }
 
-            if (_services.Any(s => s.ServiceType == typeof(IEventQueue)))
+            if (_services.Any(s => s.ServiceType == typeof(EventQueue)))
             {
                 throw new InvalidOperationException("You have already registered a IEventQueue implementation");
             }
@@ -115,8 +115,8 @@ namespace Mediate.Extensions.AspNetCore.Microsoft.DependencyInjection
                 throw new InvalidOperationException("You have already registered the EventDispatcherService hosted service");
             }
 
-            _services.AddTransient<IEventDispatchStrategy, QueueEventDispatchStrategy>();
-            _services.AddSingleton<IEventQueue, EventQueue>();
+            _services.AddTransient<IEventDispatchStrategy, EventQueueDispatchStrategy>();
+            _services.AddSingleton<EventQueue>();
             _services.AddHostedService<EventDispatcherService>();
 
             return this;

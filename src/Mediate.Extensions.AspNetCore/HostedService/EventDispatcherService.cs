@@ -7,12 +7,17 @@ using System.Threading.Tasks;
 
 namespace Mediate.Extensions.AspNetCore.HostedService
 {
+    /// <summary>
+    /// Job to handle the enqueued events
+    /// This class is public to allow registration into DI containers like Autofac, Unity, etc.
+    /// This shouldn't be used from user code. 
+    /// </summary>
     public sealed class EventDispatcherService : BackgroundService
     {
-        private readonly IEventQueue _backgroundEventQueue;
+        private readonly EventQueue _backgroundEventQueue;
         private readonly ILogger<EventDispatcherService> _logger;
 
-        public EventDispatcherService(ILogger<EventDispatcherService> logger, IEventQueue backgroundEventQueue)
+        public EventDispatcherService(ILogger<EventDispatcherService> logger, EventQueue backgroundEventQueue)
         {
             _backgroundEventQueue = backgroundEventQueue;
             _logger = logger;

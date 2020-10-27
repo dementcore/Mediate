@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 
-namespace Mediate.Extensions.AspNetCore.Microsoft.DependencyInjection
+namespace Mediate.Extensions.AspNetCore
 {
     public static class ServiceCollectionExtensions
     {

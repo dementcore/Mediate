@@ -7,10 +7,15 @@ using System.Threading.Tasks;
 
 namespace Mediate.Extensions.AspNetCore
 {
-    public sealed class QueueEventDispatchStrategy : IEventDispatchStrategy
+    /// <summary>
+    /// Event dispatch strategy that enqueues events to be handled by a background job.
+    /// This class is public to allow registration into DI containers like Autofac, Unity, etc.
+    /// This shouldn't be used from user code. 
+    /// </summary>
+    public sealed class EventQueueDispatchStrategy : IEventDispatchStrategy
     {
-        private readonly IEventQueue _eventQueue;
-        public QueueEventDispatchStrategy(IEventQueue eventQueue)
+        private readonly EventQueue _eventQueue;
+        public EventQueueDispatchStrategy(EventQueue eventQueue)
         {
             _eventQueue = eventQueue;
         }

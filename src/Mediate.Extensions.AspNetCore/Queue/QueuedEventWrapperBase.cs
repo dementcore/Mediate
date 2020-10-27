@@ -5,7 +5,10 @@ using System.Threading.Tasks;
 
 namespace Mediate.Extensions.AspNetCore.Queue
 {
-    public abstract class QueuedEventWrapperBase
+    /// <summary>
+    /// Wrapper class to represent a event into the event queue
+    /// </summary>
+    internal abstract class QueuedEventWrapperBase
     {
         protected QueuedEventWrapperBase(string eventName)
         {
@@ -14,27 +17,28 @@ namespace Mediate.Extensions.AspNetCore.Queue
 
         public string EventName { get; }
 
-        protected internal abstract Task Handle(CancellationToken cancellationToken);
+        internal abstract Task Handle(CancellationToken cancellationToken);
     }
 
-    public sealed class QueuedEventWrapper<TEvent> : QueuedEventWrapperBase where TEvent : IEvent
+    internal sealed class QueuedEventWrapper<TEvent> : QueuedEventWrapperBase where TEvent : IEvent
     {
         private TEvent Event { get; }
 
         private readonly IEnumerable<IEventHandler<TEvent>> _handlers;
 
-        public QueuedEventWrapper(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers) : base(@event.GetType().Name)
+        public QueuedEventWrapper(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers)
+        : base(@event.GetType().Name)
         {
             Event = @event;
             _handlers = handlers;
         }
 
-        protected internal override Task Handle(CancellationToken cancellationToken)
+        internal override Task Handle(CancellationToken cancellationToken)
         {
-             Parallel.ForEach(_handlers, (handler) =>
-             {
-                 handler.Handle(Event, cancellationToken);
-             });
+            foreach (var handler in _handlers)
+            {
+                handler.Handle(Event, cancellationToken);
+            }
 
             return Task.CompletedTask;
         }

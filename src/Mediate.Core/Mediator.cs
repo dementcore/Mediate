@@ -1,5 +1,4 @@
 ﻿using Mediate.Core.Abstractions;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -45,7 +44,10 @@ namespace Mediate.Core
         {
             IEnumerable<IEventHandler<TEvent>> handlers = await _eventHandlerProvider.GetEventHandlers<TEvent>(@event).ConfigureAwait(false);
 
-            await _eventDispatchStrategy.Dispatch(@event, handlers, cancellationToken).ConfigureAwait(false);
+            if (handlers.Count() > 0)
+            {
+                await _eventDispatchStrategy.Dispatch(@event, handlers, cancellationToken).ConfigureAwait(false);
+            }
         }
 
 
@@ -60,7 +62,7 @@ namespace Mediate.Core
         public async Task<TResult> Send<TMessage, TResult>(TMessage message)
             where TMessage : IMessage<TResult>
         {
-            return await Send<TMessage, TResult>(message,default).ConfigureAwait(false);
+            return await Send<TMessage, TResult>(message, default).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -76,7 +78,12 @@ namespace Mediate.Core
         {
             var handler = await _messageHandlerProvider.GetMessageHandler<TMessage, TResult>(message).ConfigureAwait(false);
 
-            return await handler.Handle(message, cancellationToken).ConfigureAwait(false);
+            if (handler != null)
+            {
+                return await handler.Handle(message, cancellationToken).ConfigureAwait(false);
+            }
+
+            return default;
         }
 
     }

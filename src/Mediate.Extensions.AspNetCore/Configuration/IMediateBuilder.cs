@@ -17,7 +17,7 @@ namespace Mediate.Extensions.AspNetCore
 
         IMediateBuilder AddParallelEventDispatchStrategy();
 
-        IMediateBuilder AddQueuedEventDispatchStrategy();
+        IMediateBuilder AddEventQueueDispatchStrategy();
 
         IMediateBuilder AddCustomDispatchStrategy<TDispatchStrategy>()
             where TDispatchStrategy : IEventDispatchStrategy;

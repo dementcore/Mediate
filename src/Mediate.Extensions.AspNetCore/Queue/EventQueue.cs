@@ -4,18 +4,24 @@ using System.Threading.Tasks;
 
 namespace Mediate.Extensions.AspNetCore.Queue
 {
-    public sealed class EventQueue : IEventQueue
+    /// <summary>
+    /// Event queue for the EventQueueDispatchStrategy.
+    /// This class is public to allow registration into DI containers like Autofac, Unity, etc.
+    /// This shouldn't be used from user code. 
+    /// </summary>
+    public sealed class EventQueue
     {
         private readonly ConcurrentQueue<QueuedEventWrapperBase> _eventQueue =
             new ConcurrentQueue<QueuedEventWrapperBase>();
 
         private readonly object lockObj = new object();
-        public async Task<QueuedEventWrapperBase> DequeueEvent()
+        
+        internal async Task<QueuedEventWrapperBase> DequeueEvent()
         {
             return await DequeueEvent(default).ConfigureAwait(false);
         }
 
-        public async Task<QueuedEventWrapperBase> DequeueEvent(CancellationToken cancellationToken)
+        internal async Task<QueuedEventWrapperBase> DequeueEvent(CancellationToken cancellationToken)
         {
             QueuedEventWrapperBase eventHandler;
 
@@ -27,7 +33,7 @@ namespace Mediate.Extensions.AspNetCore.Queue
             return await Task.FromResult(eventHandler).ConfigureAwait(false);
         }
 
-        public void EnqueueEvent(QueuedEventWrapperBase @event)
+        internal void EnqueueEvent(QueuedEventWrapperBase @event)
         {
             lock (lockObj)
             {
@@ -35,7 +41,7 @@ namespace Mediate.Extensions.AspNetCore.Queue
             }
         }
 
-        public bool HasEvents()
+        internal bool HasEvents()
         {
             lock (lockObj)
             {
