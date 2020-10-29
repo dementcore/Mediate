@@ -17,18 +17,32 @@ What attempts to provide this project?
 This project is mostly developed for learn and fun, but also attempts 
 to provide an easy communication mechanism to develop decoupled communication between code layers.
 
+
+Contact
+-------
+You can contact me in the project GitHub_.
+
+If you want request a feature, please create a `Feature Request`__.
+
+.. _GitHub: https://github.com/dementcore/Mediate
+
+__ FeatureRequest_
+
+.. _FeatureRequest: https://github.com/dementcore/Mediate/issues/new?assignees=&labels=feature+request&template=feature_request.md&title=
+
+
 .. toctree::
    :maxdepth: 3
    :hidden:
    :caption: Introduction
 
-   introduction/mediator_pattern
-   introduction/com_types
+   source/introduction/mediator_pattern
+   source/introduction/com_types
 
 .. toctree::
    :maxdepth: 3
    :hidden:
    :caption: Basic Usage
    
-   usage/query_usage
-   usage/event_usage   
+   source/usage/query_usage
+   source/usage/event_usage   

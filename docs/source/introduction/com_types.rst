@@ -5,11 +5,11 @@ In mediate we have two kinds of messages that represent different things:
 
 Querys
 ^^^^^^
-A query is a request that returns a response. We can think of a query like a question that receives an answer.
+A query is a message that returns a response. We can think of a query like a question that receives an answer.
 
 .. note:: A concrete query can only have a one concrete handler.
 
-A query is represented by ``IQuery`` interface
+A query is defined by the ``IQuery`` generic interface
 
 .. sourcecode:: csharp
 
@@ -23,11 +23,11 @@ A query is represented by ``IQuery`` interface
 
 Events
 ^^^^^^
-An event is like a message but without response. We can think of a event like a notification that inform someone that something has happened. 
+An event is a message without response. We can think of an event like a notification that inform someone that something has happened. 
 
 .. note:: A concrete event can have multiple concrete handlers.
 
-An event is represented by ``IEvent`` interface
+An event is defined by the ``IEvent`` interface
 
 .. sourcecode:: csharp
 
