@@ -31,24 +31,24 @@ namespace Mediate.Extensions.AspNetCore
             return this;
         }
 
-        public IMediateBuilder AddCustomMessageHandlerProvider<TMessageHandlerProvider>()
-            where TMessageHandlerProvider : IMessageHandlerProvider
+        public IMediateBuilder AddCustomQueryHandlerProvider<TQueryHandlerProvider>()
+            where TQueryHandlerProvider : IQueryHandlerProvider
         {
-            if (_services.Any(s => s.ServiceType == typeof(IMessageHandlerProvider)))
+            if (_services.Any(s => s.ServiceType == typeof(IQueryHandlerProvider)))
             {
-                throw new InvalidOperationException("You have already registered an message handler provider");
+                throw new InvalidOperationException("You have already registered an query handler provider");
             }
 
-            _services.AddTransient(typeof(IMessageHandlerProvider), typeof(TMessageHandlerProvider));
+            _services.AddTransient(typeof(IQueryHandlerProvider), typeof(TQueryHandlerProvider));
 
             return this;
         }
 
         public IMediateBuilder AddServiceProviderHandlerProvider()
         {
-            if (_services.Any(s => s.ServiceType == typeof(IMessageHandlerProvider)))
+            if (_services.Any(s => s.ServiceType == typeof(IQueryHandlerProvider)))
             {
-                throw new InvalidOperationException("You have already registered an message handler provider");
+                throw new InvalidOperationException("You have already registered an query handler provider");
             }
 
             if (_services.Any(s => s.ServiceType == typeof(IEventHandlerProvider)))
@@ -56,7 +56,7 @@ namespace Mediate.Extensions.AspNetCore
                 throw new InvalidOperationException("You have already registered an event handler provider");
             }
 
-            _services.AddTransient<IMessageHandlerProvider, ServiceProviderHandlerProvider>();
+            _services.AddTransient<IQueryHandlerProvider, ServiceProviderHandlerProvider>();
             _services.AddTransient<IEventHandlerProvider, ServiceProviderHandlerProvider>();
 
             return this;

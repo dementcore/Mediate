@@ -3,18 +3,32 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Mediate's documentation!
-===================================
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
-
-
-
-Indices and tables
+Welcome to Mediate
 ==================
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+.. image:: images/logo.png
+   :align: center
+
+Mediate is another simple and little in-process communication system based in mediator pattern.
+
+What attempts to provide this project?
+--------------------------------------
+
+This project is mostly developed for learn and fun, but also attempts 
+to provide an easy communication mechanism to develop decoupled communication between code layers.
+
+.. toctree::
+   :maxdepth: 3
+   :hidden:
+   :caption: Introduction
+
+   introduction/mediator_pattern
+   introduction/com_types
+
+.. toctree::
+   :maxdepth: 3
+   :hidden:
+   :caption: Basic Usage
+   
+   usage/query_usage
+   usage/event_usage   

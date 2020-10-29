@@ -33,23 +33,23 @@ namespace Mediate.Extensions.AspNetCore
         }
 
         /// <summary>
-        /// Registers a message handler for <typeparamref name="TMessage"/>
+        /// Registers a query handler for <typeparamref name="TQuery"/>
         /// </summary>
-        /// <typeparam name="TMessage">Message type</typeparam>
-        /// <typeparam name="TResult">Message response type </typeparam>
-        /// <typeparam name="TMessageHandler">Event handler type </typeparam>
-        public static void AddMediateMessageHandler<TMessage, TResult, TMessageHandler>(this IServiceCollection services)
-          where TMessageHandler : IMessageHandler<TMessage, TResult>
-            where TMessage : IMessage<TResult>
+        /// <typeparam name="TQuery">Query type</typeparam>
+        /// <typeparam name="TResult">Query response type </typeparam>
+        /// <typeparam name="TQueryHandler">Query handler type </typeparam>
+        public static void AddMediateQueryHandler<TQuery, TResult, TQueryHandler>(this IServiceCollection services)
+          where TQueryHandler : IQueryHandler<TQuery, TResult>
+            where TQuery : IQuery<TResult>
         {
-            if (services.Any(s => s.ServiceType == typeof(IMessageHandler<TMessage, TResult>)))
+            if (services.Any(s => s.ServiceType == typeof(IQueryHandler<TQuery, TResult>)))
             {
                 return;
             }
 
-            Type serviceType = typeof(IMessageHandler<TMessage, TResult>);
+            Type serviceType = typeof(IQueryHandler<TQuery, TResult>);
 
-            services.AddTransient(serviceType, typeof(TMessageHandler));
+            services.AddTransient(serviceType, typeof(TQueryHandler));
         }
     }
 }

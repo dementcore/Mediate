@@ -37,10 +37,10 @@ namespace Mediate.Samples.AspNetCore
             services.AddMediateEventHandler<OnHomeInvoked, OnHomeInvokedEventHandler2>();
 
             //for TestMsg message type with TestMsgReply response type this registers the TestMsgHandler
-            services.AddMediateMessageHandler<TestMsg,TestMsgReply, TestMsgHandler>();
+            services.AddMediateQueryHandler<TestMsg,TestMsgReply, TestMsgHandler>();
 
             // this not registers because we can't have more than one handler for a message type
-            services.AddMediateMessageHandler<TestMsg,TestMsgReply, TestMsgHandler2>();
+            services.AddMediateQueryHandler<TestMsg,TestMsgReply, TestMsgHandler2>();
 
             services.AddControllersWithViews();
         }

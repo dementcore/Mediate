@@ -11,14 +11,14 @@ namespace Mediate.Core
     /// </summary>
     public sealed class Mediator : IMediator
     {
-        private readonly IMessageHandlerProvider _messageHandlerProvider;
+        private readonly IQueryHandlerProvider _queryHandlerProvider;
         private readonly IEventHandlerProvider _eventHandlerProvider;
         private readonly IEventDispatchStrategy _eventDispatchStrategy;
 
-        public Mediator(IMessageHandlerProvider messageHandlerProvider, IEventHandlerProvider eventHandlerProvider,
+        public Mediator(IQueryHandlerProvider queryHandlerProvider, IEventHandlerProvider eventHandlerProvider,
             IEventDispatchStrategy eventDispatchStrategy)
         {
-            _messageHandlerProvider = messageHandlerProvider;
+            _queryHandlerProvider = queryHandlerProvider;
             _eventHandlerProvider = eventHandlerProvider;
             _eventDispatchStrategy = eventDispatchStrategy;
         }
@@ -55,35 +55,34 @@ namespace Mediate.Core
 
 
         /// <summary>
-        /// Sends a message to his handler and returns a response
+        /// Sends a query to his handler and returns a response
         /// </summary>
-        /// <typeparam name="TMessage">Message type</typeparam>
+        /// <typeparam name="TQuery">Query type</typeparam>
         /// <typeparam name="TResult">Response type</typeparam>
-        /// <param name="message">Message data</param>
-        /// <param name="cancellationToken">Cancellation token</param>
+        /// <param name="query">Query data</param>
         /// <returns></returns>
-        public async Task<TResult> Send<TMessage, TResult>(TMessage message)
-            where TMessage : IMessage<TResult>
+        public async Task<TResult> Send<TQuery, TResult>(TQuery query)
+            where TQuery : IQuery<TResult>
         {
-            return await Send<TMessage, TResult>(message, default).ConfigureAwait(false);
+            return await Send<TQuery, TResult>(query, default).ConfigureAwait(false);
         }
 
         /// <summary>
-        /// Sends a message to his handler and returns a response
+        /// Sends a query to his handler and returns a response
         /// </summary>
-        /// <typeparam name="TMessage">Message type</typeparam>
+        /// <typeparam name="TQuery">Query type</typeparam>
         /// <typeparam name="TResult">Response type</typeparam>
-        /// <param name="message">Message data</param>
+        /// <param name="message">Query data</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns></returns>
-        public async Task<TResult> Send<TMessage, TResult>(TMessage message, CancellationToken cancellationToken)
-            where TMessage : IMessage<TResult>
+        public async Task<TResult> Send<TQuery, TResult>(TQuery query, CancellationToken cancellationToken)
+            where TQuery : IQuery<TResult>
         {
-            var handler = await _messageHandlerProvider.GetMessageHandler<TMessage, TResult>(message).ConfigureAwait(false);
+            var handler = await _queryHandlerProvider.GetQueryHandler<TQuery, TResult>(query).ConfigureAwait(false);
 
             if (handler != null)
             {
-                return await handler.Handle(message, cancellationToken).ConfigureAwait(false);
+                return await handler.Handle(query, cancellationToken).ConfigureAwait(false);
             }
 
             return default;

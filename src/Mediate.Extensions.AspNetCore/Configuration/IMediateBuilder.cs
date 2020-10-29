@@ -50,7 +50,7 @@ namespace Mediate.Extensions.AspNetCore
             where TDispatchStrategy : IEventDispatchStrategy;
 
         /// <summary>
-        /// Registers an event and message handler provider where the handlers are retrieved from AspNetCore Service Provider.
+        /// Registers an event and query handler provider where the handlers are retrieved from AspNetCore Service Provider.
         /// </summary>
         /// <returns></returns>
         IMediateBuilder AddServiceProviderHandlerProvider();
@@ -64,11 +64,11 @@ namespace Mediate.Extensions.AspNetCore
             where TEventHandlerProvider : IEventHandlerProvider;
 
         /// <summary>
-        /// Registers a custom message handler provider
+        /// Registers a custom query handler provider
         /// </summary>
-        /// <typeparam name="TMessageHandlerProvider">Message handler provider implementation type</typeparam>
+        /// <typeparam name="TQueryHandlerProvider">Query handler provider implementation type</typeparam>
         /// <returns></returns>
-        IMediateBuilder AddCustomMessageHandlerProvider<TMessageHandlerProvider>()
-            where TMessageHandlerProvider : IMessageHandlerProvider;
+        IMediateBuilder AddCustomQueryHandlerProvider<TQueryHandlerProvider>()
+            where TQueryHandlerProvider : IQueryHandlerProvider;
     }
 }

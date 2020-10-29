@@ -41,7 +41,7 @@ namespace Mediate.Samples.AspNetCore.Autofac
             // for you.
 
             builder.RegisterType<Mediator>().As<IMediator>().InstancePerDependency();
-            builder.RegisterType<ServiceProviderHandlerProvider>().As<IMessageHandlerProvider>().InstancePerDependency();
+            builder.RegisterType<ServiceProviderHandlerProvider>().As<IQueryHandlerProvider>().InstancePerDependency();
             builder.RegisterType<ServiceProviderHandlerProvider>().As<IEventHandlerProvider>().InstancePerDependency();
             
             builder.RegisterType<EventQueue>().As<EventQueue>().SingleInstance();
@@ -53,7 +53,7 @@ namespace Mediate.Samples.AspNetCore.Autofac
             builder.RegisterType<OnHomeInvokedEventHandler2>().As<IEventHandler<OnHomeInvoked>>().InstancePerDependency();
 
             //for TestMsg message type with TestMsgReply response type this registers the TestMsgHandler
-            builder.RegisterType<TestMsgHandler>().As<IMessageHandler<TestMsg,TestMsgReply>>().InstancePerDependency();
+            builder.RegisterType<TestMsgHandler>().As<IQueryHandler<TestMsg,TestMsgReply>>().InstancePerDependency();
 
         }
 

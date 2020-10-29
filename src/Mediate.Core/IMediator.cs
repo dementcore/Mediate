@@ -10,24 +10,24 @@ namespace Mediate.Core
     public interface IMediator
     {
         /// <summary>
-        /// Sends a message to the mediator
+        /// Sends a query to the mediator
         /// </summary>
-        /// <typeparam name="TMessage">Message type</typeparam>
-        /// <typeparam name="TResult">Message response type</typeparam>
-        /// <param name="message">Message data</param>
-        /// <returns>Message response</returns>
-        Task<TResult> Send<TMessage, TResult>(TMessage message)
-            where TMessage : IMessage<TResult>;
+        /// <typeparam name="TQuery">Query type</typeparam>
+        /// <typeparam name="TResult">Query response type</typeparam>
+        /// <param name="query">Query data</param>
+        /// <returns>Query response</returns>
+        Task<TResult> Send<TQuery, TResult>(TQuery query)
+            where TQuery : IQuery<TResult>;
 
         /// <summary>
-        /// Sends a message to the mediator
+        /// Sends a query to the mediator
         /// </summary>
-        /// <typeparam name="TMessage">Message type</typeparam>
-        /// <typeparam name="TResult">Message response type</typeparam>
-        /// <param name="message">Message data</param>
-        /// <returns>Message response</returns>
-        Task<TResult> Send<TMessage, TResult>(TMessage message, CancellationToken cancellationToken)
-            where TMessage : IMessage<TResult>;
+        /// <typeparam name="TQuery">Query type</typeparam>
+        /// <typeparam name="TResult">Query response type</typeparam>
+        /// <param name="query">Query data</param>
+        /// <returns>Query response</returns>
+        Task<TResult> Send<TQuery, TResult>(TQuery query, CancellationToken cancellationToken)
+            where TQuery : IQuery<TResult>;
 
         /// <summary>
         /// Dispatchs an event to the mediator

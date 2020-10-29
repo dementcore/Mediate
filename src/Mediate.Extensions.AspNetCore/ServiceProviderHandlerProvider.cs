@@ -10,7 +10,7 @@ namespace Mediate.Extensions.AspNetCore
     /// <summary>
     /// Message and event handler provider from IServiceProvider
     /// </summary>
-    public sealed class ServiceProviderHandlerProvider : IMessageHandlerProvider,IEventHandlerProvider
+    public sealed class ServiceProviderHandlerProvider : IQueryHandlerProvider,IEventHandlerProvider
     {
         private readonly IServiceProvider _serviceProvider;
 
@@ -35,17 +35,17 @@ namespace Mediate.Extensions.AspNetCore
             return Task.FromResult(handlers);
         }
 
-        public Task<IMessageHandler<TMessage, TResult>> GetMessageHandler<TMessage, TResult>(TMessage message) where TMessage : IMessage<TResult>
+        public Task<IQueryHandler<TMessage, TResult>> GetQueryHandler<TMessage, TResult>(TMessage message) where TMessage : IQuery<TResult>
         {
-            Type handlerType = typeof(IMessageHandler<,>).MakeGenericType(message.GetType(), typeof(TResult));
+            Type handlerType = typeof(IQueryHandler<,>).MakeGenericType(message.GetType(), typeof(TResult));
 
             var service = _serviceProvider.GetService(handlerType);
 
-            IMessageHandler<TMessage, TResult> handler = default;
+            IQueryHandler<TMessage, TResult> handler = default;
 
-            if (service is IMessageHandler<TMessage, TResult>)
+            if (service is IQueryHandler<TMessage, TResult>)
             {
-                handler = service as IMessageHandler<TMessage, TResult>;
+                handler = service as IQueryHandler<TMessage, TResult>;
             }
 
             return Task.FromResult(handler);

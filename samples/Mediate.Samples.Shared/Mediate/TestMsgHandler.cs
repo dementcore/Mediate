@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Mediate.Samples.Shared
 {
-    public class TestMsgHandler : IMessageHandler<TestMsg, TestMsgReply>
+    public class TestMsgHandler : IQueryHandler<TestMsg, TestMsgReply>
     {
         public Task<TestMsgReply> Handle(TestMsg message, CancellationToken cancellationToken)
         {
@@ -19,7 +19,7 @@ namespace Mediate.Samples.Shared
         }
     }
 
-    public class TestMsgHandler2 : IMessageHandler<TestMsg, TestMsgReply>
+    public class TestMsgHandler2 : IQueryHandler<TestMsg, TestMsgReply>
     {
         public Task<TestMsgReply> Handle(TestMsg message, CancellationToken cancellationToken)
         {

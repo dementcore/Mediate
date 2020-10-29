@@ -5,7 +5,7 @@ using System.Text;
 namespace Mediate.Core.Abstractions
 {
     /// <summary>
-    /// Marker interface for implement an event
+    /// Marker interface for defining an event
     /// </summary>
     public interface IEvent
     {

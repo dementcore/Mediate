@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Mediate.Samples.Shared
 {
-    public class TestMsg:IMessage<TestMsgReply>
+    public class TestMsg:IQuery<TestMsgReply>
     {
         public string Data { get; set; }
     }
