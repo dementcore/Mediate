@@ -1,3 +1,4 @@
+using Mediate.Core.Abstractions;
 using Mediate.Extensions.AspNetCore;
 using Mediate.Samples.Shared;
 using Microsoft.AspNetCore.Builder;
@@ -27,20 +28,18 @@ namespace Mediate.Samples.AspNetCore
                 .AddServiceProviderHandlerProvider()
                 .AddEventQueueDispatchStrategy();
 
-            //this register the OnHomeInvokedEventHandler for OnHomeInvoked event
-            services.AddMediateEventHandler<OnHomeInvoked, OnHomeInvokedEventHandler>();
+            //this registers a generic event handler that catchs all events
+            services.AddMediateGenericEventHandler(typeof(GenericEventHandler<>));
 
-            //this not registers because we can't have the same handler registered multiple times for a specific event
-            services.AddMediateEventHandler<OnHomeInvoked, OnHomeInvokedEventHandler>();
+            //this registers a generic event handler that catchs all events that it's base class is BaseEvent
+            services.AddMediateGenericEventHandler(typeof(GenericBaseEventHandler<>));
 
-            //this register the OnHomeInvokedEventHandler2 for OnHomeInvoked event, we can have multiple handlers for the same event
-            services.AddMediateEventHandler<OnHomeInvoked, OnHomeInvokedEventHandler2>();
+            services.ForMediateEvent<OnHomeInvoked>()
+                .AddHandler<OnHomeInvokedEventHandler>()
+                .AddHandler<OnHomeInvokedEventHandler2>();
 
-            //for TestMsg message type with TestMsgReply response type this registers the TestMsgHandler
-            services.AddMediateQueryHandler<TestMsg,TestMsgReply, TestMsgHandler>();
-
-            // this not registers because we can't have more than one handler for a message type
-            services.AddMediateQueryHandler<TestMsg,TestMsgReply, TestMsgHandler2>();
+            services.ForMediateQuery<TestMsg, TestMsgReply>()
+                .AddHandler<TestMsgHandler>();
 
             services.AddControllersWithViews();
         }

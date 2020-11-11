@@ -2,13 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Mediate.Samples.Shared
 {
-    public class TestMsg: IQuery<TestMsgReply>
+    public class OnHomeInvokedWithBase : BaseEvent
     {
-        public string Data { get; set; }
+        public string TestData { get; set; }
     }
 }

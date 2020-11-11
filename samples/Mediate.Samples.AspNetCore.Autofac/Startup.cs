@@ -52,6 +52,10 @@ namespace Mediate.Samples.AspNetCore.Autofac
             builder.RegisterType<OnHomeInvokedEventHandler>().As<IEventHandler<OnHomeInvoked>>().InstancePerDependency();
             builder.RegisterType<OnHomeInvokedEventHandler2>().As<IEventHandler<OnHomeInvoked>>().InstancePerDependency();
 
+            //this registers a generic event handler that catchs all events
+            builder.RegisterGeneric(typeof(GenericEventHandler<>)).As(typeof(IEventHandler<>)).InstancePerDependency();
+            builder.RegisterGeneric(typeof(GenericBaseEventHandler<>)).As(typeof(IEventHandler<>)).InstancePerDependency();
+
             //for TestMsg message type with TestMsgReply response type this registers the TestMsgHandler
             builder.RegisterType<TestMsgHandler>().As<IQueryHandler<TestMsg,TestMsgReply>>().InstancePerDependency();
 
