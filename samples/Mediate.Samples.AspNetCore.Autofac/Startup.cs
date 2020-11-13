@@ -1,15 +1,16 @@
 using Autofac;
 using Mediate.Core;
 using Mediate.Core.Abstractions;
-using Mediate.Extensions.AspNetCore;
-using Mediate.Extensions.AspNetCore.HostedService;
-using Mediate.Extensions.AspNetCore.Queue;
+using Mediate.AspNetCore;
+using Mediate.AspNetCore.HostedService;
+using Mediate.AspNetCore.Queue;
 using Mediate.Samples.Shared;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Mediate.AspNetCore.DispatchStrategies;
 
 namespace Mediate.Samples.AspNetCore.Autofac
 {

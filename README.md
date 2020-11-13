@@ -10,7 +10,7 @@ Mediate is another simple and little in-process messaging and event dispatching 
 ## What attempts to provide this project?
 
 This project is mostly developed for learn and fun, but also attempts 
-to provide an easy communication mechanism to develop decoupled communication between code layers.
+to provide an easy communication mechanism to develop decoupled communication between code layers in ASP.NET Core applications.
 
 
 ## [Documentation](https://mediate.readthedocs.io/en/docs/)

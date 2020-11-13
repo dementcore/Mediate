@@ -5,12 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Mediate.Extensions.AspNetCore
+namespace Mediate.AspNetCore
 {
     /// <summary>
     /// Message and event handler provider from IServiceProvider
     /// </summary>
-    public sealed class ServiceProviderHandlerProvider : IQueryHandlerProvider,IEventHandlerProvider
+    public sealed class ServiceProviderHandlerProvider : IHandlerProvider
     {
         private readonly IServiceProvider _serviceProvider;
 

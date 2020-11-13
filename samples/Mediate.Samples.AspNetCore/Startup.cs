@@ -1,5 +1,3 @@
-using Mediate.Core.Abstractions;
-using Mediate.Extensions.AspNetCore;
 using Mediate.Samples.Shared;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

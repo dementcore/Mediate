@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Mediate.Extensions.AspNetCore.Queue
+namespace Mediate.AspNetCore.Queue
 {
     /// <summary>
     /// Wrapper class to represent a event into the event queue

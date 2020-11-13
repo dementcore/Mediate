@@ -1,13 +1,13 @@
 ﻿using Mediate.Core;
 using Mediate.Core.Abstractions;
-using Mediate.Core.DispatchStrategies;
-using Mediate.Extensions.AspNetCore.HostedService;
-using Mediate.Extensions.AspNetCore.Queue;
+using Mediate.AspNetCore.DispatchStrategies;
+using Mediate.AspNetCore.HostedService;
+using Mediate.AspNetCore.Queue;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 
-namespace Mediate.Extensions.AspNetCore
+namespace Mediate.AspNetCore
 {
     internal sealed class MediateBuilder : IMediateBuilder
     {
@@ -18,46 +18,27 @@ namespace Mediate.Extensions.AspNetCore
             _services = services;
         }
 
-        public IMediateBuilder AddCustomEventHandlerProvider<TEventHandlerProvider>()
-            where TEventHandlerProvider : IEventHandlerProvider
+        public IMediateBuilder AddCustomHandlerProvider<THandlerProvider>()
+            where THandlerProvider : IHandlerProvider
         {
-            if (_services.Any(s => s.ServiceType == typeof(IEventHandlerProvider)))
+            if (_services.Any(s => s.ServiceType == typeof(IHandlerProvider)))
             {
-                throw new InvalidOperationException("You have already registered an event handler provider");
+                throw new InvalidOperationException("You have already registered a handler provider");
             }
 
-            _services.AddTransient(typeof(IEventHandlerProvider), typeof(TEventHandlerProvider));
-
-            return this;
-        }
-
-        public IMediateBuilder AddCustomQueryHandlerProvider<TQueryHandlerProvider>()
-            where TQueryHandlerProvider : IQueryHandlerProvider
-        {
-            if (_services.Any(s => s.ServiceType == typeof(IQueryHandlerProvider)))
-            {
-                throw new InvalidOperationException("You have already registered an query handler provider");
-            }
-
-            _services.AddTransient(typeof(IQueryHandlerProvider), typeof(TQueryHandlerProvider));
+            _services.AddTransient(typeof(IHandlerProvider), typeof(THandlerProvider));
 
             return this;
         }
 
         public IMediateBuilder AddServiceProviderHandlerProvider()
         {
-            if (_services.Any(s => s.ServiceType == typeof(IQueryHandlerProvider)))
+            if (_services.Any(s => s.ServiceType == typeof(IHandlerProvider)))
             {
-                throw new InvalidOperationException("You have already registered an query handler provider");
+                throw new InvalidOperationException("You have already registered a handler provider");
             }
 
-            if (_services.Any(s => s.ServiceType == typeof(IEventHandlerProvider)))
-            {
-                throw new InvalidOperationException("You have already registered an event handler provider");
-            }
-
-            _services.AddTransient<IQueryHandlerProvider, ServiceProviderHandlerProvider>();
-            _services.AddTransient<IEventHandlerProvider, ServiceProviderHandlerProvider>();
+            _services.AddTransient<IHandlerProvider, ServiceProviderHandlerProvider>();
 
             return this;
         }

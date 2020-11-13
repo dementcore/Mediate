@@ -1,11 +1,11 @@
-﻿using Mediate.Extensions.AspNetCore.Queue;
+﻿using Mediate.AspNetCore.Queue;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Mediate.Extensions.AspNetCore.HostedService
+namespace Mediate.AspNetCore.HostedService
 {
     /// <summary>
     /// Job to handle the enqueued events. <br/>

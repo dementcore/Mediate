@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Mediate.Extensions.AspNetCore.Queue
+namespace Mediate.AspNetCore.Queue
 {
     /// <summary>
     /// Event queue for the EventQueueDispatchStrategy. <br/>

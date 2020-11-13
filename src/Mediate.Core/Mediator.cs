@@ -1,6 +1,9 @@
 ﻿using Mediate.Core.Abstractions;
+using Mediate.Core.DefaultMiddlewares;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,13 +16,13 @@ namespace Mediate.Core
     {
         private readonly IQueryHandlerProvider _queryHandlerProvider;
         private readonly IEventHandlerProvider _eventHandlerProvider;
+
         private readonly IEventDispatchStrategy _eventDispatchStrategy;
 
-        public Mediator(IQueryHandlerProvider queryHandlerProvider, IEventHandlerProvider eventHandlerProvider,
-            IEventDispatchStrategy eventDispatchStrategy)
+        public Mediator(IHandlerProvider provider, IEventDispatchStrategy eventDispatchStrategy)
         {
-            _queryHandlerProvider = queryHandlerProvider;
-            _eventHandlerProvider = eventHandlerProvider;
+            _queryHandlerProvider = provider;
+            _eventHandlerProvider = provider;
             _eventDispatchStrategy = eventDispatchStrategy;
         }
 
@@ -49,7 +52,27 @@ namespace Mediate.Core
 
             if (handlers.Count() > 0)
             {
-                await _eventDispatchStrategy.ExecuteHandlers(@event, handlers, cancellationToken).ConfigureAwait(false);
+
+                NextMiddlewareDelegate pipelineEnd = async delegate
+                {
+                    await _eventDispatchStrategy.ExecuteStrategy(@event, handlers, cancellationToken).ConfigureAwait(false);
+
+                };
+
+                NextMiddlewareDelegate pipeline = MockMiddlewares.middles
+                    .Reverse()
+                    .Aggregate(pipelineEnd, (next, middleware) =>
+                    {
+                        return async delegate
+                        {
+                            await middleware.Invoke(@event, cancellationToken, next);
+                        };
+                    });
+
+                await pipeline();
+
+              
+
             }
         }
 

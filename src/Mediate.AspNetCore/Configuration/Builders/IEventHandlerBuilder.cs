@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Mediate.Extensions.AspNetCore.Configuration.Builders
+namespace Mediate.AspNetCore.Configuration.Builders
 {
     public interface IEventHandlerBuilder<T> where T : IEvent
     {

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Mediate.Extensions.AspNetCore.Configuration.Builders
+namespace Mediate.AspNetCore.Configuration.Builders
 {
     public sealed class EventHandlerBuilder<TEvent> : IEventHandlerBuilder<TEvent> where TEvent : IEvent
     {

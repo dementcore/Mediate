@@ -1,11 +1,11 @@
 ﻿using Mediate.Core.Abstractions;
-using Mediate.Extensions.AspNetCore.Queue;
+using Mediate.AspNetCore.Queue;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Mediate.Extensions.AspNetCore
+namespace Mediate.AspNetCore.DispatchStrategies
 {
     /// <summary>
     /// Event dispatch strategy that enqueues events to be handled by a background job.
@@ -18,12 +18,12 @@ namespace Mediate.Extensions.AspNetCore
             _eventQueue = eventQueue;
         }
 
-        public Task ExecuteHandlers<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers) where TEvent : IEvent
+        public Task ExecuteStrategy<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers) where TEvent : IEvent
         {
-            return ExecuteHandlers(@event, handlers, default);
+            return ExecuteStrategy(@event, handlers, default);
         }
 
-        public Task ExecuteHandlers<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers, CancellationToken cancellationToken) where TEvent : IEvent
+        public Task ExecuteStrategy<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers, CancellationToken cancellationToken) where TEvent : IEvent
         {
             var queuedEvent = (QueuedEventWrapperBase)
                 Activator.CreateInstance(typeof(QueuedEventWrapper<>).MakeGenericType(typeof(TEvent)), @event, handlers);

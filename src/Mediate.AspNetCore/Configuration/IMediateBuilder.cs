@@ -4,7 +4,7 @@ using System.Text;
 using Mediate.Core.Abstractions;
 using Mediate.Core;
 
-namespace Mediate.Extensions.AspNetCore
+namespace Mediate.AspNetCore
 {
     public interface IMediateBuilder
     {
@@ -13,14 +13,14 @@ namespace Mediate.Extensions.AspNetCore
         /// </summary>
         /// <returns></returns>
         IMediateBuilder AddDefaultMediator();
-        
+
         /// <summary>
         /// Registers a custom mediator implementation
         /// </summary>
         /// <typeparam name="TMediator">Mediator implementation type</typeparam>
         /// <returns></returns>
         IMediateBuilder AddCustomMediator<TMediator>()
-            where TMediator:IMediator;
+            where TMediator : IMediator;
 
         /// <summary>
         /// Registers the SequentialEventDispatchStrategy that executes event handlers after one another
@@ -56,19 +56,11 @@ namespace Mediate.Extensions.AspNetCore
         IMediateBuilder AddServiceProviderHandlerProvider();
 
         /// <summary>
-        /// Registers a custom event handler provider
+        /// Registers a custom handler provider
         /// </summary>
-        /// <typeparam name="TEventHandlerProvider">Event handler provider implementation type</typeparam>
+        /// <typeparam name="THandlerProvider">Handler provider implementation type</typeparam>
         /// <returns></returns>
-        IMediateBuilder AddCustomEventHandlerProvider<TEventHandlerProvider>()
-            where TEventHandlerProvider : IEventHandlerProvider;
-
-        /// <summary>
-        /// Registers a custom query handler provider
-        /// </summary>
-        /// <typeparam name="TQueryHandlerProvider">Query handler provider implementation type</typeparam>
-        /// <returns></returns>
-        IMediateBuilder AddCustomQueryHandlerProvider<TQueryHandlerProvider>()
-            where TQueryHandlerProvider : IQueryHandlerProvider;
+        IMediateBuilder AddCustomHandlerProvider<THandlerProvider>()
+                    where THandlerProvider : IHandlerProvider;
     }
 }
