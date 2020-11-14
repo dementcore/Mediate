@@ -1,6 +1,9 @@
 ﻿using Mediate.Core;
 using Mediate.Samples.AspNetCore.Models;
-using Mediate.Samples.Shared;
+using Mediate.Samples.Shared.Query;
+using Mediate.Samples.Shared.QueryWithMiddleware;
+using Mediate.Samples.Shared.Event;
+using Mediate.Samples.Shared.EventWithMiddleware;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
@@ -22,22 +25,45 @@ namespace Mediate.Samples.AspNetCore.Controllers
 
         public async Task<IActionResult> Index(CancellationToken cancellationToken)
         {
-            TestMsg test = new TestMsg() { Data = "Test Data" };
+            return View();
+        }
 
-            TestMsgReply res = await _mediator.Send<TestMsg,TestMsgReply>(test, cancellationToken);
+        public async Task<IActionResult> Query(CancellationToken cancellationToken)
+        {
+            SampleQuery query = new SampleQuery() { QueryData = "Sample Query Data" };
 
-            ViewBag.TestMsg = res.Reply;
+            SampleQueryResponse res = await _mediator.Send<SampleQuery, SampleQueryResponse>(query, cancellationToken);
+
+            ViewBag.Response = res.QueryResponseData;
 
             return View();
         }
 
-        public async Task<IActionResult> Privacy(CancellationToken cancellationToken)
+        public async Task<IActionResult> QueryMiddleware(CancellationToken cancellationToken)
         {
-            OnHomeInvoked @event = new OnHomeInvoked() { TestData = Activity.Current.Id };
-            OnHomeInvokedWithBase @event2 = new OnHomeInvokedWithBase() { TestData = Activity.Current.Id };
+            SampleComplexQuery query = new SampleComplexQuery() { QueryData = "Sample Complex Query Data" };
+
+            SampleComplexQueryResponse res = await _mediator.Send<SampleComplexQuery, SampleComplexQueryResponse>(query, cancellationToken);
+
+            ViewBag.Response = res.QueryResponseData;
+
+            return View();
+        }
+
+        public async Task<IActionResult> Event(CancellationToken cancellationToken)
+        {
+            SampleEvent @event = new SampleEvent() { EventData = "Sample event data" };
 
             await _mediator.Dispatch(@event, cancellationToken);
-            await _mediator.Dispatch(@event2, cancellationToken);
+
+            return View();
+        }
+
+        public async Task<IActionResult> EventMiddleware(CancellationToken cancellationToken)
+        {
+            SampleComplexEvent @event = new SampleComplexEvent() { EventData = "Sample complex event data" };
+
+            await _mediator.Dispatch(@event, cancellationToken);
 
             return View();
         }

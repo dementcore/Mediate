@@ -23,37 +23,16 @@ namespace Mediate.AspNetCore
             where TMediator : IMediator;
 
         /// <summary>
-        /// Registers the SequentialEventDispatchStrategy that executes event handlers after one another
-        /// </summary>
-        /// <returns></returns>
-        IMediateBuilder AddSequentialEventDispatchStrategy();
-
-        /// <summary>
-        /// Registers the ParallelEventDispatchStrategy that executes events handlers in parallel
-        /// </summary>
-        /// <returns></returns>
-        IMediateBuilder AddParallelEventDispatchStrategy();
-
-        /// <summary>
-        /// Registers the ParallelEventDispatchStrategy that enqueues events to be handled by a background job.
-        /// </summary>
-        /// <returns></returns>
-
-        IMediateBuilder AddEventQueueDispatchStrategy();
-
-        /// <summary>
-        /// Registers a custom event dispatch strategy implementation
-        /// </summary>
-        /// <typeparam name="TDispatchStrategy">Event dispatch strategy implementation type</typeparam>
-        /// <returns></returns>
-        IMediateBuilder AddCustomDispatchStrategy<TDispatchStrategy>()
-            where TDispatchStrategy : IEventDispatchStrategy;
-
-        /// <summary>
         /// Registers an event and query handler provider where the handlers are retrieved from AspNetCore Service Provider.
         /// </summary>
         /// <returns></returns>
         IMediateBuilder AddServiceProviderHandlerProvider();
+
+        /// <summary>
+        /// Registers an event and query middleware provider where the middlewares are retrieved from AspNetCore Service Provider.
+        /// </summary>
+        /// <returns></returns>
+        IMediateBuilder AddServiceProviderMiddlewareProvider();
 
         /// <summary>
         /// Registers a custom handler provider
@@ -62,5 +41,13 @@ namespace Mediate.AspNetCore
         /// <returns></returns>
         IMediateBuilder AddCustomHandlerProvider<THandlerProvider>()
                     where THandlerProvider : IHandlerProvider;
+
+        /// <summary>
+        /// Registers a custom middleware provider
+        /// </summary>
+        /// <typeparam name="TMiddlewareProvider">Middleware provider implementation type</typeparam>
+        /// <returns></returns>
+        IMediateBuilder AddCustomMiddlewareProvider<TMiddlewareProvider>()
+                    where TMiddlewareProvider : IMiddlewareProvider;
     }
 }

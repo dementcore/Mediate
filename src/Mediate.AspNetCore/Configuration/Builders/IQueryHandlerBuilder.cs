@@ -10,5 +10,6 @@ namespace Mediate.AspNetCore.Configuration.Builders
     public interface IQueryHandlerBuilder<TQuery, TResult> where TQuery : IQuery<TResult>
     {
         IQueryHandlerBuilder<TQuery, TResult> AddHandler<TQueryHandler>() where TQueryHandler : IQueryHandler<TQuery, TResult>;
+        IQueryHandlerBuilder<TQuery, TResult> AddMiddleware<TQueryMiddleware>() where TQueryMiddleware : IQueryMiddleware<TQuery, TResult>;
     }
 }

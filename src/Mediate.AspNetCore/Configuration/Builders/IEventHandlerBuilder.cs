@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace Mediate.AspNetCore.Configuration.Builders
 {
-    public interface IEventHandlerBuilder<T> where T : IEvent
+    public interface IEventHandlerBuilder<TEvent> where TEvent : IEvent
     {
-        IEventHandlerBuilder<T> AddHandler<TEventHandler>() where TEventHandler : IEventHandler<T>;
+        IEventHandlerBuilder<TEvent> AddHandler<TEventHandler>() where TEventHandler : IEventHandler<TEvent>;
+        IEventHandlerBuilder<TEvent> AddMiddleware<TEventMiddleware>() where TEventMiddleware : IEventMiddleware<TEvent>;
     }
 }

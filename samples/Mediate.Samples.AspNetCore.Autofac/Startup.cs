@@ -42,9 +42,10 @@ namespace Mediate.Samples.AspNetCore.Autofac
             // for you.
 
             builder.RegisterType<Mediator>().As<IMediator>().InstancePerDependency();
-            builder.RegisterType<ServiceProviderHandlerProvider>().As<IQueryHandlerProvider>().InstancePerDependency();
-            builder.RegisterType<ServiceProviderHandlerProvider>().As<IEventHandlerProvider>().InstancePerDependency();
-            
+            builder.RegisterType<ServiceProviderHandlerProvider>().As<IHandlerProvider>().InstancePerDependency();
+            builder.RegisterType<ServiceProviderMiddlewareProvider>().As<IMiddlewareProvider>().InstancePerDependency();
+
+            //this registers the required services for the event queue dispatch strategy
             builder.RegisterType<EventQueue>().As<EventQueue>().SingleInstance();
             builder.RegisterType<EventDispatcherService>().As<IHostedService>().InstancePerDependency();
             builder.RegisterType<EventQueueDispatchStrategy>().As<IEventDispatchStrategy>().InstancePerDependency();
@@ -55,10 +56,18 @@ namespace Mediate.Samples.AspNetCore.Autofac
 
             //this registers a generic event handler that catchs all events
             builder.RegisterGeneric(typeof(GenericEventHandler<>)).As(typeof(IEventHandler<>)).InstancePerDependency();
+
+            //this registers a generic event handler that catchs all events derived from BaseEvent class
             builder.RegisterGeneric(typeof(GenericBaseEventHandler<>)).As(typeof(IEventHandler<>)).InstancePerDependency();
 
+            //this registers a generic middleware for all querys
+            builder.RegisterGeneric(typeof(GenericQueryMiddleware<,>)).As(typeof(IQueryMiddleware<,>)).InstancePerDependency();
+
+            //this registers a generic middleware for all querys derived from BaseQuery class
+            builder.RegisterGeneric(typeof(GenericBaseQueryMiddleware<,>)).As(typeof(IQueryMiddleware<,>)).InstancePerDependency();
+
             //for TestMsg message type with TestMsgReply response type this registers the TestMsgHandler
-            builder.RegisterType<TestMsgHandler>().As<IQueryHandler<TestMsg,TestMsgReply>>().InstancePerDependency();
+            builder.RegisterType<TestMsgHandler>().As<IQueryHandler<TestMsg, SampleQueryResponse>>().InstancePerDependency();
 
         }
 

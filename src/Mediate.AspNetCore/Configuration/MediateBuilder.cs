@@ -67,63 +67,26 @@ namespace Mediate.AspNetCore
             return this;
         }
 
-        public IMediateBuilder AddParallelEventDispatchStrategy()
+        public IMediateBuilder AddServiceProviderMiddlewareProvider()
         {
-            if (_services.Any(s => s.ServiceType == typeof(IEventDispatchStrategy)))
+            if (_services.Any(s => s.ServiceType == typeof(IMiddlewareProvider)))
             {
-                throw new InvalidOperationException("You have already registered an event dispatch strategy");
+                throw new InvalidOperationException("You have already registered a middleware provider");
             }
 
-            _services.AddTransient<IEventDispatchStrategy, ParallelEventDispatchStrategy>();
+            _services.AddTransient<IMiddlewareProvider, ServiceProviderMiddlewareProvider>();
 
             return this;
         }
 
-        public IMediateBuilder AddEventQueueDispatchStrategy()
+        public IMediateBuilder AddCustomMiddlewareProvider<TMiddlewareProvider>() where TMiddlewareProvider : IMiddlewareProvider
         {
-            if (_services.Any(s => s.ServiceType == typeof(IEventDispatchStrategy)))
+            if (_services.Any(s => s.ServiceType == typeof(IMiddlewareProvider)))
             {
-                throw new InvalidOperationException("You have already registered an event dispatch strategy");
+                throw new InvalidOperationException("You have already registered a middleware provider");
             }
 
-            if (_services.Any(s => s.ServiceType == typeof(EventQueue)))
-            {
-                throw new InvalidOperationException("You have already registered the EventQueue");
-            }
-
-            if (_services.Any(s => s.ImplementationType == typeof(EventDispatcherService)))
-            {
-                throw new InvalidOperationException("You have already registered the EventDispatcherService hosted service");
-            }
-
-            _services.AddTransient<IEventDispatchStrategy, EventQueueDispatchStrategy>();
-            _services.AddSingleton<EventQueue>();
-            _services.AddHostedService<EventDispatcherService>();
-
-            return this;
-        }
-
-        public IMediateBuilder AddSequentialEventDispatchStrategy()
-        {
-            if (_services.Any(s => s.ServiceType == typeof(IEventDispatchStrategy)))
-            {
-                throw new InvalidOperationException("You have already registered an event dispatch strategy");
-            }
-
-            _services.AddTransient<IEventDispatchStrategy, SequentialEventDispatchStrategy>();
-
-            return this;
-        }
-
-        public IMediateBuilder AddCustomDispatchStrategy<TDispatchStrategy>()
-          where TDispatchStrategy : IEventDispatchStrategy
-        {
-            if (_services.Any(s => s.ServiceType == typeof(IEventDispatchStrategy)))
-            {
-                throw new InvalidOperationException("You have already registered an event dispatch strategy");
-            }
-
-            _services.AddTransient(typeof(IEventDispatchStrategy), typeof(TDispatchStrategy));
+            _services.AddTransient(typeof(IMiddlewareProvider), typeof(TMiddlewareProvider));
 
             return this;
         }

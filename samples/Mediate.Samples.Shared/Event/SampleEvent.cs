@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Mediate.Samples.Shared
+namespace Mediate.Samples.Shared.Event
 {
-    public class OnHomeInvoked:IEvent
+    public class SampleEvent:IEvent
     {
-        public string TestData { get; set; }
+        public string EventData { get; set; }
     }
 }

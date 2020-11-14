@@ -16,6 +16,6 @@ namespace Mediate.Core.Abstractions
         /// <typeparam name="TEvent">Event type</typeparam>
         /// <param name="event">Event data</param>
         /// <returns>All registered handlers for that event</returns>
-        Task<IEnumerable<IEventHandler<TEvent>>> GetEventHandlers<TEvent>(IEvent @event) where TEvent : IEvent;
+        Task<IEnumerable<IEventHandler<TEvent>>> GetHandlers<TEvent>() where TEvent : IEvent;
     }
 }

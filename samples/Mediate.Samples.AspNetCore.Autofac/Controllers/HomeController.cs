@@ -4,6 +4,7 @@ using Mediate.Samples.AspNetCore.Autofac.Models;
 using Mediate.Samples.Shared;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,8 +26,7 @@ namespace Mediate.Samples.AspNetCore.Autofac.Controllers
         {
             TestMsg test = new TestMsg() { Data = "Test Data" };
 
-            TestMsgReply res = await _mediator.Send<TestMsg, TestMsgReply>(test, cancellationToken);
-
+            SampleQueryResponse res = await _mediator.Send<TestMsg, SampleQueryResponse>(test, cancellationToken);
             ViewBag.TestMsg = res.Reply;
 
             return View();

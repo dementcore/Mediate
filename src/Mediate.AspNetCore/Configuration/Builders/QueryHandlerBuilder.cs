@@ -18,6 +18,20 @@ namespace Mediate.AspNetCore.Configuration.Builders
             _services = services;
         }
 
+        public IQueryHandlerBuilder<TQuery, TResult> AddMiddleware<TQueryMiddleware>() where TQueryMiddleware : IQueryMiddleware<TQuery, TResult>
+        {
+            if (_services.Any(s => s.ServiceType == typeof(IQueryMiddleware<TQuery, TResult>) && s.ImplementationType == typeof(TQueryMiddleware)))
+            {
+                throw new InvalidOperationException("Duplicate query middleware found. You can register multiple middleware for a concrete query but you must register a concrete query middleware only once.");
+            }
+
+            Type serviceType = typeof(IQueryMiddleware<TQuery, TResult>);
+
+            _services.AddTransient(serviceType, typeof(TQueryMiddleware));
+
+            return this;
+        }
+
         IQueryHandlerBuilder<TQuery, TResult> IQueryHandlerBuilder<TQuery, TResult>.AddHandler<TQueryHandler>()
         {
             if (_services.Any(s => s.ServiceType == typeof(IQueryHandler<TQuery, TResult>)))

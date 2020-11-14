@@ -4,6 +4,15 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Remove="QueryWithMiddleware\SampleComplexQueryHandler.cs~RF659c44.TMP" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\..\src\Mediate.Core\Mediate.Core.csproj" />
   </ItemGroup>

@@ -19,33 +19,29 @@ namespace Mediate.AspNetCore
             _serviceProvider = serviceProvider;
         }
 
-        public Task<IEnumerable<IEventHandler<TEvent>>> GetEventHandlers<TEvent>(IEvent @event) where TEvent : IEvent
+        public Task<IEnumerable<IEventHandler<TEvent>>> GetHandlers<TEvent>() where TEvent : IEvent
         {
-            Type handlerType = typeof(IEventHandler<>).MakeGenericType(@event.GetType());
-
-            var services = _serviceProvider.GetServices(handlerType);
+            IEnumerable<IEventHandler<TEvent>> services = _serviceProvider.GetServices<IEventHandler<TEvent>>();
 
             IEnumerable<IEventHandler<TEvent>> handlers = new List<IEventHandler<TEvent>>();
 
             if (services is IEnumerable<IEventHandler<TEvent>>)
             {
-                handlers = services as IEnumerable<IEventHandler<TEvent>>;
+                handlers = services;
             }
 
             return Task.FromResult(handlers);
         }
 
-        public Task<IQueryHandler<TMessage, TResult>> GetQueryHandler<TMessage, TResult>(TMessage message) where TMessage : IQuery<TResult>
+        public Task<IQueryHandler<TQuery, TResult>> GetHandler<TQuery, TResult>() where TQuery : IQuery<TResult>
         {
-            Type handlerType = typeof(IQueryHandler<,>).MakeGenericType(message.GetType(), typeof(TResult));
+            IQueryHandler<TQuery, TResult> service = _serviceProvider.GetService<IQueryHandler<TQuery, TResult>>();
 
-            var service = _serviceProvider.GetService(handlerType);
+            IQueryHandler<TQuery, TResult> handler = default;
 
-            IQueryHandler<TMessage, TResult> handler = default;
-
-            if (service is IQueryHandler<TMessage, TResult>)
+            if (service is IQueryHandler<TQuery, TResult>)
             {
-                handler = service as IQueryHandler<TMessage, TResult>;
+                handler = service;
             }
 
             return Task.FromResult(handler);

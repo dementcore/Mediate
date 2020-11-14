@@ -31,5 +31,19 @@ namespace Mediate.AspNetCore.Configuration.Builders
 
             return this;
         }
+
+        public IEventHandlerBuilder<TEvent> AddMiddleware<TEventMiddleware>() where TEventMiddleware : IEventMiddleware<TEvent>
+        {
+            if (_services.Any(s => s.ServiceType == typeof(IEventMiddleware<TEvent>) && s.ImplementationType == typeof(TEventMiddleware)))
+            {
+                throw new InvalidOperationException("Duplicate event middleware found. You can register multiple middleware for a concrete event but you must register a concrete middleware only once.");
+            }
+
+            Type serviceType = typeof(IEventMiddleware<TEvent>);
+
+            _services.AddTransient(serviceType, typeof(TEventMiddleware));
+
+            return this;
+        }
     }
 }

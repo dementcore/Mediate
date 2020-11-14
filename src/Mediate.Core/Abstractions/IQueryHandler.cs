@@ -17,10 +17,10 @@ namespace Mediate.Core.Abstractions
         /// <summary>
         /// Handle the message
         /// </summary>
-        /// <param name="message">Message data</param>
+        /// <param name="query">Message data</param>
         /// <param name="cancellationToken"></param>
         /// <returns>Message response</returns>
-        Task<TResult> Handle(TQuery message, CancellationToken cancellationToken);
+        Task<TResult> Handle(TQuery query, CancellationToken cancellationToken);
 
     }
 }

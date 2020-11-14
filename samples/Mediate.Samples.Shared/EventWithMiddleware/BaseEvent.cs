@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Mediate.Samples.Shared
+namespace Mediate.Samples.Shared.EventWithMiddleware
 {
     public class BaseEvent : IEvent
     {

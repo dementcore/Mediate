@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
-namespace Mediate.Samples.AspNetCore.Hubs
+namespace Mediate.Samples.Shared.Hubs
 {
-    public class TestHub : Hub
+    public class SignalRSampleHub : Hub
     {
 
         public async Task SendMessage(string message)

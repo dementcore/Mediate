@@ -5,11 +5,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Mediate.Samples.Shared
+namespace Mediate.Samples.Shared.Query
 {
-  
-    public class TestMsgReply
+    public class SampleQuery: IQuery<SampleQueryResponse>
     {
-        public string Reply { get; set; }
+        public string QueryData { get; set; }
     }
 }

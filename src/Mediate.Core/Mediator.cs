@@ -1,5 +1,4 @@
 ﻿using Mediate.Core.Abstractions;
-using Mediate.Core.DefaultMiddlewares;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,13 +16,19 @@ namespace Mediate.Core
         private readonly IQueryHandlerProvider _queryHandlerProvider;
         private readonly IEventHandlerProvider _eventHandlerProvider;
 
+        private readonly IQueryMiddlewareProvider _queryMiddlewareProvider;
+        private readonly IEventMiddlewareProvider _eventMiddlewareProvider;
+
         private readonly IEventDispatchStrategy _eventDispatchStrategy;
 
-        public Mediator(IHandlerProvider provider, IEventDispatchStrategy eventDispatchStrategy)
+        public Mediator(IHandlerProvider provider, IMiddlewareProvider middlewareProvider, IEventDispatchStrategy eventDispatchStrategy)
         {
             _queryHandlerProvider = provider;
             _eventHandlerProvider = provider;
             _eventDispatchStrategy = eventDispatchStrategy;
+
+            _queryMiddlewareProvider = middlewareProvider;
+            _eventMiddlewareProvider = middlewareProvider;
         }
 
         /// <summary>
@@ -48,18 +53,18 @@ namespace Mediate.Core
         public async Task Dispatch<TEvent>(TEvent @event, CancellationToken cancellationToken)
             where TEvent : IEvent
         {
-            IEnumerable<IEventHandler<TEvent>> handlers = await _eventHandlerProvider.GetEventHandlers<TEvent>(@event).ConfigureAwait(false);
+            IEnumerable<IEventHandler<TEvent>> handlers = await _eventHandlerProvider.GetHandlers<TEvent>().ConfigureAwait(false);
 
             if (handlers.Count() > 0)
             {
+                IEnumerable<IEventMiddleware<TEvent>> middlewares = await _eventMiddlewareProvider.GetMiddlewares<TEvent>();
 
                 NextMiddlewareDelegate pipelineEnd = async delegate
                 {
                     await _eventDispatchStrategy.ExecuteStrategy(@event, handlers, cancellationToken).ConfigureAwait(false);
-
                 };
 
-                NextMiddlewareDelegate pipeline = MockMiddlewares.middles
+                NextMiddlewareDelegate pipeline = middlewares
                     .Reverse()
                     .Aggregate(pipelineEnd, (next, middleware) =>
                     {
@@ -70,12 +75,8 @@ namespace Mediate.Core
                     });
 
                 await pipeline();
-
-              
-
             }
         }
-
 
         /// <summary>
         /// Sends a query to his handler and returns a response
@@ -101,11 +102,29 @@ namespace Mediate.Core
         public async Task<TResult> Send<TQuery, TResult>(TQuery query, CancellationToken cancellationToken)
             where TQuery : IQuery<TResult>
         {
-            var handler = await _queryHandlerProvider.GetQueryHandler<TQuery, TResult>(query).ConfigureAwait(false);
+            var handler = await _queryHandlerProvider.GetHandler<TQuery, TResult>().ConfigureAwait(false);
 
             if (handler != null)
             {
-                return await handler.Handle(query, cancellationToken).ConfigureAwait(false);
+
+                IEnumerable<IQueryMiddleware<TQuery, TResult>> middlewares = await _queryMiddlewareProvider.GetMiddlewares<TQuery, TResult>();
+
+                NextMiddlewareDelegate<TResult> pipelineEnd = async delegate
+                {
+                    return await handler.Handle(query, cancellationToken).ConfigureAwait(false);
+                };
+
+                NextMiddlewareDelegate<TResult> pipeline = middlewares
+                    .Reverse()
+                    .Aggregate(pipelineEnd, (next, middleware) =>
+                    {
+                        return async delegate
+                        {
+                            return await middleware.Invoke(query, cancellationToken, next);
+                        };
+                    });
+
+               return await pipeline();
             }
 
             return default;
