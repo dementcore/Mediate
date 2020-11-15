@@ -11,6 +11,8 @@ Welcome to Mediate
 
 Mediate is another simple and little in-process communication system based in mediator pattern.
 
+Docs WIP!!
+
 What attempts to provide this project?
 --------------------------------------
 

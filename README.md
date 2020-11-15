@@ -13,7 +13,7 @@ This project is mostly developed for learn and fun, but also attempts
 to provide an easy communication mechanism to develop decoupled communication between code layers in ASP.NET Core applications.
 
 
-## [Documentation](https://mediate.readthedocs.io/en/docs/)
+## [Documentation WIP](https://mediate.readthedocs.io/en/docs/)
 
 ## Basic usage
 ### Querys
