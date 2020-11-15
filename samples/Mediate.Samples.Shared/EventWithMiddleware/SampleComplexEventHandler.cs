@@ -19,13 +19,9 @@ namespace Mediate.Samples.Shared.EventWithMiddleware
 
         public async Task Handle(SampleComplexEvent @event, CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"OnHomeInvoked Event handler before delay {@event.EventData}");
-
             await Task.Delay(5000);
 
-            await _hubContext.Clients.All.SendAsync("ReceiveMessage", $"OnHomeInvoked after 5 seconds delay {@event.EventData}");
-
-            _logger.LogInformation($"OnHomeInvoked Event handler after delay{@event.EventData}");
+            await _hubContext.Clients.All.SendAsync("ReceiveMessage", $"Hi {@event.EventData}!!!");
         }
     }
 }

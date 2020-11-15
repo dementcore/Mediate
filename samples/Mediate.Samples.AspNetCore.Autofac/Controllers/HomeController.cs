@@ -1,10 +1,11 @@
 ﻿using Mediate.Core;
-using Mediate.Core.Abstractions;
 using Mediate.Samples.AspNetCore.Autofac.Models;
-using Mediate.Samples.Shared;
+using Mediate.Samples.Shared.Event;
+using Mediate.Samples.Shared.EventWithMiddleware;
+using Mediate.Samples.Shared.Query;
+using Mediate.Samples.Shared.QueryWithMiddleware;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,24 +23,71 @@ namespace Mediate.Samples.AspNetCore.Autofac.Controllers
             _mediator = mediator;
         }
 
-        public async Task<IActionResult> Index(CancellationToken cancellationToken)
+        public IActionResult Index()
         {
-            TestMsg test = new TestMsg() { Data = "Test Data" };
+            return View();
+        }
 
-            SampleQueryResponse res = await _mediator.Send<TestMsg, SampleQueryResponse>(test, cancellationToken);
-            ViewBag.TestMsg = res.Reply;
+        public IActionResult Query()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Query(Models.QueryMiddlewareModel model, CancellationToken cancellationToken)
+        {
+            SampleQuery query = new SampleQuery() { QueryData = model.Name };
+
+            SampleQueryResponse res = await _mediator.Send<SampleQuery, SampleQueryResponse>(query, cancellationToken);
+
+            ViewBag.Response = res.QueryResponseData;
 
             return View();
         }
 
-        public async Task<IActionResult> Privacy(CancellationToken cancellationToken)
+        public IActionResult QueryMiddleware()
         {
+            return View();
+        }
 
-            OnHomeInvoked @event = new OnHomeInvoked() { TestData = Activity.Current.Id };
-            OnHomeInvokedWithBase @event2 = new OnHomeInvokedWithBase() { TestData = Activity.Current.Id };
+        [HttpPost]
+        public async Task<IActionResult> QueryMiddleware(Models.QueryMiddlewareModel model, CancellationToken cancellationToken)
+        {
+            SampleComplexQuery query = new SampleComplexQuery() { QueryData = model.Name };
+
+            SampleComplexQueryResponse res = await _mediator.Send<SampleComplexQuery, SampleComplexQueryResponse>(query, cancellationToken);
+
+            ViewBag.Response = res.QueryResponseData;
+
+            return View();
+        }
+
+        public IActionResult Event()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Event(Models.QueryMiddlewareModel model, CancellationToken cancellationToken)
+        {
+            SampleEvent @event = new SampleEvent() { EventData = model.Name };
 
             await _mediator.Dispatch(@event, cancellationToken);
-            await _mediator.Dispatch(@event2, cancellationToken);
+
+            return View();
+        }
+
+        public IActionResult EventMiddleware()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EventMiddleware(Models.QueryMiddlewareModel model, CancellationToken cancellationToken)
+        {
+            SampleComplexEvent @event = new SampleComplexEvent() { EventData = model.Name };
+
+            await _mediator.Dispatch(@event, cancellationToken);
 
             return View();
         }

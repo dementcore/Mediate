@@ -1,9 +1,9 @@
 ﻿using Mediate.Core;
 using Mediate.Samples.AspNetCore.Models;
-using Mediate.Samples.Shared.Query;
-using Mediate.Samples.Shared.QueryWithMiddleware;
 using Mediate.Samples.Shared.Event;
 using Mediate.Samples.Shared.EventWithMiddleware;
+using Mediate.Samples.Shared.Query;
+using Mediate.Samples.Shared.QueryWithMiddleware;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
@@ -23,14 +23,20 @@ namespace Mediate.Samples.AspNetCore.Controllers
             _mediator = mediator;
         }
 
-        public async Task<IActionResult> Index(CancellationToken cancellationToken)
+        public IActionResult Index()
         {
             return View();
         }
 
-        public async Task<IActionResult> Query(CancellationToken cancellationToken)
+        public IActionResult Query()
         {
-            SampleQuery query = new SampleQuery() { QueryData = "Sample Query Data" };
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Query(Models.QueryMiddlewareModel model, CancellationToken cancellationToken)
+        {
+            SampleQuery query = new SampleQuery() { QueryData = model.Name };
 
             SampleQueryResponse res = await _mediator.Send<SampleQuery, SampleQueryResponse>(query, cancellationToken);
 
@@ -39,9 +45,15 @@ namespace Mediate.Samples.AspNetCore.Controllers
             return View();
         }
 
-        public async Task<IActionResult> QueryMiddleware(CancellationToken cancellationToken)
+        public IActionResult QueryMiddleware()
         {
-            SampleComplexQuery query = new SampleComplexQuery() { QueryData = "Sample Complex Query Data" };
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> QueryMiddleware(Models.QueryMiddlewareModel model, CancellationToken cancellationToken)
+        {
+            SampleComplexQuery query = new SampleComplexQuery() { QueryData = model.Name };
 
             SampleComplexQueryResponse res = await _mediator.Send<SampleComplexQuery, SampleComplexQueryResponse>(query, cancellationToken);
 
@@ -50,18 +62,30 @@ namespace Mediate.Samples.AspNetCore.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Event(CancellationToken cancellationToken)
+        public IActionResult Event()
         {
-            SampleEvent @event = new SampleEvent() { EventData = "Sample event data" };
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Event(Models.QueryMiddlewareModel model, CancellationToken cancellationToken)
+        {
+            SampleEvent @event = new SampleEvent() { EventData = model.Name };
 
             await _mediator.Dispatch(@event, cancellationToken);
 
             return View();
         }
 
-        public async Task<IActionResult> EventMiddleware(CancellationToken cancellationToken)
+        public IActionResult EventMiddleware()
         {
-            SampleComplexEvent @event = new SampleComplexEvent() { EventData = "Sample complex event data" };
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EventMiddleware(Models.QueryMiddlewareModel model, CancellationToken cancellationToken)
+        {
+            SampleComplexEvent @event = new SampleComplexEvent() { EventData = model.Name };
 
             await _mediator.Dispatch(@event, cancellationToken);
 

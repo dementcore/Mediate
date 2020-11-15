@@ -14,9 +14,14 @@ namespace Mediate.Samples.Shared.QueryWithMiddleware
     {
         public async Task<TResult> Invoke(TQuery query, CancellationToken cancellationToken, NextMiddlewareDelegate<TResult> next)
         {
-           
+            //example validation
+            if (query.QueryId != Guid.Empty)
+            {
+                return await next();
+            }
 
-            return await next();
+            //example exception for this example
+            throw new InvalidOperationException("The query id must be not null");
         }
     }
 }

@@ -14,11 +14,11 @@ namespace Mediate.Samples.Shared.QueryWithMiddleware
     {
         public async Task<SampleComplexQueryResponse> Invoke(SampleComplexQuery query, CancellationToken cancellationToken, NextMiddlewareDelegate<SampleComplexQueryResponse> next)
         {
-            query.QueryData += " query data modified from middleware!!";
+            query.QueryData += " I'm using Mediate";
 
             SampleComplexQueryResponse response = await next();
 
-            response.QueryResponseData += " query response modified from middleware!!!!";
+            response.QueryResponseData += " [modified from middleware]";
 
             return response;
         }

@@ -13,7 +13,7 @@ namespace Mediate.Samples.Shared.QueryWithMiddleware
         {
             return Task.FromResult(new SampleComplexQueryResponse()
             {
-                QueryResponseData = "Complex query response data: " + message.QueryId + "Query Data: " + message.QueryData
+                QueryResponseData = $"Hi {message.QueryData}!!!"
             });
         }
     }

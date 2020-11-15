@@ -11,6 +11,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Mediate.AspNetCore.DispatchStrategies;
+using Mediate.Samples.Shared.QueryWithMiddleware;
+using Mediate.Samples.Shared.Query;
+using Mediate.Samples.Shared.Event;
+using Mediate.Samples.Shared.EventWithMiddleware;
 
 namespace Mediate.Samples.AspNetCore.Autofac
 {
@@ -41,6 +45,7 @@ namespace Mediate.Samples.AspNetCore.Autofac
             // call builder.Populate(), that happens in AutofacServiceProviderFactory
             // for you.
 
+            //register default mediator services
             builder.RegisterType<Mediator>().As<IMediator>().InstancePerDependency();
             builder.RegisterType<ServiceProviderHandlerProvider>().As<IHandlerProvider>().InstancePerDependency();
             builder.RegisterType<ServiceProviderMiddlewareProvider>().As<IMiddlewareProvider>().InstancePerDependency();
@@ -50,24 +55,26 @@ namespace Mediate.Samples.AspNetCore.Autofac
             builder.RegisterType<EventDispatcherService>().As<IHostedService>().InstancePerDependency();
             builder.RegisterType<EventQueueDispatchStrategy>().As<IEventDispatchStrategy>().InstancePerDependency();
 
-            //this register the OnHomeInvokedEventHandler for OnHomeInvoked event
-            builder.RegisterType<OnHomeInvokedEventHandler>().As<IEventHandler<OnHomeInvoked>>().InstancePerDependency();
-            builder.RegisterType<OnHomeInvokedEventHandler2>().As<IEventHandler<OnHomeInvoked>>().InstancePerDependency();
+            //this register the SampleEventHandler for SampleEvent event
+            builder.RegisterType<SampleEventHandler>().As<IEventHandler<SampleEvent>>().InstancePerDependency();
+            //this register the SampleComplexEventHandler for SampleComplexEvent event
+            builder.RegisterType<SampleComplexEventHandler>().As<IEventHandler<SampleComplexEvent>>().InstancePerDependency();
+
+            //for SampleComplexQuery query type with SampleComplexQueryResponse response type this registers the SampleComplexQueryHandler
+            builder.RegisterType<SampleComplexQueryHandler>().As<IQueryHandler<SampleComplexQuery, SampleComplexQueryResponse>>().InstancePerDependency();
+            //for SampleQuery query type with SampleQueryResponse response type this registers the SampleQueryHandler
+            builder.RegisterType<SampleQueryHandler>().As<IQueryHandler<SampleQuery, SampleQueryResponse>>().InstancePerDependency();
+
 
             //this registers a generic event handler that catchs all events
             builder.RegisterGeneric(typeof(GenericEventHandler<>)).As(typeof(IEventHandler<>)).InstancePerDependency();
-
             //this registers a generic event handler that catchs all events derived from BaseEvent class
-            builder.RegisterGeneric(typeof(GenericBaseEventHandler<>)).As(typeof(IEventHandler<>)).InstancePerDependency();
-
-            //this registers a generic middleware for all querys
-            builder.RegisterGeneric(typeof(GenericQueryMiddleware<,>)).As(typeof(IQueryMiddleware<,>)).InstancePerDependency();
+            builder.RegisterGeneric(typeof(BaseEventGenericHandler<>)).As(typeof(IEventHandler<>)).InstancePerDependency();
 
             //this registers a generic middleware for all querys derived from BaseQuery class
-            builder.RegisterGeneric(typeof(GenericBaseQueryMiddleware<,>)).As(typeof(IQueryMiddleware<,>)).InstancePerDependency();
-
-            //for TestMsg message type with TestMsgReply response type this registers the TestMsgHandler
-            builder.RegisterType<TestMsgHandler>().As<IQueryHandler<TestMsg, SampleQueryResponse>>().InstancePerDependency();
+            builder.RegisterGeneric(typeof(BaseQueryGenericMiddleware<,>)).As(typeof(IQueryMiddleware<,>)).InstancePerDependency();
+            //this registers a generic middleware for all events derived from BaseQuery class
+            builder.RegisterGeneric(typeof(BaseEventGenericMiddleware<>)).As(typeof(IEventMiddleware<>)).InstancePerDependency();
 
         }
 
@@ -97,7 +104,7 @@ namespace Mediate.Samples.AspNetCore.Autofac
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-                endpoints.MapHub<Hubs.TestHub>("/hub/test");
+                endpoints.MapHub<Samples.Shared.Hubs.SignalRSampleHub>("/hub/test");
             });
         }
     }

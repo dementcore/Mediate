@@ -13,7 +13,7 @@ namespace Mediate.Samples.Shared.Query
         {
             return Task.FromResult(new SampleQueryResponse()
             {
-                QueryResponseData = "Response data: " + message.QueryData
+                QueryResponseData = $"Hi {message.QueryData}!!!"
             });
         }
     }

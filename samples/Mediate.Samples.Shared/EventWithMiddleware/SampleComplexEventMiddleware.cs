@@ -13,7 +13,7 @@ namespace Mediate.Samples.Shared.EventWithMiddleware
     {
         public async Task Invoke(SampleComplexEvent @event, CancellationToken cancellationToken, NextMiddlewareDelegate next)
         {
-            @event.EventData += " modified from middleware!!";
+            @event.EventData += " [modified from middleware]";
 
             await next();
         }
