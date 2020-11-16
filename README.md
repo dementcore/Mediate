@@ -1,6 +1,7 @@
 # Mediate
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/1d4f09d9989e4fb788dfe05af01e8fbb)](https://app.codacy.com/manual/dementcore/Mediate?utm_source=github.com&utm_medium=referral&utm_content=dementcore/Mediate&utm_campaign=Badge_Grade_Settings)
 ![.NET Core](https://github.com/dementcore/Mediate/workflows/.NET%20Core/badge.svg?branch=master)
+![Nuget](https://img.shields.io/nuget/v/Mediate?color=2345ba16&logo=nuget&style=flat)
 [![Documentation Status](https://readthedocs.org/projects/mediate/badge/?version=latest)](https://mediate.readthedocs.io/en/latest/?badge=latest)
 
 ![Mediate](logo.png)
