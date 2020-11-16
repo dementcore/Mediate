@@ -1,62 +1,68 @@
 # Mediate
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/1d4f09d9989e4fb788dfe05af01e8fbb)](https://app.codacy.com/manual/dementcore/Mediate?utm_source=github.com&utm_medium=referral&utm_content=dementcore/Mediate&utm_campaign=Badge_Grade_Settings)
 ![.NET Core](https://github.com/dementcore/Mediate/workflows/.NET%20Core/badge.svg?branch=master)
+[![Documentation Status](https://readthedocs.org/projects/mediate/badge/?version=latest)](https://mediate.readthedocs.io/en/latest/?badge=latest)
 
-A simple and little in-process messaging and event dispatching system heavily inspired by mediator pattern. Intended, but not only, for AspNetCore 3.1.
+![Mediate](logo.png)
 
-This project attempts to provide
-a communication mechanism to develop interlayer decoupled communication or modular webapplications 
-with event handlers registration modified at runtime, 
-e.g. multitenant modular appplications where each tenant have different modules loaded.
+Mediate is another simple and little in-process messaging and event dispatching system based in mediator pattern.
+
+## What attempts to provide this project?
+
+This project is mostly developed for learn and fun, but also attempts 
+to provide an easy communication mechanism to develop decoupled communication between code layers in ASP.NET Core applications.
+
+
+## [Documentation WIP](https://mediate.readthedocs.io/en/docs/)
 
 ## Basic usage
-### Messages
+### Querys
 
-Messages in Mediate are just request->response. 
-A specific message can only have one handler.
+Querys in Mediate are just request->response. 
+A specific query can only have one handler.
 
 ```csharp
-public interface IMessage<out TResult>
+public interface IQuery<out TResult>
 {
 
 }
 
-public interface IMessageHandler<in TMessage, TResult>
-    where TMessage : IMessage<TResult>
+public interface IQueryHandler<in TQuery, TResult>
+    where TQuery : IQuery<TResult>
 {
-    Task<TResult> Handle(TMessage message, CancellationToken cancellationToken);
+    Task<TResult> Handle(TQuery query, CancellationToken cancellationToken);
 }
 ````
 
-To create a message we have to implement the `` IMessage<out TResult> `` interface.
+To create a query we have to implement the `` IQuery<out TResult> `` interface.
 
 Example:
 
 ```csharp
-public class TestMsg:IMessage<TestMsgReply>
+public class TestQuery:IQuery<TestQueryReply>
 {
     public string Data { get; set; }
 }
 
-public class TestMsgReply{
+public class TestQueryReply{
     public string Reply { get; set; }
 }
 ```
 
 To create a handler to process the above message 
-we have to implement the `` IMessageHandler<in TMessage, TResult> `` interface.
+we have to implement the `` IQueryHandler<in TMessage, TResult> `` interface.
 
 Example:
 ```csharp
-public class TestMsgHandler : IMessageHandler<TestMsg, TestMsgReply>
+public class TestQueryHandler : IQueryHandler<TestQuery, TestQueryReply>
 {
-    public Task<TestMsgReply> Handle(TestMsg message, CancellationToken cancellationToken)
+    public Task<TestQueryReply> Handle(TestQuery query, CancellationToken cancellationToken)
     {
         //Example operation
-        return Task.FromResult(new TestMsgReply()
+        return Task.FromResult(new TestQueryReply()
         {
-            Reply = "Reply from test msg handler with requested data: "
-            + message.Data + " " + Guid.NewGuid()
+            Reply = "Reply from test query handler with requested data: "
+            + query.Data + " " + Guid.NewGuid()
         });
     }
 }
@@ -125,16 +131,10 @@ await _mediator.Dispatch(@event, cancellationToken);
 ### Event Dispatching Strategies
 Event dispatching strategies controls how the event handlers are executed.
 By default we have two strategies:
-  - ParallelEventDispatchStrategy: Executes all handlers from a specific event in parallel.
+
   - SequentialEventDispatchStrategy: Executes all handlers from a specific event after one another.
-
-## Extensions
-
-In src/Mediate.Extensions.AspNetCore:
-- We have one more event dispatch strategy:
-  - QueueEventDispatchStrategy: Queues all handlers from a specific event to be executed in background by a AspNetCore HostedService in parallel.
-
-- We have Service Collection extension methods to seamlessly configure Mediate.
+  - ParallelEventDispatchStrategy: Executes all handlers from a specific event in parallel.
+  - QueueEventDispatchStrategy: Queues all handlers from a specific event to be executed in background by a AspNetCore HostedService.
 
 ## Samples
 

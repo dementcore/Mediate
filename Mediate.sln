@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mediate.Core", "src\Mediate.Core\Mediate.Core.csproj", "{415E6771-C12D-496B-9548-EB81771433AB}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{CC0EC04F-7413-4729-AB91-37A91D2C53B7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mediate.Samples.AspNetCore", "samples\Mediate.Samples.AspNetCore\Mediate.Samples.AspNetCore.csproj", "{67A6A1A4-65F6-4871-94EB-C97698AA73E3}"
@@ -15,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mediate.Samples.Shared", "s
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6102BC18-555B-4BC8-A568-88F910BF1303}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mediate.Extensions.AspNetCore", "src\Mediate.Extensions.AspNetCore\Mediate.Extensions.AspNetCore.csproj", "{5AB73BC3-B20C-4C10-A914-CCC97B18FB71}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mediate", "src\Mediate\Mediate.csproj", "{5AB73BC3-B20C-4C10-A914-CCC97B18FB71}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3214D5EB-4D05-4D33-93F0-AC5A9E03F0FD}"
 	ProjectSection(SolutionItems) = preProject
@@ -28,10 +26,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{415E6771-C12D-496B-9548-EB81771433AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{415E6771-C12D-496B-9548-EB81771433AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{415E6771-C12D-496B-9548-EB81771433AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{415E6771-C12D-496B-9548-EB81771433AB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{67A6A1A4-65F6-4871-94EB-C97698AA73E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{67A6A1A4-65F6-4871-94EB-C97698AA73E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67A6A1A4-65F6-4871-94EB-C97698AA73E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -53,7 +47,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{415E6771-C12D-496B-9548-EB81771433AB} = {6102BC18-555B-4BC8-A568-88F910BF1303}
 		{67A6A1A4-65F6-4871-94EB-C97698AA73E3} = {CC0EC04F-7413-4729-AB91-37A91D2C53B7}
 		{21F4DBBF-73A3-44FF-8FEA-6DBC51701849} = {CC0EC04F-7413-4729-AB91-37A91D2C53B7}
 		{920A5CE4-5E85-4351-B89E-3B6EBC582C51} = {CC0EC04F-7413-4729-AB91-37A91D2C53B7}

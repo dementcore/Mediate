@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Mediate.Extensions.AspNetCore\Mediate.Extensions.AspNetCore.csproj" />
+    <ProjectReference Include="..\..\src\Mediate\Mediate.csproj" />
     <ProjectReference Include="..\Mediate.Samples.Shared\Mediate.Samples.Shared.csproj" />
   </ItemGroup>
 
