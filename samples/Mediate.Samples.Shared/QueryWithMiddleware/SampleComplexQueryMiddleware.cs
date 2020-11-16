@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Mediate.Abstractions;
 using System.Threading;
 using System.Threading.Tasks;
-using Mediate.Core.Abstractions;
 
 namespace Mediate.Samples.Shared.QueryWithMiddleware
 {

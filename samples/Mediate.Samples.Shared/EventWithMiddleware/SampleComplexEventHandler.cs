@@ -1,4 +1,4 @@
-﻿using Mediate.Core.Abstractions;
+﻿using Mediate.Abstractions;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using System.Threading;

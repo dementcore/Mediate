@@ -1,6 +1,5 @@
-﻿using Mediate.Core.Abstractions;
+﻿using Mediate.Abstractions;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 

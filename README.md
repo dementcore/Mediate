@@ -131,16 +131,10 @@ await _mediator.Dispatch(@event, cancellationToken);
 ### Event Dispatching Strategies
 Event dispatching strategies controls how the event handlers are executed.
 By default we have two strategies:
-  - ParallelEventDispatchStrategy: Executes all handlers from a specific event in parallel.
+
   - SequentialEventDispatchStrategy: Executes all handlers from a specific event after one another.
-
-## Extensions
-
-In src/Mediate.Extensions.AspNetCore:
-- We have one more event dispatch strategy:
-  - QueueEventDispatchStrategy: Queues all handlers from a specific event to be executed in background by a AspNetCore HostedService in parallel.
-
-- We have Service Collection extension methods to seamlessly configure Mediate.
+  - ParallelEventDispatchStrategy: Executes all handlers from a specific event in parallel.
+  - QueueEventDispatchStrategy: Queues all handlers from a specific event to be executed in background by a AspNetCore HostedService.
 
 ## Samples
 

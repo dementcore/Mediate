@@ -1,4 +1,3 @@
-using Mediate.Samples.Shared;
 using Mediate.Samples.Shared.Event;
 using Mediate.Samples.Shared.EventWithMiddleware;
 using Mediate.Samples.Shared.Query;

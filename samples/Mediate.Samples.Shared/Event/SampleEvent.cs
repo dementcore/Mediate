@@ -1,8 +1,4 @@
-﻿using Mediate.Core.Abstractions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Mediate.Abstractions;
 
 namespace Mediate.Samples.Shared.Event
 {

@@ -38,6 +38,7 @@ __ FeatureRequest_
    :caption: Introduction
 
    source/introduction/mediator_pattern
+   source/introduction/installation
 
 .. toctree::
    :maxdepth: 2

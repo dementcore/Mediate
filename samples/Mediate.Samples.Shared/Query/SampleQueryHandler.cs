@@ -1,7 +1,4 @@
-﻿using Mediate.Core.Abstractions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Mediate.Abstractions;
 using System.Threading;
 using System.Threading.Tasks;
 

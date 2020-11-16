@@ -1,4 +1,4 @@
-﻿using Mediate.Core;
+﻿using Mediate.Abstractions;
 using Mediate.Samples.AspNetCore.Models;
 using Mediate.Samples.Shared.Event;
 using Mediate.Samples.Shared.EventWithMiddleware;
