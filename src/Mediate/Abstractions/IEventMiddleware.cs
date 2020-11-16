@@ -9,7 +9,7 @@ namespace Mediate.Abstractions
 {
     /// <summary>
     /// Interface to implement a middleware to process an event before it reaches it's handlers.
-    /// <typeparamref name="TEvent">Event type</typeparam>
+    /// <typeparamref name="TEvent">Event type</typeparamref>
     /// </summary>
     public interface IEventMiddleware<in TEvent> where TEvent : IEvent
     {

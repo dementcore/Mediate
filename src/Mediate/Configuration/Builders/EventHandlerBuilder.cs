@@ -9,15 +9,28 @@ using System.Threading.Tasks;
 
 namespace Mediate.Configuration.Builders
 {
+    /// <summary>
+    /// Helper class to configure the event handlers and middlewares
+    /// </summary>
+    /// <typeparam name="TEvent">Event type</typeparam>
     public sealed class EventHandlerBuilder<TEvent> : IEventHandlerBuilder<TEvent> where TEvent : IEvent
     {
-        private IServiceCollection _services;
+        private readonly IServiceCollection _services;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="services"></param>
         public EventHandlerBuilder(IServiceCollection services)
         {
             _services = services;
         }
 
+        /// <summary>
+        /// Adds a handler for <typeparamref name="TEvent"/>
+        /// </summary>
+        /// <typeparam name="TEventHandler">Event handler type</typeparam>
+        /// <returns></returns>
         public IEventHandlerBuilder<TEvent> AddHandler<TEventHandler>() where TEventHandler : IEventHandler<TEvent>
         {
             if (_services.Any(s => s.ServiceType == typeof(IEventHandler<TEvent>) && s.ImplementationType == typeof(TEventHandler)))
@@ -32,6 +45,11 @@ namespace Mediate.Configuration.Builders
             return this;
         }
 
+        /// <summary>
+        /// Adds a middleware for <typeparamref name="TEvent"/>
+        /// </summary>
+        /// <typeparam name="TEventMiddleware">Event middleware type</typeparam>
+        /// <returns></returns>
         public IEventHandlerBuilder<TEvent> AddMiddleware<TEventMiddleware>() where TEventMiddleware : IEventMiddleware<TEvent>
         {
             if (_services.Any(s => s.ServiceType == typeof(IEventMiddleware<TEvent>) && s.ImplementationType == typeof(TEventMiddleware)))

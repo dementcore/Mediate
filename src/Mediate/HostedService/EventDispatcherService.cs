@@ -17,12 +17,22 @@ namespace Mediate.HostedService
         private readonly EventQueue _backgroundEventQueue;
         private readonly ILogger<EventDispatcherService> _logger;
 
+        /// <summary>
+        /// Event dispatcher service constructor
+        /// </summary>
+        /// <param name="logger"></param>
+        /// <param name="backgroundEventQueue"></param>
         public EventDispatcherService(ILogger<EventDispatcherService> logger, EventQueue backgroundEventQueue)
         {
             _backgroundEventQueue = backgroundEventQueue;
             _logger = logger;
         }
 
+        /// <summary>
+        /// Hosted service start method
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public override Task StartAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("BackgroundEventExecutionService execution started");
@@ -30,6 +40,11 @@ namespace Mediate.HostedService
             return base.StartAsync(cancellationToken);
         }
 
+        /// <summary>
+        /// Hosted service execute method
+        /// </summary>
+        /// <param name="stoppingToken"></param>
+        /// <returns></returns>
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             _logger.LogInformation("BackgroundEventExecutionService execution running");
@@ -44,7 +59,7 @@ namespace Mediate.HostedService
                         continue;
                     }
 
-                    QueuedEventWrapperBase job = await _backgroundEventQueue.DequeueEvent(stoppingToken);
+                    QueuedEventWrapperBase job = _backgroundEventQueue.DequeueEvent();
 
                     try
                     {
@@ -58,6 +73,11 @@ namespace Mediate.HostedService
             }, stoppingToken);
         }
 
+        /// <summary>
+        /// Hosted service stop method
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public override Task StopAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("BackgroundEventExecutionService stoped");

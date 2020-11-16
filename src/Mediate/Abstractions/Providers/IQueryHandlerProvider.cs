@@ -15,7 +15,6 @@ namespace Mediate.Abstractions
         /// </summary>
         /// <typeparam name="TQuery">Query type</typeparam>
         /// <typeparam name="TResult">Query response type</typeparam>
-        /// <param name="query">Query data</param>
         /// <returns>Registered handler for that query</returns>
         Task<IQueryHandler<TQuery, TResult>> GetHandler<TQuery, TResult>() where TQuery : IQuery<TResult>;
     }

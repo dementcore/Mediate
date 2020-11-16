@@ -25,6 +25,7 @@ namespace Mediate.Abstractions
         /// <typeparam name="TQuery">Query type</typeparam>
         /// <typeparam name="TResult">Query response type</typeparam>
         /// <param name="query">Query data</param>
+        /// <param name="cancellationToken"></param>
         /// <returns>Query response</returns>
         Task<TResult> Send<TQuery, TResult>(TQuery query, CancellationToken cancellationToken)
             where TQuery : IQuery<TResult>;
@@ -42,6 +43,7 @@ namespace Mediate.Abstractions
         /// </summary>
         /// <typeparam name="TEvent">Event type</typeparam>
         /// <param name="event">Event data</param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task Dispatch<TEvent>(TEvent @event, CancellationToken cancellationToken) where TEvent : IEvent;
     }

@@ -10,6 +10,9 @@ using System.Linq;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
+    /// <summary>
+    /// Service collection extension methods
+    /// </summary>
     public static class ServiceCollectionExtensions
     {
 
@@ -126,16 +129,34 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient(typeof(IEventDispatchStrategy), typeof(TDispatchStrategy));
         }
 
+        /// <summary>
+        /// Helper method to configure a query in Mediate
+        /// </summary>
+        /// <typeparam name="TQuery">Query type</typeparam>
+        /// <typeparam name="TResult">Query response type</typeparam>
+        /// <param name="services"></param>
+        /// <returns></returns>
         public static IQueryHandlerBuilder<TQuery, TResult> ForMediateQuery<TQuery, TResult>(this IServiceCollection services) where TQuery : IQuery<TResult>
         {
             return new QueryHandlerBuilder<TQuery, TResult>(services);
         }
 
+        /// <summary>
+        /// Helper method to configure an event in Mediate
+        /// </summary>
+        /// <typeparam name="TEvent">Event type</typeparam>
+        /// <param name="services"></param>
+        /// <returns></returns>
         public static IEventHandlerBuilder<TEvent> ForMediateEvent<TEvent>(this IServiceCollection services) where TEvent : IEvent
         {
             return new EventHandlerBuilder<TEvent>(services);
         }
 
+        /// <summary>
+        /// Helper method to register a generic event handler
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="genericHandler">Generic event handler type</param>
         public static void AddMediateGenericEventHandler(this IServiceCollection services,Type genericHandler)
         {
             if (services.Any(s => s.ServiceType == typeof(IEventHandler<>) && s.ImplementationType == genericHandler))
@@ -159,6 +180,11 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient(serviceType, genericHandler.GetGenericTypeDefinition());
         }
 
+        /// <summary>
+        /// Helper method to register a generic event middleware
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="genericHandler">Generic event middleware type</param>
         public static void AddMediateGenericEventMiddleware(this IServiceCollection services, Type genericHandler)
         {
             if (services.Any(s => s.ServiceType == typeof(IEventMiddleware<>) && s.ImplementationType == genericHandler))
@@ -182,6 +208,11 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient(serviceType, genericHandler.GetGenericTypeDefinition());
         }
 
+        /// <summary>
+        /// Helper method to register a generic query middleware
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="genericHandler">Generic query middleware type</param>
         public static void AddMediateGenericQueryMiddleware(this IServiceCollection services, Type genericHandler)
         {
             if (services.Any(s => s.ServiceType == typeof(IQueryMiddleware<,>) && s.ImplementationType == genericHandler))

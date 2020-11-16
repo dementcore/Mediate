@@ -13,16 +13,36 @@ namespace Mediate.DispatchStrategies
     public sealed class EventQueueDispatchStrategy : IEventDispatchStrategy
     {
         private readonly EventQueue _eventQueue;
+
+        /// <summary>
+        /// Event queue dispatch strategy constructor
+        /// </summary>
+        /// <param name="eventQueue">Event queue implementation</param>
         public EventQueueDispatchStrategy(EventQueue eventQueue)
         {
             _eventQueue = eventQueue;
         }
 
+        /// <summary>
+        /// Executes this strategy to dispatch an event
+        /// </summary>
+        /// <typeparam name="TEvent">Event type</typeparam>
+        /// <param name="event">Event data</param>
+        /// <param name="handlers">Event handlers</param>
+        /// <returns></returns>
         public Task Dispatch<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers) where TEvent : IEvent
         {
             return Dispatch(@event, handlers, default);
         }
 
+        /// <summary>
+        /// Executes this strategy to dispatch an event
+        /// </summary>
+        /// <typeparam name="TEvent">Event type</typeparam>
+        /// <param name="event">Event data</param>
+        /// <param name="handlers">Event handlers</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public Task Dispatch<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers, CancellationToken cancellationToken) where TEvent : IEvent
         {
             var queuedEvent = (QueuedEventWrapperBase)

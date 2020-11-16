@@ -2,6 +2,9 @@
 
 namespace Mediate.Configuration
 {
+    /// <summary>
+    /// Helper methods to configure Mediate
+    /// </summary>
     public interface IMediateBuilder
     {
         /// <summary>

@@ -11,11 +11,26 @@ namespace Mediate.DispatchStrategies
     /// </summary>
     public sealed class SequentialEventDispatchStrategy : IEventDispatchStrategy
     {
+        /// <summary>
+        /// Executes this strategy to dispatch an event
+        /// </summary>
+        /// <typeparam name="TEvent">Event type</typeparam>
+        /// <param name="event">Event data</param>
+        /// <param name="handlers">Event handlers</param>
+        /// <returns></returns>
         public async Task Dispatch<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers) where TEvent : IEvent
         {
-            await Dispatch(@event, handlers, default);
+            await Dispatch(@event, handlers, default).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Executes this strategy to dispatch an event
+        /// </summary>
+        /// <typeparam name="TEvent">Event type</typeparam>
+        /// <param name="event">Event data</param>
+        /// <param name="handlers">Event handlers</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public async Task Dispatch<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers, CancellationToken cancellationToken) where TEvent : IEvent
         {
             List<Exception> exceptions = new List<Exception>();

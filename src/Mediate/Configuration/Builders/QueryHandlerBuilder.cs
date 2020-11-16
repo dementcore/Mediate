@@ -9,15 +9,29 @@ using System.Threading.Tasks;
 
 namespace Mediate.Configuration.Builders
 {
+    /// <summary>
+    /// Helper class to configure the query handler and middlewares
+    /// </summary>
+    /// <typeparam name="TQuery">Query type</typeparam>
+    /// <typeparam name="TResult">Query response type</typeparam>
     public sealed class QueryHandlerBuilder<TQuery, TResult> : IQueryHandlerBuilder<TQuery, TResult> where TQuery : IQuery<TResult>
     {
-        private IServiceCollection _services;
+        private readonly IServiceCollection _services;
 
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="services"></param>
         public QueryHandlerBuilder(IServiceCollection services)
         {
             _services = services;
         }
 
+        /// <summary>
+        /// Adds a middleware for <typeparamref name="TQuery"/>
+        /// </summary>
+        /// <typeparam name="TQueryMiddleware">Query middleware type</typeparam>
+        /// <returns></returns>
         public IQueryHandlerBuilder<TQuery, TResult> AddMiddleware<TQueryMiddleware>() where TQueryMiddleware : IQueryMiddleware<TQuery, TResult>
         {
             if (_services.Any(s => s.ServiceType == typeof(IQueryMiddleware<TQuery, TResult>) && s.ImplementationType == typeof(TQueryMiddleware)))
@@ -32,6 +46,11 @@ namespace Mediate.Configuration.Builders
             return this;
         }
 
+        /// <summary>
+        /// Adds a handler for <typeparamref name="TQuery"/>
+        /// </summary>
+        /// <typeparam name="TQueryHandler">Query handler type</typeparam>
+        /// <returns></returns>
         IQueryHandlerBuilder<TQuery, TResult> IQueryHandlerBuilder<TQuery, TResult>.AddHandler<TQueryHandler>()
         {
             if (_services.Any(s => s.ServiceType == typeof(IQueryHandler<TQuery, TResult>)))

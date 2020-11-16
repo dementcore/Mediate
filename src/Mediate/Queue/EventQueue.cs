@@ -15,13 +15,9 @@ namespace Mediate.Queue
             new ConcurrentQueue<QueuedEventWrapperBase>();
 
         private readonly object lockObj = new object();
-        
-        internal async Task<QueuedEventWrapperBase> DequeueEvent()
-        {
-            return await DequeueEvent(default);
-        }
 
-        internal async Task<QueuedEventWrapperBase> DequeueEvent(CancellationToken cancellationToken)
+
+        internal QueuedEventWrapperBase DequeueEvent()
         {
             QueuedEventWrapperBase eventHandler;
 
@@ -30,7 +26,7 @@ namespace Mediate.Queue
                 _eventQueue.TryDequeue(out eventHandler);
             }
 
-            return await Task.FromResult(eventHandler);
+            return eventHandler;
         }
 
         internal void EnqueueEvent(QueuedEventWrapperBase @event)

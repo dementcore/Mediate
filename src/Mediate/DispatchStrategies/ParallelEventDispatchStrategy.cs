@@ -12,11 +12,26 @@ namespace Mediate.DispatchStrategies
     /// </summary>
     public sealed class ParallelEventDispatchStrategy : IEventDispatchStrategy
     {
+        /// <summary>
+        /// Executes this strategy to dispatch an event
+        /// </summary>
+        /// <typeparam name="TEvent">Event type</typeparam>
+        /// <param name="event">Event data</param>
+        /// <param name="handlers">Event handlers</param>
+        /// <returns></returns>
         public Task Dispatch<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers) where TEvent : IEvent
         {
             return Dispatch(@event, handlers, default);
         }
 
+        /// <summary>
+        /// Executes this strategy to dispatch an event
+        /// </summary>
+        /// <typeparam name="TEvent">Event type</typeparam>
+        /// <param name="event">Event data</param>
+        /// <param name="handlers">Event handlers</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public Task Dispatch<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers, CancellationToken cancellationToken) where TEvent : IEvent
         {
             ConcurrentQueue<Exception> exceptions = new ConcurrentQueue<Exception>();

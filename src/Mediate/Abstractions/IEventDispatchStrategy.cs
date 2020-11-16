@@ -26,6 +26,7 @@ namespace Mediate.Abstractions
         /// <typeparam name="TEvent">Event type</typeparam>
         /// <param name="event">Event data</param>
         /// <param name="handlers">Event handlers</param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task Dispatch<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers, CancellationToken cancellationToken) where TEvent : IEvent;
     }

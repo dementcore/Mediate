@@ -14,11 +14,20 @@ namespace Mediate
     {
         private readonly IServiceProvider _serviceProvider;
 
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="serviceProvider"></param>
         public ServiceProviderHandlerProvider(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
 
+        /// <summary>
+        /// Gets all event handlers from an event from the IServiceProvider
+        /// </summary>
+        /// <typeparam name="TEvent">Event type</typeparam>
+        /// <returns>All registered handlers for that event</returns>
         public Task<IEnumerable<IEventHandler<TEvent>>> GetHandlers<TEvent>() where TEvent : IEvent
         {
             IEnumerable<IEventHandler<TEvent>> services = _serviceProvider.GetServices<IEventHandler<TEvent>>();
@@ -33,6 +42,12 @@ namespace Mediate
             return Task.FromResult(handlers);
         }
 
+        /// <summary>
+        /// Gets a query handler from a concrete query from the IServiceProvider
+        /// </summary>
+        /// <typeparam name="TQuery">Query type</typeparam>
+        /// <typeparam name="TResult">Query response type</typeparam>
+        /// <returns>Registered handler for that query</returns>
         public Task<IQueryHandler<TQuery, TResult>> GetHandler<TQuery, TResult>() where TQuery : IQuery<TResult>
         {
             IQueryHandler<TQuery, TResult> service = _serviceProvider.GetService<IQueryHandler<TQuery, TResult>>();

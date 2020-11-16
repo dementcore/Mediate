@@ -20,6 +20,12 @@ namespace Mediate
 
         private readonly IEventDispatchStrategy _eventDispatchStrategy;
 
+        /// <summary>
+        /// Mediator constructor
+        /// </summary>
+        /// <param name="provider">Event and query handlers provider</param>
+        /// <param name="middlewareProvider">Event and query middlewares provider</param>
+        /// <param name="eventDispatchStrategy">Event dispatching strategy to use</param>
         public Mediator(IHandlerProvider provider, IMiddlewareProvider middlewareProvider, IEventDispatchStrategy eventDispatchStrategy)
         {
             _queryHandlerProvider = provider;
@@ -39,7 +45,7 @@ namespace Mediate
         public async Task Dispatch<TEvent>(TEvent @event)
             where TEvent : IEvent
         {
-            await Dispatch(@event, default);
+            await Dispatch(@event, default).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -87,7 +93,7 @@ namespace Mediate
         public async Task<TResult> Send<TQuery, TResult>(TQuery query)
             where TQuery : IQuery<TResult>
         {
-            return await Send<TQuery, TResult>(query, default);
+            return await Send<TQuery, TResult>(query, default).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -95,7 +101,7 @@ namespace Mediate
         /// </summary>
         /// <typeparam name="TQuery">Query type</typeparam>
         /// <typeparam name="TResult">Response type</typeparam>
-        /// <param name="message">Query data</param>
+        /// <param name="query">Query data</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns></returns>
         public async Task<TResult> Send<TQuery, TResult>(TQuery query, CancellationToken cancellationToken)
