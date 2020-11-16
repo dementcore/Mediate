@@ -6,7 +6,7 @@
     <Company>DementCore</Company>
     <Product>Mediate</Product>
     <Description>Mediate is another simple and little in-process communication system based in mediator pattern for Asp.Net Core</Description>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <PackageIcon>logo.png</PackageIcon>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
@@ -29,10 +29,6 @@
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 
 </Project>
