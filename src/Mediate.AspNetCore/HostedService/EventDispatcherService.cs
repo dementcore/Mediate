@@ -50,9 +50,9 @@ namespace Mediate.AspNetCore.HostedService
                     {
                         await job.Handle(stoppingToken);
                     }
-                    catch (Exception ex)
+                    catch (AggregateException ex)
                     {
-                        _logger.LogError(ex, $"Error occurred executing event {job.EventName}");
+                        _logger.LogError(ex, $"Errors occurred executing event {job.EventName}");
                     }
                 }
             }, stoppingToken);

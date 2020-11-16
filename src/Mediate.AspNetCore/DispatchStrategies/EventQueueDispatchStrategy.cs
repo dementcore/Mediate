@@ -18,12 +18,12 @@ namespace Mediate.AspNetCore.DispatchStrategies
             _eventQueue = eventQueue;
         }
 
-        public Task ExecuteStrategy<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers) where TEvent : IEvent
+        public Task Dispatch<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers) where TEvent : IEvent
         {
-            return ExecuteStrategy(@event, handlers, default);
+            return Dispatch(@event, handlers, default);
         }
 
-        public Task ExecuteStrategy<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers, CancellationToken cancellationToken) where TEvent : IEvent
+        public Task Dispatch<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers, CancellationToken cancellationToken) where TEvent : IEvent
         {
             var queuedEvent = (QueuedEventWrapperBase)
                 Activator.CreateInstance(typeof(QueuedEventWrapper<>).MakeGenericType(typeof(TEvent)), @event, handlers);

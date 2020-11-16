@@ -22,7 +22,7 @@ to provide an easy communication mechanism to develop decoupled communication be
 
 Contact
 -------
-You can contact me in the project GitHub_.
+You can contact me in the GitHub_.
 
 If you want request a feature, please create a `Feature Request`__.
 
@@ -32,18 +32,25 @@ __ FeatureRequest_
 
 .. _FeatureRequest: https://github.com/dementcore/Mediate/issues/new?assignees=&labels=feature+request&template=feature_request.md&title=
 
-
 .. toctree::
    :maxdepth: 3
    :hidden:
    :caption: Introduction
 
    source/introduction/mediator_pattern
-   source/introduction/com_types
+
+.. toctree::
+   :maxdepth: 2
+   :hidden:
+   :caption: Basic concepts
+
+   source/basic_concepts/com_types
+   source/basic_concepts/event_dispatch_strategies
+   source/basic_concepts/middlewares
 
 .. toctree::
    :maxdepth: 3
-   :hidden:
+   :hidden: 
    :caption: Basic Usage
    
    source/usage/query_usage

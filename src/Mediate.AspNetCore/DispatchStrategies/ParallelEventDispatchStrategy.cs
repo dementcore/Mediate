@@ -1,4 +1,6 @@
 ﻿using Mediate.Core.Abstractions;
+using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,17 +12,32 @@ namespace Mediate.AspNetCore.DispatchStrategies
     /// </summary>
     public sealed class ParallelEventDispatchStrategy : IEventDispatchStrategy
     {
-        public Task ExecuteStrategy<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers) where TEvent : IEvent
+        public Task Dispatch<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers) where TEvent : IEvent
         {
-            return ExecuteStrategy(@event, handlers, default);
+            return Dispatch(@event, handlers, default);
         }
 
-        public Task ExecuteStrategy<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers, CancellationToken cancellationToken) where TEvent : IEvent
+        public Task Dispatch<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers, CancellationToken cancellationToken) where TEvent : IEvent
         {
-            Parallel.ForEach(handlers, (handler) =>
+            ConcurrentQueue<Exception> exceptions = new ConcurrentQueue<Exception>();
+
+            Parallel.ForEach(handlers, async (handler) =>
             {
-                handler.Handle(@event, cancellationToken);
+                try
+                {
+
+                    await handler.Handle(@event, cancellationToken);
+                }
+                catch (Exception ex)
+                {
+                    exceptions.Enqueue(ex);
+                }
             });
+
+            if (exceptions.Count > 0)
+            {
+                throw new AggregateException(exceptions);
+            }
 
             return Task.CompletedTask;
         }

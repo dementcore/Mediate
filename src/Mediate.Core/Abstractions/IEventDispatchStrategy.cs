@@ -18,7 +18,7 @@ namespace Mediate.Core.Abstractions
         /// <param name="event">Event data</param>
         /// <param name="handlers">Event handlers</param>
         /// <returns></returns>
-        Task ExecuteStrategy<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers) where TEvent : IEvent;
+        Task Dispatch<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers) where TEvent : IEvent;
 
         /// <summary>
         /// Executes this strategy to dispatch an event
@@ -27,6 +27,6 @@ namespace Mediate.Core.Abstractions
         /// <param name="event">Event data</param>
         /// <param name="handlers">Event handlers</param>
         /// <returns></returns>
-        Task ExecuteStrategy<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers, CancellationToken cancellationToken) where TEvent : IEvent;
+        Task Dispatch<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers, CancellationToken cancellationToken) where TEvent : IEvent;
     }
 }

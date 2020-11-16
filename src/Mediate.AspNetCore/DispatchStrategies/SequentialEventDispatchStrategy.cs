@@ -1,4 +1,5 @@
 ﻿using Mediate.Core.Abstractions;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,16 +11,31 @@ namespace Mediate.AspNetCore.DispatchStrategies
     /// </summary>
     public sealed class SequentialEventDispatchStrategy : IEventDispatchStrategy
     {
-        public async Task ExecuteStrategy<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers) where TEvent : IEvent
+        public async Task Dispatch<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers) where TEvent : IEvent
         {
-            await ExecuteStrategy(@event, handlers, default).ConfigureAwait(false);
+            await Dispatch(@event, handlers, default).ConfigureAwait(false);
         }
 
-        public async Task ExecuteStrategy<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers, CancellationToken cancellationToken) where TEvent : IEvent
+        public async Task Dispatch<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers, CancellationToken cancellationToken) where TEvent : IEvent
         {
+            List<Exception> exceptions = new List<Exception>();
+
             foreach (IEventHandler<TEvent> handler in handlers)
             {
-                await handler.Handle(@event, cancellationToken).ConfigureAwait(false);
+                try
+                {
+
+                    await handler.Handle(@event, cancellationToken);
+                }
+                catch (Exception ex)
+                {
+                    exceptions.Add(ex);
+                }
+            }
+
+            if (exceptions.Count > 0)
+            {
+                throw new AggregateException(exceptions);
             }
         }
     }

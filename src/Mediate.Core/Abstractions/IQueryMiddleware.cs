@@ -14,6 +14,13 @@ namespace Mediate.Core.Abstractions
     /// </summary>
     public interface IQueryMiddleware<in TQuery, TResult> where TQuery : IQuery<TResult>
     {
-        Task<TResult> Invoke(TQuery message, CancellationToken cancellationToken, NextMiddlewareDelegate<TResult> next);
+        /// <summary>
+        /// Invoke the middleware logic
+        /// </summary>
+        /// <param name="query">Query object</param>
+        /// <param name="cancellationToken"></param>
+        /// <param name="next">Delegate that encapsulates a call to the next element in the pipeline</param>
+        /// <returns></returns>
+        Task<TResult> Invoke(TQuery query, CancellationToken cancellationToken, NextMiddlewareDelegate<TResult> next);
     }
 }

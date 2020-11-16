@@ -70,7 +70,8 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         /// <summary>
-        /// Configures Mediate to use the background queue event dispatch strategy
+        /// Configures Mediate to use the background queue event dispatch strategy.
+        /// Registers a hosted service called EventDispatcherService, a queue and EventQueueDispatchStrategy class.
         /// </summary>
         /// <param name="services"></param>
         public static void AddMediateEventQueueDispatchStrategy(this IServiceCollection services)

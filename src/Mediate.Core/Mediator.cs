@@ -61,7 +61,7 @@ namespace Mediate.Core
 
                 NextMiddlewareDelegate pipelineEnd = async delegate
                 {
-                    await _eventDispatchStrategy.ExecuteStrategy(@event, handlers, cancellationToken).ConfigureAwait(false);
+                    await _eventDispatchStrategy.Dispatch(@event, handlers, cancellationToken).ConfigureAwait(false);
                 };
 
                 NextMiddlewareDelegate pipeline = middlewares

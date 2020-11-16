@@ -1,4 +1,5 @@
 ﻿using Mediate.Core.Abstractions;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -36,14 +37,26 @@ namespace Mediate.AspNetCore.Queue
             _handlers = handlers;
         }
 
-        internal override Task Handle(CancellationToken cancellationToken)
+        internal override async Task Handle(CancellationToken cancellationToken)
         {
+            List<Exception> exceptions = new List<Exception>();
+
             foreach (var handler in _handlers)
             {
-                handler.Handle(Event, cancellationToken);
+                try
+                {
+                    await handler.Handle(Event, cancellationToken);
+                }
+                catch (Exception ex)
+                {
+                    exceptions.Add(ex);
+                }
             }
 
-            return Task.CompletedTask;
+            if (exceptions.Count > 0)
+            {
+                throw new AggregateException(exceptions);
+            }
         }
     }
 }
