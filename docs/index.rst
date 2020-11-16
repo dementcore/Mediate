@@ -17,7 +17,7 @@ What attempts to provide this project?
 --------------------------------------
 
 This project is mostly developed for learn and fun, but also attempts 
-to provide an easy communication mechanism to develop decoupled communication between code layers.
+to provide an easy communication mechanism to develop decoupled communication between code layers in ASP.NET Core applications.
 
 
 Contact
