@@ -1,0 +1,24 @@
+﻿@{
+    ViewData["Title"] = "Event";
+}
+@model Mediate.Samples.AspNetCore.Autofac.Models.QueryMiddlewareModel
+
+<h6 class="display-4">Mediate single event</h6>
+<p>
+    In this example we have 2 event handlers:
+</p>
+<p class="text-left">
+    The first event handler (SampleEventHandler) waits 5 seconds and then launch an alert in the browser using a SignalR Hub.
+</p>
+
+<p class="text-left">
+    The second event handler (GenericEventHandler) logs the received event in the console. Note: this is a generic handler that handles all events.
+</p>
+<p></p>
+
+<p>This example launch an event with the data filled in the field to show a welcome message in a alert.</p>
+<form asp-action="Event">
+    Name <input asp-for="Name" />
+    <span asp-validation-for="Name" class="text-danger"></span>
+    <button type="submit">Launch event</button>
+</form>

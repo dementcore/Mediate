@@ -1,5 +1,7 @@
-using Mediate.Extensions.AspNetCore;
-using Mediate.Samples.Shared;
+using Mediate.Samples.Shared.Event;
+using Mediate.Samples.Shared.EventWithMiddleware;
+using Mediate.Samples.Shared.Query;
+using Mediate.Samples.Shared.QueryWithMiddleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -22,25 +24,29 @@ namespace Mediate.Samples.AspNetCore
         {
             services.AddSignalR();
 
-            services.AddMediate()
-                .AddDefaultMediator()
-                .AddServiceProviderHandlerProvider()
-                .AddEventQueueDispatchStrategy();
+            services.AddMediate();
 
-            //this register the OnHomeInvokedEventHandler for OnHomeInvoked event
-            services.AddMediateEventHandler<OnHomeInvoked, OnHomeInvokedEventHandler>();
+            services.AddMediateEventQueueDispatchStrategy();
 
-            //this not registers because we can't have the same handler registered multiple times for a specific event
-            services.AddMediateEventHandler<OnHomeInvoked, OnHomeInvokedEventHandler>();
+            services.AddMediateGenericEventMiddleware(typeof(BaseEventGenericMiddleware<>)); //this middleware will be used with all events derived from BaseEvent class
+            services.AddMediateGenericQueryMiddleware(typeof(BaseQueryGenericMiddleware<,>)); //this middleware will be used with all querys derived from BaseQuery class 
 
-            //this register the OnHomeInvokedEventHandler2 for OnHomeInvoked event, we can have multiple handlers for the same event
-            services.AddMediateEventHandler<OnHomeInvoked, OnHomeInvokedEventHandler2>();
+            services.AddMediateGenericEventHandler(typeof(GenericEventHandler<>)); //this event handler will be used with all events
+            services.AddMediateGenericEventHandler(typeof(BaseEventGenericHandler<>)); //this event handler will be used with all events derived from BaseEvent class
 
-            //for TestMsg message type with TestMsgReply response type this registers the TestMsgHandler
-            services.AddMediateMessageHandler<TestMsg,TestMsgReply, TestMsgHandler>();
+            services.ForMediateEvent<SampleEvent>()
+                .AddHandler<SampleEventHandler>(); //concrete handler
 
-            // this not registers because we can't have more than one handler for a message type
-            services.AddMediateMessageHandler<TestMsg,TestMsgReply, TestMsgHandler2>();
+            services.ForMediateEvent<SampleComplexEvent>()
+                .AddHandler<SampleComplexEventHandler>() //concrete handler
+                .AddMiddleware<SampleComplexEventMiddleware>(); //this middleware will be used only with this concrete event
+
+            services.ForMediateQuery<SampleQuery, SampleQueryResponse>()
+                .AddHandler<SampleQueryHandler>(); //concrete handler
+
+            services.ForMediateQuery<SampleComplexQuery, SampleComplexQueryResponse>()
+                .AddHandler<SampleComplexQueryHandler>() //concrete handler
+                .AddMiddleware<SampleComplexQueryMiddleware>(); //this middleware will be used only with this concrete query
 
             services.AddControllersWithViews();
         }
@@ -71,7 +77,7 @@ namespace Mediate.Samples.AspNetCore
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-                endpoints.MapHub<Hubs.TestHub>("/hub/test");
+                endpoints.MapHub<Samples.Shared.Hubs.SignalRSampleHub>("/hub/test");
             });
         }
     }
