@@ -668,5 +668,33 @@
             <param name="services"></param>
             <param name="genericHandler">Generic query middleware type</param>
         </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.AddMediateClassesFromAssembly(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Reflection.Assembly)">
+            <summary>
+            Helper method to register events, querys, handlers and middlewares from an assembly
+            </summary>
+            <param name="services">service collection</param>
+            <param name="assembly">Assembly to scan</param>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.IsNotAbstract(System.Type)">
+            <summary>
+            Determines if the type is not abstract class and is not an interface
+            </summary>
+            <param name="t"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.IsClosedType(System.Type)">
+            <summary>
+            Determines if the type is closed
+            </summary>
+            <param name="t"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.IsOpenType(System.Type)">
+            <summary>
+            Determines if the type is an open generic type
+            </summary>
+            <param name="t"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>

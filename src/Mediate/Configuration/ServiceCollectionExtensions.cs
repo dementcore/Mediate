@@ -7,6 +7,8 @@ using Mediate.HostedService;
 using Mediate.Queue;
 using System;
 using System.Linq;
+using System.Reflection;
+using System.Collections.Generic;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -157,14 +159,14 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="services"></param>
         /// <param name="genericHandler">Generic event handler type</param>
-        public static void AddMediateGenericEventHandler(this IServiceCollection services,Type genericHandler)
+        public static void AddMediateGenericEventHandler(this IServiceCollection services, Type genericHandler)
         {
             if (services.Any(s => s.ServiceType == typeof(IEventHandler<>) && s.ImplementationType == genericHandler))
             {
                 return;
             }
 
-            if (genericHandler.GetInterface("IEventHandler`1") == null)
+            if (genericHandler.GetInterface(typeof(IEventHandler<>).GetGenericTypeDefinition().Name) == null)
             {
                 throw new InvalidOperationException("To register a generic eventHandler the handler must implement IEventHandler interface.");
 
@@ -192,7 +194,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 return;
             }
 
-            if (genericHandler.GetInterface("IEventMiddleware`1") == null)
+            if (genericHandler.GetInterface(typeof(IEventMiddleware<>).GetGenericTypeDefinition().Name) == null)
             {
                 throw new InvalidOperationException("To register a generic event middleware the middleware must implement IEventMiddleware interface.");
 
@@ -220,7 +222,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 return;
             }
 
-            if (genericHandler.GetInterface("IQueryMiddleware`2") == null)
+            if (genericHandler.GetInterface(typeof(IQueryMiddleware<,>).GetGenericTypeDefinition().Name) == null)
             {
                 throw new InvalidOperationException("To register a generic query middleware the middleware must implement IQueryMiddleware interface.");
 
@@ -234,6 +236,100 @@ namespace Microsoft.Extensions.DependencyInjection
             Type serviceType = typeof(IQueryMiddleware<,>);
 
             services.AddTransient(serviceType, genericHandler.GetGenericTypeDefinition());
+        }
+
+        /// <summary>
+        /// Helper method to register events, querys, handlers and middlewares from an assembly
+        /// </summary>
+        /// <param name="services">service collection</param>
+        /// <param name="assembly">Assembly to scan</param>
+        public static void AddMediateClassesFromAssembly(this IServiceCollection services, Assembly assembly)
+        {
+            IEnumerable<Type> assemblyTypes = assembly.DefinedTypes;
+
+            RegisterClassesFromAssemblyAndType(services, typeof(IEventHandler<>), assemblyTypes, true, true);
+            RegisterClassesFromAssemblyAndType(services, typeof(IEventMiddleware<>), assemblyTypes, true, true);
+            RegisterClassesFromAssemblyAndType(services, typeof(IQueryHandler<,>), assemblyTypes, false, false);
+            RegisterClassesFromAssemblyAndType(services, typeof(IQueryMiddleware<,>), assemblyTypes, true, true);
+        }
+
+
+        private static void RegisterClassesFromAssemblyAndType(IServiceCollection services, Type openType, IEnumerable<Type> assemblyTypes, bool allowMultiple,
+            bool allowGeneric)
+        {
+            string OpenTypeName = openType.Name;
+
+            foreach (Type assemblyType in assemblyTypes.Where(t => IsNotAbstract(t) && t.GetInterface(OpenTypeName) != null))
+            {
+                if (IsClosedType(assemblyType))
+                {
+                    Type serviceType = assemblyType.GetInterface(OpenTypeName);
+
+
+                    if (!services.Any(
+                            s => s.ServiceType == serviceType &&
+                            (allowMultiple ? s.ImplementationType == assemblyType : true)
+                        ))
+                    {
+                        services.AddTransient(serviceType, assemblyType);
+                    }
+
+                }
+
+                if (IsOpenType(assemblyType) && allowGeneric)
+                {
+                    if (!services.Any(s => s.ServiceType == openType && s.ImplementationType == assemblyType))
+                    {
+                        services.AddTransient(openType, assemblyType);
+                    }
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// Determines if the type is not abstract class and is not an interface
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        private static bool IsNotAbstract(Type t)
+        {
+            if (!t.IsAbstract && !t.IsInterface)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Determines if the type is closed
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        private static bool IsClosedType(Type t)
+        {
+            if (!t.IsGenericType && !t.IsGenericTypeDefinition)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Determines if the type is an open generic type
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        private static bool IsOpenType(Type t)
+        {
+            if (t.IsGenericType && t.IsGenericTypeDefinition)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

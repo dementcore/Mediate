@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using System.Linq;
 
 namespace Mediate.Samples.AspNetCore
 {
@@ -28,25 +30,27 @@ namespace Mediate.Samples.AspNetCore
 
             services.AddMediateEventQueueDispatchStrategy();
 
-            services.AddMediateGenericEventMiddleware(typeof(BaseEventGenericMiddleware<>)); //this middleware will be used with all events derived from BaseEvent class
-            services.AddMediateGenericQueryMiddleware(typeof(BaseQueryGenericMiddleware<,>)); //this middleware will be used with all querys derived from BaseQuery class 
+            //services.AddMediateGenericEventMiddleware(typeof(BaseEventGenericMiddleware<>)); //this middleware will be used with all events derived from BaseEvent class
+            //services.AddMediateGenericQueryMiddleware(typeof(BaseQueryGenericMiddleware<,>)); //this middleware will be used with all querys derived from BaseQuery class 
 
-            services.AddMediateGenericEventHandler(typeof(GenericEventHandler<>)); //this event handler will be used with all events
-            services.AddMediateGenericEventHandler(typeof(BaseEventGenericHandler<>)); //this event handler will be used with all events derived from BaseEvent class
+            services.AddMediateClassesFromAssembly(typeof(SampleEvent).Assembly);
 
-            services.ForMediateEvent<SampleEvent>()
-                .AddHandler<SampleEventHandler>(); //concrete handler
+            //services.AddMediateGenericEventHandler(typeof(GenericEventHandler<>)); //this event handler will be used with all events
+            //services.AddMediateGenericEventHandler(typeof(BaseEventGenericHandler<>)); //this event handler will be used with all events derived from BaseEvent class
 
-            services.ForMediateEvent<SampleComplexEvent>()
-                .AddHandler<SampleComplexEventHandler>() //concrete handler
-                .AddMiddleware<SampleComplexEventMiddleware>(); //this middleware will be used only with this concrete event
+            //services.ForMediateEvent<SampleEvent>()
+            //    .AddHandler<SampleEventHandler>(); //concrete handler
 
-            services.ForMediateQuery<SampleQuery, SampleQueryResponse>()
-                .AddHandler<SampleQueryHandler>(); //concrete handler
+            //services.ForMediateEvent<SampleComplexEvent>()
+            //    .AddHandler<SampleComplexEventHandler>() //concrete handler
+            //    .AddMiddleware<SampleComplexEventMiddleware>(); //this middleware will be used only with this concrete event
 
-            services.ForMediateQuery<SampleComplexQuery, SampleComplexQueryResponse>()
-                .AddHandler<SampleComplexQueryHandler>() //concrete handler
-                .AddMiddleware<SampleComplexQueryMiddleware>(); //this middleware will be used only with this concrete query
+            //services.ForMediateQuery<SampleQuery, SampleQueryResponse>()
+            //    .AddHandler<SampleQueryHandler>(); //concrete handler
+
+            //services.ForMediateQuery<SampleComplexQuery, SampleComplexQueryResponse>()
+            //    .AddHandler<SampleComplexQueryHandler>() //concrete handler
+            //    .AddMiddleware<SampleComplexQueryMiddleware>(); //this middleware will be used only with this concrete query
 
             services.AddControllersWithViews();
         }
