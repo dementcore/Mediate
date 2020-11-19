@@ -17,6 +17,7 @@ For example this event handler will be invoked for all events:
     public class GenericEventHandler<T> : IEventHandler<T> where T : IEvent
     {
         private readonly ILogger<GenericEventHandler<T>> _logger;
+
         public GenericEventHandler(ILogger<GenericEventHandler<T>> logger)
         {
             _logger = logger;
@@ -43,7 +44,7 @@ This will do the trick:
 
     public BaseEvent()
     {
-            EventId = Guid.NewGuid();
+        EventId = Guid.NewGuid();
     }
  }
 
@@ -53,6 +54,7 @@ This will do the trick:
     public class BaseEventGenericHandler<T> : IEventHandler<T> where T : BaseEvent
     {
         private readonly ILogger<BaseEventGenericHandler<T>> _logger;
+        
         public BaseEventGenericHandler(ILogger<BaseEventGenericHandler<T>> logger)
         {
             _logger = logger;
