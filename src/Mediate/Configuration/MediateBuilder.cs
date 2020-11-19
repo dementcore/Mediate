@@ -22,7 +22,7 @@ namespace Mediate.Configuration
                 throw new InvalidOperationException("You have already registered a handler provider");
             }
 
-            _services.AddTransient(typeof(IHandlerProvider), typeof(THandlerProvider));
+            _services.AddScoped(typeof(IHandlerProvider), typeof(THandlerProvider));
 
             return this;
         }
@@ -34,31 +34,7 @@ namespace Mediate.Configuration
                 throw new InvalidOperationException("You have already registered a handler provider");
             }
 
-            _services.AddTransient<IHandlerProvider, ServiceProviderHandlerProvider>();
-
-            return this;
-        }
-
-        public IMediateBuilder AddCustomMediator<TMediator>() where TMediator : IMediator
-        {
-            if (_services.Any(s => s.ServiceType == typeof(IMediator)))
-            {
-                throw new InvalidOperationException("You have already registered a IMediator implementation");
-            }
-
-            _services.AddTransient(typeof(IMediator), typeof(TMediator));
-
-            return this;
-        }
-
-        public IMediateBuilder AddDefaultMediator()
-        {
-            if (_services.Any(s => s.ServiceType == typeof(IMediator)))
-            {
-                throw new InvalidOperationException("You have already registered a IMediator implementation");
-            }
-
-            _services.AddTransient<IMediator, Mediator>();
+            _services.AddScoped<IHandlerProvider, ServiceProviderHandlerProvider>();
 
             return this;
         }
@@ -70,7 +46,7 @@ namespace Mediate.Configuration
                 throw new InvalidOperationException("You have already registered a middleware provider");
             }
 
-            _services.AddTransient<IMiddlewareProvider, ServiceProviderMiddlewareProvider>();
+            _services.AddScoped<IMiddlewareProvider, ServiceProviderMiddlewareProvider>();
 
             return this;
         }
@@ -82,7 +58,7 @@ namespace Mediate.Configuration
                 throw new InvalidOperationException("You have already registered a middleware provider");
             }
 
-            _services.AddTransient(typeof(IMiddlewareProvider), typeof(TMiddlewareProvider));
+            _services.AddScoped(typeof(IMiddlewareProvider), typeof(TMiddlewareProvider));
 
             return this;
         }

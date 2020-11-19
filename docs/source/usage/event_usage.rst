@@ -1,24 +1,32 @@
+.. _refEvents:
+
+#############
 Events usage
-============
+#############
 
+To send events, is the same that you have already seen in the previous page.
 
-Defining an event
-^^^^^^^^^^^^^^^^^
-To create an event we have to create a class that implements the ``IEvent`` interface.
+Event creation
+==============
+
+First, to create an event you have to implement the ``IEvent`` interface.
+
+For example:
 
 .. sourcecode:: csharp
  
  public class MyEvent:IEvent
  {
-    public string TestData { get; set; }
+    public string EventData { get; set; }
  }
 
 .. note:: In this class you can put any info that you need for your event.
 
-Defining an event handler
-^^^^^^^^^^^^^^^^^^^^^^^^^
+Handler creation
+================
 
-An event handler is defined by the ``IEventHandler`` generic interface.
+Second, you have to create a handler for the above event. 
+For this, you have to implement the ``IEventHandler<TEvent>`` generic interface.
 
 .. sourcecode:: csharp
 
@@ -37,8 +45,7 @@ An event handler is defined by the ``IEventHandler`` generic interface.
         Task Handle(TEvent @event, CancellationToken cancellationToken);
     }
 
-So, to create a handler for the above event we should create a class that implements ``IEventHandler``:
-
+For example:
 
 .. sourcecode:: csharp
  
@@ -47,8 +54,22 @@ So, to create a handler for the above event we should create a class that implem
      public Task Handle(MyEvent @event, CancellationToken cancellationToken)
      {
          //Example operation
-         Console.WriteLine("MyEvent Event handler " + @event.TestData );
+         Console.WriteLine("MyEvent Event handler " + @event.EventData );
  
          return Task.CompletedTask;
      }
  }
+
+.. tip:: 
+ Remember, you can have multiple handlers for an event.
+
+Dispatching through the mediator
+================================
+
+Third, dispatch the event through the mediator:
+
+.. sourcecode:: csharp
+
+ MyEvent @event = new MyEvent() { EventData = "SomeData" };
+
+ await _mediator.Dispatch(@event, cancellationToken);

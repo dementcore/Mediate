@@ -11,5 +11,7 @@ namespace Mediate.Abstractions
     /// </summary>
     public interface IMiddlewareProvider : IEventMiddlewareProvider, IQueryMiddlewareProvider
     {
+
     }
+
 }

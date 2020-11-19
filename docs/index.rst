@@ -4,25 +4,23 @@
    contain the root `toctree` directive.
 
 Welcome to Mediate
-==================
+******************
 
 .. image:: images/logo.png
    :align: center
 
-Mediate is another simple and little in-process communication system based in mediator pattern.
-
-Docs WIP!!
+Mediate is another simple and little in-process communication system based 
+in mediator pattern for Asp.Net Core
 
 What attempts to provide this project?
---------------------------------------
+======================================
 
 This project is mostly developed for learn and fun, but also attempts 
-to provide an easy communication mechanism to develop decoupled communication between code layers in ASP.NET Core applications.
-
+to provide an easy communication mechanism to develop decoupled communication between code layers.
 
 Contact
--------
-You can contact me in the GitHub_.
+=======
+You can contact me in project's GitHub_.
 
 If you want request a feature, please create a `Feature Request`__.
 
@@ -33,26 +31,32 @@ __ FeatureRequest_
 .. _FeatureRequest: https://github.com/dementcore/Mediate/issues/new?assignees=&labels=feature+request&template=feature_request.md&title=
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 2
    :hidden:
    :caption: Introduction
 
-   source/introduction/mediator_pattern
-   source/introduction/installation
+   source/basic_concepts/mediator_pattern
+   source/basic_concepts/com_types
+
 
 .. toctree::
    :maxdepth: 2
-   :hidden:
-   :caption: Basic concepts
-
-   source/basic_concepts/com_types
-   source/basic_concepts/event_dispatch_strategies
-   source/basic_concepts/middlewares
-
-.. toctree::
-   :maxdepth: 3
    :hidden: 
-   :caption: Basic Usage
+   :caption: Basic usage
    
+   source/usage/installation
+   source/usage/configuration
    source/usage/query_usage
    source/usage/event_usage   
+
+.. toctree::
+   :maxdepth: 2
+   :hidden: 
+   :caption: Reference
+
+   source/reference/advanced_configuration
+   source/reference/event_dispatch_strategies
+   source/reference/middlewares
+   source/reference/providers
+   source/reference/generic_handlers
+   source/reference/generic_middlewares

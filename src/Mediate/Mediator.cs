@@ -58,6 +58,11 @@ namespace Mediate
         public async Task Dispatch<TEvent>(TEvent @event, CancellationToken cancellationToken)
             where TEvent : IEvent
         {
+            if (@event == null)
+            {
+                throw new ArgumentNullException(nameof(@event));
+            }
+
             IEnumerable<IEventHandler<TEvent>> handlers = await _eventHandlerProvider.GetHandlers<TEvent>();
 
             if (handlers.Count() > 0)
@@ -107,6 +112,11 @@ namespace Mediate
         public async Task<TResult> Send<TQuery, TResult>(TQuery query, CancellationToken cancellationToken)
             where TQuery : IQuery<TResult>
         {
+            if (query == null)
+            {
+                throw new ArgumentNullException(nameof(query));
+            }
+
             IQueryHandler<TQuery, TResult> handler = await _queryHandlerProvider.GetHandler<TQuery, TResult>();
 
             if (handler != null)
@@ -129,7 +139,7 @@ namespace Mediate
                         };
                     });
 
-               return await pipeline();
+                return await pipeline();
             }
 
             return default;

@@ -1,5 +1,6 @@
+############
 Installation
-============
+############
 
 To install Mediate you can use the NuGet package manager console, or the dotnet CLI.
 

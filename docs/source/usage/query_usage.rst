@@ -1,29 +1,30 @@
-Querys usage
-============
+#############
+Queries usage
+#############
 
+Once configured, you will need to create the queries that you will send through the mediator.
 
-Defining a query
-^^^^^^^^^^^^^^^^^
-To create a query we have to create a class that implements the ``IQuery`` generic interface
-and a class that defines the expected response.
+Query creation
+==============
+
+First, to create a query you have to implement the ``IQuery<TResult>`` generic interface.
+
+For example:
 
 .. sourcecode:: csharp
  
- public class MyQuery:IQuery<MyQueryResponse>
+ public class MyQuery:IQuery<string>
  {
      public string QueryData { get; set; }
  } 
 
- public class MyQueryResponse 
- {
-     public string ResponseData { get; set; }
- }
-.. note:: In this classes you can put any info that you need for your query and response.
+.. note:: You can use any type that you want for the response. 
 
-Defining a query handler
-^^^^^^^^^^^^^^^^^^^^^^^^
+Handler creation
+================
 
-A query handler is defined by the ``IQueryHandler`` generic interface.
+Second, you have to create a handler for the above query.
+For this, you have to implement the ``IQueryHandler<TQuery,TResponse>`` interface.
 
 .. sourcecode:: csharp
 
@@ -45,19 +46,26 @@ A query handler is defined by the ``IQueryHandler`` generic interface.
 
     }
 
-So, to create a handler for the above query we should create a class that implements ``IQueryHandler``:
+For example:
 
 .. sourcecode:: csharp
  
- public class MyQueryHandler : IQueryHandler<MyQuery, MyQueryResponse>
+ public class MyQueryHandler : IQueryHandler<MyQuery, string>
  {
     public Task<MyQueryResponse> Handle(MyQuery query, CancellationToken cancellationToken)
     {
         //Example operation
-        return Task.FromResult(new MyQueryResponse()
-        {
-            ResponseData = "Reply from my query handler with requested data: "
-            + query.QueryData + " " + Guid.NewGuid()
-        });
+        return Task.FromResult("Hello: " + query.QueryData);
     }
  }
+
+Sending through the mediator
+============================
+
+Third, send the query through the mediator:
+
+.. sourcecode:: csharp
+
+ MyQuery query = new MyQuery() { QueryData = "Dementcore" };
+
+ string res = await _mediator.Send<SampleQuery, string>(query);

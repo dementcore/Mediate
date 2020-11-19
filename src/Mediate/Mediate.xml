@@ -213,142 +213,56 @@
             <typeparam name="TResult">Query response type</typeparam>
             <returns>All registered middlewares for that query</returns>
         </member>
-        <member name="T:Mediate.Configuration.Builders.EventHandlerBuilder`1">
-            <summary>
-            Helper class to configure the event handlers and middlewares
-            </summary>
-            <typeparam name="TEvent">Event type</typeparam>
-        </member>
-        <member name="M:Mediate.Configuration.Builders.EventHandlerBuilder`1.#ctor(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary>
-            Constructor
-            </summary>
-            <param name="services"></param>
-        </member>
-        <member name="M:Mediate.Configuration.Builders.EventHandlerBuilder`1.AddHandler``1">
-            <summary>
-            Adds a handler for <typeparamref name="TEvent"/>
-            </summary>
-            <typeparam name="TEventHandler">Event handler type</typeparam>
-            <returns></returns>
-        </member>
-        <member name="M:Mediate.Configuration.Builders.EventHandlerBuilder`1.AddMiddleware``1">
-            <summary>
-            Adds a middleware for <typeparamref name="TEvent"/>
-            </summary>
-            <typeparam name="TEventMiddleware">Event middleware type</typeparam>
-            <returns></returns>
-        </member>
-        <member name="T:Mediate.Configuration.Builders.IEventHandlerBuilder`1">
-            <summary>
-            Helper class to configure the event handlers and middlewares
-            </summary>
-            <typeparam name="TEvent">Event type</typeparam>
-        </member>
-        <member name="M:Mediate.Configuration.Builders.IEventHandlerBuilder`1.AddHandler``1">
-            <summary>
-            Adds a handler for <typeparamref name="TEvent"/>
-            </summary>
-            <typeparam name="TEventHandler">Event handler type</typeparam>
-            <returns></returns>
-        </member>
-        <member name="M:Mediate.Configuration.Builders.IEventHandlerBuilder`1.AddMiddleware``1">
-            <summary>
-            Adds a middleware for <typeparamref name="TEvent"/>
-            </summary>
-            <typeparam name="TEventMiddleware">Event middleware type</typeparam>
-            <returns></returns>
-        </member>
-        <member name="T:Mediate.Configuration.Builders.IQueryHandlerBuilder`2">
-            <summary>
-            Helper class to configure the query handler and middlewares
-            </summary>
-            <typeparam name="TQuery">Query type</typeparam>
-            <typeparam name="TResult">Query response type</typeparam>
-        </member>
-        <member name="M:Mediate.Configuration.Builders.IQueryHandlerBuilder`2.AddHandler``1">
-            <summary>
-            Adds a handler for <typeparamref name="TQuery"/>
-            </summary>
-            <typeparam name="TQueryHandler">Query handler type</typeparam>
-            <returns></returns>
-        </member>
-        <member name="M:Mediate.Configuration.Builders.IQueryHandlerBuilder`2.AddMiddleware``1">
-            <summary>
-            Adds a middleware for <typeparamref name="TQuery"/>
-            </summary>
-            <typeparam name="TQueryMiddleware">Query middleware type</typeparam>
-            <returns></returns>
-        </member>
-        <member name="T:Mediate.Configuration.Builders.QueryHandlerBuilder`2">
-            <summary>
-            Helper class to configure the query handler and middlewares
-            </summary>
-            <typeparam name="TQuery">Query type</typeparam>
-            <typeparam name="TResult">Query response type</typeparam>
-        </member>
-        <member name="M:Mediate.Configuration.Builders.QueryHandlerBuilder`2.#ctor(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary>
-            constructor
-            </summary>
-            <param name="services"></param>
-        </member>
-        <member name="M:Mediate.Configuration.Builders.QueryHandlerBuilder`2.AddMiddleware``1">
-            <summary>
-            Adds a middleware for <typeparamref name="TQuery"/>
-            </summary>
-            <typeparam name="TQueryMiddleware">Query middleware type</typeparam>
-            <returns></returns>
-        </member>
-        <member name="M:Mediate.Configuration.Builders.QueryHandlerBuilder`2.Mediate#Configuration#Builders#IQueryHandlerBuilder{TQuery,TResult}#AddHandler``1">
-            <summary>
-            Adds a handler for <typeparamref name="TQuery"/>
-            </summary>
-            <typeparam name="TQueryHandler">Query handler type</typeparam>
-            <returns></returns>
-        </member>
         <member name="T:Mediate.Configuration.IMediateBuilder">
             <summary>
             Helper methods to configure Mediate
             </summary>
         </member>
-        <member name="M:Mediate.Configuration.IMediateBuilder.AddDefaultMediator">
-            <summary>
-            Registers the default mediator implementation
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Mediate.Configuration.IMediateBuilder.AddCustomMediator``1">
-            <summary>
-            Registers a custom mediator implementation
-            </summary>
-            <typeparam name="TMediator">Mediator implementation type</typeparam>
-            <returns></returns>
-        </member>
         <member name="M:Mediate.Configuration.IMediateBuilder.AddServiceProviderHandlerProvider">
             <summary>
-            Registers an event and query handler provider where the handlers are retrieved from AspNetCore Service Provider.
+            Registers an handler provider for queries and events that are retrieved from AspNetCore Service Provider.
             </summary>
             <returns></returns>
         </member>
         <member name="M:Mediate.Configuration.IMediateBuilder.AddServiceProviderMiddlewareProvider">
             <summary>
-            Registers an event and query middleware provider where the middlewares are retrieved from AspNetCore Service Provider.
+            Registers an middleware provider for queries and events that are retrieved from AspNetCore Service Provider.
             </summary>
             <returns></returns>
         </member>
         <member name="M:Mediate.Configuration.IMediateBuilder.AddCustomHandlerProvider``1">
             <summary>
-            Registers a custom handler provider
+            Registers a custom handler provider for queries and events
             </summary>
             <typeparam name="THandlerProvider">Handler provider implementation type</typeparam>
             <returns></returns>
         </member>
         <member name="M:Mediate.Configuration.IMediateBuilder.AddCustomMiddlewareProvider``1">
             <summary>
-            Registers a custom middleware provider
+            Registers a custom middleware provider for queries and events
             </summary>
             <typeparam name="TMiddlewareProvider">Middleware provider implementation type</typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Mediate.Configuration.RegisterHelpers.IsNotAbstract(System.Type)">
+            <summary>
+            Determines if the type is not abstract class and is not an interface
+            </summary>
+            <param name="t"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Mediate.Configuration.RegisterHelpers.IsClosedType(System.Type)">
+            <summary>
+            Determines if the type is closed
+            </summary>
+            <param name="t"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Mediate.Configuration.RegisterHelpers.IsOpenType(System.Type)">
+            <summary>
+            Determines if the type is an open generic type
+            </summary>
+            <param name="t"></param>
             <returns></returns>
         </member>
         <member name="T:Mediate.DispatchStrategies.EventQueueDispatchStrategy">
@@ -589,7 +503,7 @@
         </member>
         <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.AddMediateCore(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
-            This method provides a builder to configure each Mediate service manually.
+            This method registers the Mediator and returns a builder to configure Mediate.
             </summary>
             <param name="services"></param>
             <returns></returns>
@@ -598,7 +512,6 @@
             <summary>
             This method configures all Mediate default services. Similar to call
             <see cref="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.AddMediateCore(Microsoft.Extensions.DependencyInjection.IServiceCollection)"></see>, 
-            <see cref="M:Mediate.Configuration.IMediateBuilder.AddDefaultMediator"></see>, 
             <see cref="M:Mediate.Configuration.IMediateBuilder.AddServiceProviderHandlerProvider"></see> and
             <see cref="M:Mediate.Configuration.IMediateBuilder.AddServiceProviderMiddlewareProvider"></see>
             </summary>
@@ -630,43 +543,13 @@
             <typeparam name="TDispatchStrategy"></typeparam>
             <param name="services"></param>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.ForMediateQuery``2(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+        <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.AddMediateCustomDispatchStrategy``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.DependencyInjection.ServiceLifetime)">
             <summary>
-            Helper method to configure a query in Mediate
+            Configures Mediate to use a custom event dispatch strategy
             </summary>
-            <typeparam name="TQuery">Query type</typeparam>
-            <typeparam name="TResult">Query response type</typeparam>
+            <typeparam name="TDispatchStrategy"></typeparam>
             <param name="services"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.ForMediateEvent``1(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary>
-            Helper method to configure an event in Mediate
-            </summary>
-            <typeparam name="TEvent">Event type</typeparam>
-            <param name="services"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.AddMediateGenericEventHandler(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Type)">
-            <summary>
-            Helper method to register a generic event handler
-            </summary>
-            <param name="services"></param>
-            <param name="genericHandler">Generic event handler type</param>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.AddMediateGenericEventMiddleware(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Type)">
-            <summary>
-            Helper method to register a generic event middleware
-            </summary>
-            <param name="services"></param>
-            <param name="genericHandler">Generic event middleware type</param>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.AddMediateGenericQueryMiddleware(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Type)">
-            <summary>
-            Helper method to register a generic query middleware
-            </summary>
-            <param name="services"></param>
-            <param name="genericHandler">Generic query middleware type</param>
+            <param name="lifetime">ServiceLifetime for the DI container</param>
         </member>
         <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.AddMediateClassesFromAssembly(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Reflection.Assembly)">
             <summary>
@@ -674,27 +557,6 @@
             </summary>
             <param name="services">service collection</param>
             <param name="assembly">Assembly to scan</param>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.IsNotAbstract(System.Type)">
-            <summary>
-            Determines if the type is not abstract class and is not an interface
-            </summary>
-            <param name="t"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.IsClosedType(System.Type)">
-            <summary>
-            Determines if the type is closed
-            </summary>
-            <param name="t"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.IsOpenType(System.Type)">
-            <summary>
-            Determines if the type is an open generic type
-            </summary>
-            <param name="t"></param>
-            <returns></returns>
         </member>
     </members>
 </doc>
