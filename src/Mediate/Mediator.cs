@@ -10,7 +10,7 @@ namespace Mediate
     /// <summary>
     /// Default mediator implementation
     /// </summary>
-    public sealed class Mediator : IMediator
+    public sealed class Mediator : IMediator, IDisposable
     {
         private readonly IQueryHandlerProvider _queryHandlerProvider;
         private readonly IEventHandlerProvider _eventHandlerProvider;
@@ -65,18 +65,18 @@ namespace Mediate
 
             IEnumerable<IEventHandler<TEvent>> handlers = await _eventHandlerProvider.GetHandlers<TEvent>();
 
-            if (handlers.Count() > 0)
+            if (handlers.Any())
             {
                 IEnumerable<IEventMiddleware<TEvent>> middlewares = await _eventMiddlewareProvider.GetMiddlewares<TEvent>();
 
-                NextMiddlewareDelegate pipelineEnd = async delegate
+                async Task pipelineEnd()
                 {
                     await _eventDispatchStrategy.Dispatch(@event, handlers, cancellationToken);
-                };
+                }
 
                 NextMiddlewareDelegate pipeline = middlewares
                     .Reverse()
-                    .Aggregate(pipelineEnd, (next, middleware) =>
+                    .Aggregate((NextMiddlewareDelegate)pipelineEnd, (next, middleware) =>
                     {
                         return async delegate
                         {
@@ -87,6 +87,7 @@ namespace Mediate
                 await pipeline();
             }
         }
+
 
         /// <summary>
         /// Sends a query to his handler and returns a response
@@ -124,14 +125,14 @@ namespace Mediate
 
                 IEnumerable<IQueryMiddleware<TQuery, TResult>> middlewares = await _queryMiddlewareProvider.GetMiddlewares<TQuery, TResult>();
 
-                NextMiddlewareDelegate<TResult> pipelineEnd = async delegate
+                async Task<TResult> pipelineEnd()
                 {
                     return await handler.Handle(query, cancellationToken);
-                };
+                }
 
                 NextMiddlewareDelegate<TResult> pipeline = middlewares
                     .Reverse()
-                    .Aggregate(pipelineEnd, (next, middleware) =>
+                    .Aggregate((NextMiddlewareDelegate<TResult>)pipelineEnd, (next, middleware) =>
                     {
                         return async delegate
                         {
@@ -145,5 +146,12 @@ namespace Mediate
             return default;
         }
 
+        /// <summary>
+        /// Dispose method
+        /// </summary>
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
+        }
     }
 }

@@ -295,6 +295,11 @@
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>
+        <member name="M:Mediate.DispatchStrategies.EventQueueDispatchStrategy.Dispose">
+            <summary>
+            Dispose method
+            </summary>
+        </member>
         <member name="T:Mediate.DispatchStrategies.ParallelEventDispatchStrategy">
             <summary>
             Event dispatch strategy that executes event handlers in parallel.
@@ -319,6 +324,11 @@
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>
+        <member name="M:Mediate.DispatchStrategies.ParallelEventDispatchStrategy.Dispose">
+            <summary>
+            Dispose method
+            </summary>
+        </member>
         <member name="T:Mediate.DispatchStrategies.SequentialEventDispatchStrategy">
             <summary>
             Event dispatch strategy that executes event handlers after one another.
@@ -342,6 +352,11 @@
             <param name="handlers">Event handlers</param>
             <param name="cancellationToken"></param>
             <returns></returns>
+        </member>
+        <member name="M:Mediate.DispatchStrategies.SequentialEventDispatchStrategy.Dispose">
+            <summary>
+            Dispose method
+            </summary>
         </member>
         <member name="T:Mediate.HostedService.EventDispatcherService">
             <summary>
@@ -427,6 +442,11 @@
             <param name="cancellationToken">Cancellation token</param>
             <returns></returns>
         </member>
+        <member name="M:Mediate.Mediator.Dispose">
+            <summary>
+            Dispose method
+            </summary>
+        </member>
         <member name="T:Mediate.Queue.EventQueue">
             <summary>
             Event queue for the EventQueueDispatchStrategy. <br/>
@@ -470,6 +490,11 @@
             <typeparam name="TResult">Query response type</typeparam>
             <returns>Registered handler for that query</returns>
         </member>
+        <member name="M:Mediate.ServiceProviderHandlerProvider.Dispose">
+            <summary>
+            Dispose method
+            </summary>
+        </member>
         <member name="T:Mediate.ServiceProviderMiddlewareProvider">
             <summary>
             Message and event middleware provider from IServiceProvider
@@ -495,6 +520,11 @@
             <typeparam name="TQuery">Query type</typeparam>
             <typeparam name="TResult">Query response type</typeparam>
             <returns>All registered middlewares for that query</returns>
+        </member>
+        <member name="M:Mediate.ServiceProviderMiddlewareProvider.Dispose">
+            <summary>
+            Dispose method
+            </summary>
         </member>
         <member name="T:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions">
             <summary>

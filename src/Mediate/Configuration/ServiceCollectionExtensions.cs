@@ -59,7 +59,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 throw new InvalidOperationException("You have already registered an event dispatch strategy");
             }
 
-            services.AddTransient<IEventDispatchStrategy, ParallelEventDispatchStrategy>();
+            services.AddScoped<IEventDispatchStrategy, ParallelEventDispatchStrategy>();
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 throw new InvalidOperationException("You have already registered the EventDispatcherService hosted service");
             }
 
-            services.AddTransient<IEventDispatchStrategy, EventQueueDispatchStrategy>();
+            services.AddScoped<IEventDispatchStrategy, EventQueueDispatchStrategy>();
             services.AddSingleton<EventQueue>();
             services.AddHostedService<EventDispatcherService>();
         }
@@ -100,7 +100,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 throw new InvalidOperationException("You have already registered an event dispatch strategy");
             }
 
-            services.AddTransient<IEventDispatchStrategy, SequentialEventDispatchStrategy>();
+            services.AddScoped<IEventDispatchStrategy, SequentialEventDispatchStrategy>();
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static void AddMediateCustomDispatchStrategy<TDispatchStrategy>(this IServiceCollection services)
           where TDispatchStrategy : IEventDispatchStrategy
         {
-            AddMediateCustomDispatchStrategy<TDispatchStrategy>(services, ServiceLifetime.Transient);
+            AddMediateCustomDispatchStrategy<TDispatchStrategy>(services, ServiceLifetime.Scoped);
         }
 
         /// <summary>

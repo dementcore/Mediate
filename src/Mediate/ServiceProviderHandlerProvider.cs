@@ -10,7 +10,7 @@ namespace Mediate
     /// <summary>
     /// Message and event handler provider from IServiceProvider
     /// </summary>
-    public sealed class ServiceProviderHandlerProvider : IHandlerProvider
+    public sealed class ServiceProviderHandlerProvider : IHandlerProvider,IDisposable
     {
         private readonly IServiceProvider _serviceProvider;
 
@@ -60,6 +60,14 @@ namespace Mediate
             }
 
             return Task.FromResult(handler);
+        }
+
+        /// <summary>
+        /// Dispose method
+        /// </summary>
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
         }
     }
 }

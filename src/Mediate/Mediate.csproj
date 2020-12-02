@@ -6,17 +6,18 @@
     <Company>DementCore</Company>
     <Product>Mediate</Product>
     <Description>Mediate is another simple and little in-process communication system based in mediator pattern for Asp.Net Core</Description>
-    <Version>1.0.4</Version>
+    <Version>1.0.5</Version>
     <PackageIcon>logo.png</PackageIcon>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/dementcore/Mediate</PackageProjectUrl>
-    <RepositoryUrl></RepositoryUrl>
+    <RepositoryUrl>https://github.com/dementcore/Mediate</RepositoryUrl>
     <Copyright>Copyright (c) 2020 DementCore</Copyright>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <AssemblyVersion>1.0.4.0</AssemblyVersion>
-    <FileVersion>1.0.4.0</FileVersion>
+    <AssemblyVersion>1.0.5.0</AssemblyVersion>
+    <FileVersion>1.0.5.0</FileVersion>
+    <PackageTags>mediator;mediator-pattern;aspnetcore</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

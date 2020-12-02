@@ -10,7 +10,7 @@ namespace Mediate.DispatchStrategies
     /// <summary>
     /// Event dispatch strategy that executes event handlers in parallel.
     /// </summary>
-    public sealed class ParallelEventDispatchStrategy : IEventDispatchStrategy
+    public sealed class ParallelEventDispatchStrategy : IEventDispatchStrategy, IDisposable
     {
         /// <summary>
         /// Executes this strategy to dispatch an event
@@ -48,12 +48,20 @@ namespace Mediate.DispatchStrategies
                 }
             });
 
-            if (exceptions.Count > 0)
+            if (!exceptions.IsEmpty)
             {
                 throw new AggregateException(exceptions);
             }
 
             return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// Dispose method
+        /// </summary>
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
         }
     }
 }

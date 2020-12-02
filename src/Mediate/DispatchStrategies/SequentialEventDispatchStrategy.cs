@@ -9,7 +9,7 @@ namespace Mediate.DispatchStrategies
     /// <summary>
     /// Event dispatch strategy that executes event handlers after one another.
     /// </summary>
-    public sealed class SequentialEventDispatchStrategy : IEventDispatchStrategy
+    public sealed class SequentialEventDispatchStrategy : IEventDispatchStrategy,IDisposable
     {
         /// <summary>
         /// Executes this strategy to dispatch an event
@@ -51,6 +51,14 @@ namespace Mediate.DispatchStrategies
             {
                 throw new AggregateException(exceptions);
             }
+        }
+
+        /// <summary>
+        /// Dispose method
+        /// </summary>
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Mediate.DispatchStrategies
     /// <summary>
     /// Event dispatch strategy that enqueues events to be handled by a background job.
     /// </summary>
-    public sealed class EventQueueDispatchStrategy : IEventDispatchStrategy
+    public sealed class EventQueueDispatchStrategy : IEventDispatchStrategy, IDisposable
     {
         private readonly EventQueue _eventQueue;
 
@@ -51,6 +51,14 @@ namespace Mediate.DispatchStrategies
             _eventQueue.EnqueueEvent(queuedEvent);
 
             return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// Dispose method
+        /// </summary>
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
         }
     }
 }
