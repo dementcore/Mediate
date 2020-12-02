@@ -68,28 +68,28 @@ This will do the trick:
 
 .. sourcecode:: csharp
 
- public abstract class BaseQuery<TResult>:IQuery<TResult>
- {
-        public Guid QueryId { get; }
+    public abstract class BaseQuery<TResult>:IQuery<TResult>
+    {
+            public Guid QueryId { get; }
 
-        public BaseQuery()
-        {
-            QueryId = Guid.NewGuid();
-        }
- }
-
- //middleware for all BaseQuery derived queries
- public class BaseQueryGenericMiddleware<TQuery, TResult> : IQueryMiddleware<TQuery, TResult> where TQuery : BaseQuery<TResult>
- {
-        public async Task<TResult> Invoke(TQuery query, CancellationToken cancellationToken, NextMiddlewareDelegate<TResult> next)
-        {
-            //example validation
-            if (query.QueryId != Guid.Empty)
+            public BaseQuery()
             {
-                return await next();
+                QueryId = Guid.NewGuid();
             }
+    }
 
-            //example exception for this example
-            throw new InvalidOperationException("The query id must be not null");
-        }
- }
+    //middleware for all BaseQuery derived queries
+    public class BaseQueryGenericMiddleware<TQuery, TResult> : IQueryMiddleware<TQuery, TResult> where TQuery : BaseQuery<TResult>
+    {
+            public async Task<TResult> Invoke(TQuery query, CancellationToken cancellationToken, NextMiddlewareDelegate<TResult> next)
+            {
+                //example validation
+                if (query.QueryId != Guid.Empty)
+                {
+                    return await next();
+                }
+
+                //example exception for this example
+                throw new InvalidOperationException("The query id must be not null");
+            }
+    }

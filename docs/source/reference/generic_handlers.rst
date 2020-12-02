@@ -38,15 +38,15 @@ This will do the trick:
 
 .. sourcecode:: csharp
 
- public abstract class BaseEvent : IEvent
- {
-    public Guid EventId { get; }
-
-    public BaseEvent()
+    public abstract class BaseEvent : IEvent
     {
-        EventId = Guid.NewGuid();
+        public Guid EventId { get; }
+
+        public BaseEvent()
+        {
+            EventId = Guid.NewGuid();
+        }
     }
- }
 
     /// <summary>
     /// This class catchs all BaseEvent derived events
