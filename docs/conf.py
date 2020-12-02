@@ -47,7 +47,7 @@ extensions = [
     "sphinx_rtd_theme"
 ]
 
-
+master_doc = 'index'
 
 # -- Options for HTML output -------------------------------------------------
 
