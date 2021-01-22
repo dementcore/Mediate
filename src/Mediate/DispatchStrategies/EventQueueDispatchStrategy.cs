@@ -1,6 +1,8 @@
 ﻿using Mediate.Abstractions;
 using Mediate.Queue;
+using Mediate.Wrappers;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -45,6 +47,7 @@ namespace Mediate.DispatchStrategies
         /// <returns></returns>
         public async Task Dispatch<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers, CancellationToken cancellationToken) where TEvent : IEvent
         {
+
             var queuedEvent = (QueuedEventWrapperBase)
                 Activator.CreateInstance(typeof(QueuedEventWrapper<>).MakeGenericType(typeof(TEvent)), @event, handlers);
 

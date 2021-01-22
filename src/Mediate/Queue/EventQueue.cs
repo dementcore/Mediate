@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using Mediate.Wrappers;
+using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -43,7 +44,7 @@ namespace Mediate.Queue
         internal async Task<bool> HasEvents(CancellationToken cancellationToken)
         {
             await _semaphoreSlim.WaitAsync(cancellationToken);
-     
+
             bool empty = !_eventQueue.IsEmpty;
 
             _semaphoreSlim.Release();
