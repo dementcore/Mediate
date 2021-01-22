@@ -1,9 +1,9 @@
-﻿using Mediate.Wrappers;
+﻿using Mediate.BackgroundEventDispatch.Wrappers;
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Mediate.Queue
+namespace Mediate.BackgroundEventDispatch.Queue
 {
     /// <summary>
     /// Event queue for the EventQueueDispatchStrategy. <br/>

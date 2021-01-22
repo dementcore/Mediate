@@ -1,12 +1,9 @@
-﻿using Mediate.Abstractions;
+﻿using Mediate.BackgroundEventDispatch.Abstractions;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace Mediate
+namespace Mediate.BackgroundEventDispatch
 {
     /// <summary>
     /// Default event dispatch exception handler that logs the exceptions

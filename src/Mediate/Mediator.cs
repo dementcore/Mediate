@@ -68,27 +68,30 @@ namespace Mediate
 
             IEnumerable<IEventHandler<TEvent>> handlers = await _eventHandlerProvider.GetHandlers<TEvent>();
 
-            if (handlers.Any())
+            if (!handlers.Any())
             {
-                IEnumerable<IEventMiddleware<TEvent>> middlewares = await _eventMiddlewareProvider.GetMiddlewares<TEvent>();
+                throw new InvalidOperationException($"There isn't any registered event handler for {typeof(TEvent).Name}");
 
-                async Task pipelineEnd()
-                {
-                    await _eventDispatchStrategy.Dispatch(@event, handlers, cancellationToken);
-                }
-
-                NextMiddlewareDelegate pipeline = middlewares
-                    .Reverse()
-                    .Aggregate((NextMiddlewareDelegate)pipelineEnd, (next, middleware) =>
-                    {
-                        return async delegate
-                        {
-                            await middleware.Invoke(@event, cancellationToken, next);
-                        };
-                    });
-
-                await pipeline();
             }
+
+            IEnumerable<IEventMiddleware<TEvent>> middlewares = await _eventMiddlewareProvider.GetMiddlewares<TEvent>();
+
+            async Task pipelineEnd()
+            {
+                await _eventDispatchStrategy.Dispatch(@event, handlers, cancellationToken);
+            }
+
+            NextMiddlewareDelegate pipeline = middlewares
+                .Reverse()
+                .Aggregate((NextMiddlewareDelegate)pipelineEnd, (next, middleware) =>
+                {
+                    return async delegate
+                    {
+                        await middleware.Invoke(@event, cancellationToken, next);
+                    };
+                });
+
+            await pipeline();
         }
 
         /// <summary>

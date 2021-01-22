@@ -5,19 +5,19 @@
     <Authors>DementCore</Authors>
     <Company>DementCore</Company>
     <Product>Mediate</Product>
-    <Description>Mediate is another simple and little in-process communication system based in mediator pattern for Asp.Net Core</Description>
+    <Description>Mediate is another simple and little in-process communication system based in mediator pattern</Description>
     <Version>1.0.6</Version>
     <PackageIcon>logo.png</PackageIcon>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/dementcore/Mediate</PackageProjectUrl>
     <RepositoryUrl>https://github.com/dementcore/Mediate</RepositoryUrl>
-    <Copyright>Copyright (c) 2020 DementCore</Copyright>
+    <Copyright>Copyright (c) 2021 DementCore</Copyright>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyVersion>1.0.6</AssemblyVersion>
     <FileVersion>1.0.6</FileVersion>
-    <PackageTags>mediator;mediator-pattern;aspnetcore</PackageTags>
+    <PackageTags>mediator;mediator-pattern</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -40,7 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
   </ItemGroup>
 
 </Project>

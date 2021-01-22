@@ -1,14 +1,9 @@
 using Mediate.Samples.Shared.Event;
-using Mediate.Samples.Shared.EventWithMiddleware;
-using Mediate.Samples.Shared.Query;
-using Mediate.Samples.Shared.QueryWithMiddleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Linq;
 
 namespace Mediate.Samples.AspNetCore
 {
@@ -26,13 +21,13 @@ namespace Mediate.Samples.AspNetCore
         {
             services.AddSignalR();
 
-            ///add mediate default services
+            //add mediate default services
             services.AddMediate();
 
-            ///configure the mediate dispatch strategy
-            services.AddMediateEventQueueDispatchStrategy(); 
+            //configure the mediate dispatch strategy
+            services.AddMediateEventQueueDispatchStrategyCore().AddDefaultExceptionHandler();
 
-            //auto register the messages, handlers and middlewares from an assemblys
+            //auto register the messages, handlers and middlewares from an assembly
             services.AddMediateClassesFromAssembly(typeof(SampleEvent).Assembly);
 
             services.AddControllersWithViews();

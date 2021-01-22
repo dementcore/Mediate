@@ -44,7 +44,8 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', '.txt']
 import sphinx_rtd_theme
 
 extensions = [
-    "sphinx_rtd_theme"
+    "sphinx_rtd_theme",
+    'sphinxemoji.sphinxemoji',
 ]
 
 master_doc = 'index'

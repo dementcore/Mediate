@@ -1,13 +1,12 @@
 ﻿using Mediate.Abstractions;
-using Mediate.Queue;
-using Mediate.Wrappers;
+using Mediate.BackgroundEventDispatch.Queue;
+using Mediate.BackgroundEventDispatch.Wrappers;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Mediate.DispatchStrategies
+namespace Mediate.BackgroundEventDispatch
 {
     /// <summary>
     /// Event dispatch strategy that enqueues events to be handled by a background job.

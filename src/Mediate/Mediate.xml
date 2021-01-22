@@ -282,41 +282,6 @@
             <param name="t"></param>
             <returns></returns>
         </member>
-        <member name="T:Mediate.DispatchStrategies.EventQueueDispatchStrategy">
-            <summary>
-            Event dispatch strategy that enqueues events to be handled by a background job.
-            </summary>
-        </member>
-        <member name="M:Mediate.DispatchStrategies.EventQueueDispatchStrategy.#ctor(Mediate.Queue.EventQueue)">
-            <summary>
-            Event queue dispatch strategy constructor
-            </summary>
-            <param name="eventQueue">Event queue implementation</param>
-        </member>
-        <member name="M:Mediate.DispatchStrategies.EventQueueDispatchStrategy.Dispatch``1(``0,System.Collections.Generic.IEnumerable{Mediate.Abstractions.IEventHandler{``0}})">
-            <summary>
-            Executes this strategy to dispatch an event
-            </summary>
-            <typeparam name="TEvent">Event type</typeparam>
-            <param name="event">Event data</param>
-            <param name="handlers">Event handlers</param>
-            <returns></returns>
-        </member>
-        <member name="M:Mediate.DispatchStrategies.EventQueueDispatchStrategy.Dispatch``1(``0,System.Collections.Generic.IEnumerable{Mediate.Abstractions.IEventHandler{``0}},System.Threading.CancellationToken)">
-            <summary>
-            Executes this strategy to dispatch an event
-            </summary>
-            <typeparam name="TEvent">Event type</typeparam>
-            <param name="event">Event data</param>
-            <param name="handlers">Event handlers</param>
-            <param name="cancellationToken"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Mediate.DispatchStrategies.EventQueueDispatchStrategy.Dispose">
-            <summary>
-            Dispose method
-            </summary>
-        </member>
         <member name="T:Mediate.DispatchStrategies.ParallelEventDispatchStrategy">
             <summary>
             Event dispatch strategy that executes event handlers in parallel.
@@ -374,41 +339,6 @@
             <summary>
             Dispose method
             </summary>
-        </member>
-        <member name="T:Mediate.HostedService.EventDispatcherService">
-            <summary>
-            Job to handle the enqueued events. <br/>
-            This class is public to allow registration into DI containers like Autofac, Unity, etc. <br/>
-            This shouldn't be used directly from user code. <br/>
-            </summary>
-        </member>
-        <member name="M:Mediate.HostedService.EventDispatcherService.#ctor(Microsoft.Extensions.Logging.ILogger{Mediate.HostedService.EventDispatcherService},Mediate.Queue.EventQueue)">
-            <summary>
-            Event dispatcher service constructor
-            </summary>
-            <param name="logger"></param>
-            <param name="backgroundEventQueue"></param>
-        </member>
-        <member name="M:Mediate.HostedService.EventDispatcherService.StartAsync(System.Threading.CancellationToken)">
-            <summary>
-            Hosted service start method
-            </summary>
-            <param name="cancellationToken"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Mediate.HostedService.EventDispatcherService.ExecuteAsync(System.Threading.CancellationToken)">
-            <summary>
-            Hosted service execute method
-            </summary>
-            <param name="stoppingToken"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Mediate.HostedService.EventDispatcherService.StopAsync(System.Threading.CancellationToken)">
-            <summary>
-            Hosted service stop method
-            </summary>
-            <param name="cancellationToken"></param>
-            <returns></returns>
         </member>
         <member name="T:Mediate.Mediator">
             <summary>
@@ -480,23 +410,6 @@
             <param name="query">Query data</param>
             <param name="cancellationToken"></param>
             <returns>Query response</returns>
-        </member>
-        <member name="T:Mediate.Queue.EventQueue">
-            <summary>
-            Event queue for the EventQueueDispatchStrategy. <br/>
-            This class is public to allow registration into DI containers like Autofac, Unity, etc.<br/>
-            This shouldn't be used directly from user code. <br/>
-            </summary>
-        </member>
-        <member name="T:Mediate.Queue.QueuedEventWrapperBase">
-            <summary>
-            Wrapper class to represent a event into the event queue
-            </summary>
-        </member>
-        <member name="T:Mediate.Queue.QueuedEventWrapper`1">
-            <summary>
-            Wrapper class to represent a event into the event queue
-            </summary>
         </member>
         <member name="T:Mediate.ServiceProviderHandlerProvider">
             <summary>
@@ -584,13 +497,6 @@
         <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.AddMediateParallelEventDispatchStrategy(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
             Configures Mediate to use the parallel event dispatch strategy
-            </summary>
-            <param name="services"></param>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.AddMediateEventQueueDispatchStrategy(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary>
-            Configures Mediate to use the background queue event dispatch strategy.
-            Registers a hosted service called EventDispatcherService, a queue and EventQueueDispatchStrategy class.
             </summary>
             <param name="services"></param>
         </member>

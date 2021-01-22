@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace Mediate.Abstractions
+namespace Mediate.BackgroundEventDispatch.Abstractions
 {
     /// <summary>
     /// Interface for implement an exception handler for the event queue dispatch strategy
@@ -17,6 +14,6 @@ namespace Mediate.Abstractions
         /// <param name="aggregateException">Aggregate exception with all handlers errors</param>
         /// <param name="eventName">Name of the event</param>
         /// <returns></returns>
-        Task Handle(AggregateException aggregateException,string eventName);
+        Task Handle(AggregateException aggregateException, string eventName);
     }
 }

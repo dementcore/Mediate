@@ -13,11 +13,12 @@ namespace Mediate.Wrappers
         internal abstract Task<object> Handle(object query, CancellationToken cancellationToken);
     }
 
-    internal class QueryWrapper<TQuery, TResult> : QueryWrapperBase//QueryResultWrapper<TResult>
+    internal sealed class QueryWrapper<TQuery, TResult> : QueryWrapperBase
         where TQuery : IQuery<TResult>
     {
 
         private readonly IQueryHandlerProvider _queryHandlerProvider;
+
         private readonly IQueryMiddlewareProvider _queryMiddlewareProvider;
 
         public QueryWrapper(IQueryHandlerProvider queryHandlerProvider, IQueryMiddlewareProvider queryMiddlewareProvider)

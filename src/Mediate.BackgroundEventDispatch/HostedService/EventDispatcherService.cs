@@ -1,13 +1,13 @@
-﻿using Mediate.Abstractions;
-using Mediate.Queue;
-using Mediate.Wrappers;
+﻿using Mediate.BackgroundEventDispatch.Abstractions;
+using Mediate.BackgroundEventDispatch.Queue;
+using Mediate.BackgroundEventDispatch.Wrappers;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Mediate.HostedService
+namespace Mediate.BackgroundEventDispatch.HostedService
 {
     /// <summary>
     /// Job to handle the enqueued events. <br/>
