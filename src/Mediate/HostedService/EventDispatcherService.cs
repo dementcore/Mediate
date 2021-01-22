@@ -54,12 +54,12 @@ namespace Mediate.HostedService
                 while (!stoppingToken.IsCancellationRequested)
                 {
 
-                    if (!_backgroundEventQueue.HasEvents())
+                    if (!await _backgroundEventQueue.HasEvents(stoppingToken))
                     {
                         continue;
                     }
 
-                    QueuedEventWrapperBase job = _backgroundEventQueue.DequeueEvent();
+                    QueuedEventWrapperBase job = await _backgroundEventQueue.DequeueEvent(stoppingToken);
 
                     try
                     {

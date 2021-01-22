@@ -43,14 +43,12 @@ namespace Mediate.DispatchStrategies
         /// <param name="handlers">Event handlers</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public Task Dispatch<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers, CancellationToken cancellationToken) where TEvent : IEvent
+        public async Task Dispatch<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers, CancellationToken cancellationToken) where TEvent : IEvent
         {
             var queuedEvent = (QueuedEventWrapperBase)
                 Activator.CreateInstance(typeof(QueuedEventWrapper<>).MakeGenericType(typeof(TEvent)), @event, handlers);
 
-            _eventQueue.EnqueueEvent(queuedEvent);
-
-            return Task.CompletedTask;
+            await _eventQueue.EnqueueEvent(queuedEvent, cancellationToken);
         }
 
         /// <summary>

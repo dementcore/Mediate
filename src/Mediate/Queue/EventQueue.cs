@@ -14,35 +14,41 @@ namespace Mediate.Queue
         private readonly ConcurrentQueue<QueuedEventWrapperBase> _eventQueue =
             new ConcurrentQueue<QueuedEventWrapperBase>();
 
-        private readonly object lockObj = new object();
 
+        SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(10);
 
-        internal QueuedEventWrapperBase DequeueEvent()
+        internal async Task<QueuedEventWrapperBase> DequeueEvent(CancellationToken cancellationToken)
         {
             QueuedEventWrapperBase eventHandler;
 
-            lock (lockObj)
-            {
-                _eventQueue.TryDequeue(out eventHandler);
-            }
+            await _semaphoreSlim.WaitAsync(cancellationToken);
+
+            _eventQueue.TryDequeue(out eventHandler);
+
+            _semaphoreSlim.Release();
 
             return eventHandler;
         }
 
-        internal void EnqueueEvent(QueuedEventWrapperBase @event)
+        internal async Task EnqueueEvent(QueuedEventWrapperBase @event, CancellationToken cancellationToken)
         {
-            lock (lockObj)
-            {
-                _eventQueue.Enqueue(@event);
-            }
+            await _semaphoreSlim.WaitAsync(cancellationToken);
+
+            _eventQueue.Enqueue(@event);
+
+            _semaphoreSlim.Release();
+
         }
 
-        internal bool HasEvents()
+        internal async Task<bool> HasEvents(CancellationToken cancellationToken)
         {
-            lock (lockObj)
-            {
-                return !_eventQueue.IsEmpty;
-            }
+            await _semaphoreSlim.WaitAsync(cancellationToken);
+     
+            bool empty = !_eventQueue.IsEmpty;
+
+            _semaphoreSlim.Release();
+
+            return empty;
         }
     }
 }

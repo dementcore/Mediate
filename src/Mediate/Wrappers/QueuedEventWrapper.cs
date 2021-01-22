@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Mediate.Queue
+namespace Mediate.Wrappers
 {
     /// <summary>
     /// Wrapper class to represent a event into the event queue
