@@ -17,7 +17,7 @@ to provide an easy communication mechanism to develop decoupled communication be
 
 ## Samples
 
-In samples folder are samples for AspNetCore with Microsoft DI and with Autofac DI.
+In samples folder are samples for AspNetCore with Microsoft DI.
 
 ## Changelog
 
