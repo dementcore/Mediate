@@ -1,5 +1,6 @@
 ﻿using Mediate.Abstractions;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -19,6 +20,8 @@ namespace Mediate
         private readonly IEventMiddlewareProvider _eventMiddlewareProvider;
 
         private readonly IEventDispatchStrategy _eventDispatchStrategy;
+
+        private ConcurrentDictionary<Type, Wrappers.QueryWrapperBase> _queryWrappersCache = new ConcurrentDictionary<Type, Wrappers.QueryWrapperBase>();
 
         /// <summary>
         /// Mediator constructor
@@ -65,37 +68,86 @@ namespace Mediate
 
             IEnumerable<IEventHandler<TEvent>> handlers = await _eventHandlerProvider.GetHandlers<TEvent>();
 
-            if (handlers.Any())
+            if (!handlers.Any())
             {
-                IEnumerable<IEventMiddleware<TEvent>> middlewares = await _eventMiddlewareProvider.GetMiddlewares<TEvent>();
+                throw new InvalidOperationException($"There isn't any registered event handler for {typeof(TEvent).Name}");
 
-                async Task pipelineEnd()
-                {
-                    await _eventDispatchStrategy.Dispatch(@event, handlers, cancellationToken);
-                }
-
-                NextMiddlewareDelegate pipeline = middlewares
-                    .Reverse()
-                    .Aggregate((NextMiddlewareDelegate)pipelineEnd, (next, middleware) =>
-                    {
-                        return async delegate
-                        {
-                            await middleware.Invoke(@event, cancellationToken, next);
-                        };
-                    });
-
-                await pipeline();
             }
-        }
 
+            IEnumerable<IEventMiddleware<TEvent>> middlewares = await _eventMiddlewareProvider.GetMiddlewares<TEvent>();
+
+            async Task pipelineEnd()
+            {
+                await _eventDispatchStrategy.Dispatch(@event, handlers, cancellationToken);
+            }
+
+            NextMiddlewareDelegate pipeline = middlewares
+                .Reverse()
+                .Aggregate((NextMiddlewareDelegate)pipelineEnd, (next, middleware) =>
+                {
+                    return async delegate
+                    {
+                        await middleware.Invoke(@event, cancellationToken, next);
+                    };
+                });
+
+            await pipeline();
+        }
 
         /// <summary>
         /// Sends a query to his handler and returns a response
         /// </summary>
-        /// <typeparam name="TQuery">Query type</typeparam>
         /// <typeparam name="TResult">Response type</typeparam>
         /// <param name="query">Query data</param>
         /// <returns></returns>
+        public async Task<TResult> Send<TResult>(IQuery<TResult> query)
+        {
+            return await Send(query, default).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Sends a query to his handler and returns a response
+        /// </summary>
+        /// <typeparam name="TResult">Response type</typeparam>
+        /// <param name="query">Query data</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns></returns>
+        public async Task<TResult> Send<TResult>(IQuery<TResult> query, CancellationToken cancellationToken)
+        {
+            if (query == null)
+            {
+                throw new ArgumentNullException(nameof(query));
+            }
+
+            Type queryType = query.GetType();
+
+            Wrappers.QueryWrapperBase queryWrapper = _queryWrappersCache.GetOrAdd(queryType, (queryType) =>
+            {
+                Type wrapperType = typeof(Wrappers.QueryWrapper<,>).MakeGenericType(query.GetType(), typeof(TResult));
+
+                return (Wrappers.QueryWrapperBase)Activator.CreateInstance(wrapperType, _queryHandlerProvider, _queryMiddlewareProvider);
+            });
+
+            return (TResult)await queryWrapper.Handle(query, cancellationToken);
+
+        }
+
+        /// <summary>
+        /// Dispose method
+        /// </summary>
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Sends a query to the mediator
+        /// </summary>
+        /// <typeparam name="TQuery">Query type</typeparam>
+        /// <typeparam name="TResult">Query response type</typeparam>
+        /// <param name="query">Query data</param>
+        /// <returns>Query response</returns>
+        [Obsolete("This method is obsolete. Use IMediator.Send<TResult>(IQuery<TResult>) instead.", false)]
         public async Task<TResult> Send<TQuery, TResult>(TQuery query)
             where TQuery : IQuery<TResult>
         {
@@ -103,13 +155,14 @@ namespace Mediate
         }
 
         /// <summary>
-        /// Sends a query to his handler and returns a response
+        /// Sends a query to the mediator
         /// </summary>
         /// <typeparam name="TQuery">Query type</typeparam>
-        /// <typeparam name="TResult">Response type</typeparam>
+        /// <typeparam name="TResult">Query response type</typeparam>
         /// <param name="query">Query data</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns></returns>
+        /// <param name="cancellationToken"></param>
+        /// <returns>Query response</returns>
+        [Obsolete("This method is obsolete. Use IMediator.Send<TResult>(IQuery<TResult>, CancellationToken) instead.", false)]
         public async Task<TResult> Send<TQuery, TResult>(TQuery query, CancellationToken cancellationToken)
             where TQuery : IQuery<TResult>
         {
@@ -144,14 +197,6 @@ namespace Mediate
             }
 
             return default;
-        }
-
-        /// <summary>
-        /// Dispose method
-        /// </summary>
-        public void Dispose()
-        {
-            GC.SuppressFinalize(this);
         }
     }
 }

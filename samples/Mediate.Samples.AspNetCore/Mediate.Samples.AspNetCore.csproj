@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Mediate.BackgroundEventDispatch\Mediate.BackgroundEventDispatch.csproj" />
     <ProjectReference Include="..\..\src\Mediate\Mediate.csproj" />
     <ProjectReference Include="..\Mediate.Samples.Shared\Mediate.Samples.Shared.csproj" />
   </ItemGroup>
