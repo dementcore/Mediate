@@ -1,0 +1,169 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Mediate.BackgroundEventDispatch</name>
+    </assembly>
+    <members>
+        <member name="T:Mediate.BackgroundEventDispatch.Abstractions.IEventQueueExceptionHandler">
+            <summary>
+            Interface for implement an exception handler for the event queue dispatch strategy
+            </summary>
+        </member>
+        <member name="M:Mediate.BackgroundEventDispatch.Abstractions.IEventQueueExceptionHandler.Handle(System.AggregateException,System.String)">
+            <summary>
+            Handles event queue dispatch strategy
+            </summary>
+            <param name="aggregateException">Aggregate exception with all handlers errors</param>
+            <param name="eventName">Name of the event</param>
+            <returns></returns>
+        </member>
+        <member name="T:Mediate.BackgroundEventDispatch.Configuration.IMediateEventQueueBuilder">
+            <summary>
+            Helper methods to configure Mediate
+            </summary>
+        </member>
+        <member name="M:Mediate.BackgroundEventDispatch.Configuration.IMediateEventQueueBuilder.AddDefaultExceptionHandler">
+            <summary>
+            Registers the DefaultEventQueueExceptionHandler that logs the error.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Mediate.BackgroundEventDispatch.Configuration.IMediateEventQueueBuilder.AddCustomExceptionHandler``1">
+            <summary>
+            Registers a custom EventQueueExceptionHandler
+            </summary>
+            <typeparam name="TExceptionHandler">EventQueueExceptionHandler implementation type</typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Mediate.BackgroundEventDispatch.Configuration.MediateEventQueueBuilder.AddCustomExceptionHandler``1">
+            <summary>
+            Registers a custom EventQueueExceptionHandler
+            </summary>
+            <typeparam name="TExceptionHandler">EventQueueExceptionHandler implementation type</typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Mediate.BackgroundEventDispatch.Configuration.MediateEventQueueBuilder.AddDefaultExceptionHandler">
+            <summary>
+            Registers the DefaultEventQueueExceptionHandler that logs the error.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Mediate.BackgroundEventDispatch.DefaultEventQueueExceptionHandler">
+            <summary>
+            Default event dispatch exception handler that logs the exceptions
+            </summary>
+        </member>
+        <member name="M:Mediate.BackgroundEventDispatch.DefaultEventQueueExceptionHandler.#ctor(Microsoft.Extensions.Logging.ILogger{Mediate.BackgroundEventDispatch.DefaultEventQueueExceptionHandler})">
+            <summary>
+            Constructor
+            </summary>
+            <param name="logger"></param>
+        </member>
+        <member name="M:Mediate.BackgroundEventDispatch.DefaultEventQueueExceptionHandler.Handle(System.AggregateException,System.String)">
+            <summary>
+            Handles event dispatch exception
+            </summary>
+            <param name="aggregateException">Aggregate exception with all handlers errors</param>
+            <param name="eventName">Name of the event</param>
+            <returns></returns>
+        </member>
+        <member name="T:Mediate.BackgroundEventDispatch.EventQueueDispatchStrategy">
+            <summary>
+            Event dispatch strategy that enqueues events to be handled by a background job.
+            </summary>
+        </member>
+        <member name="M:Mediate.BackgroundEventDispatch.EventQueueDispatchStrategy.#ctor(Mediate.BackgroundEventDispatch.Queue.EventQueue)">
+            <summary>
+            Event queue dispatch strategy constructor
+            </summary>
+            <param name="eventQueue">Event queue implementation</param>
+        </member>
+        <member name="M:Mediate.BackgroundEventDispatch.EventQueueDispatchStrategy.Dispatch``1(``0,System.Collections.Generic.IEnumerable{Mediate.Abstractions.IEventHandler{``0}})">
+            <summary>
+            Executes this strategy to dispatch an event
+            </summary>
+            <typeparam name="TEvent">Event type</typeparam>
+            <param name="event">Event data</param>
+            <param name="handlers">Event handlers</param>
+            <returns></returns>
+        </member>
+        <member name="M:Mediate.BackgroundEventDispatch.EventQueueDispatchStrategy.Dispatch``1(``0,System.Collections.Generic.IEnumerable{Mediate.Abstractions.IEventHandler{``0}},System.Threading.CancellationToken)">
+            <summary>
+            Executes this strategy to dispatch an event
+            </summary>
+            <typeparam name="TEvent">Event type</typeparam>
+            <param name="event">Event data</param>
+            <param name="handlers">Event handlers</param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Mediate.BackgroundEventDispatch.EventQueueDispatchStrategy.Dispose">
+            <summary>
+            Dispose method
+            </summary>
+        </member>
+        <member name="T:Mediate.BackgroundEventDispatch.HostedService.EventDispatcherService">
+            <summary>
+            Job to handle the enqueued events. <br/>
+            This class is public to allow registration into DI containers like Autofac, Unity, etc. <br/>
+            This shouldn't be used directly from user code. <br/>
+            </summary>
+        </member>
+        <member name="M:Mediate.BackgroundEventDispatch.HostedService.EventDispatcherService.#ctor(Microsoft.Extensions.Logging.ILogger{Mediate.BackgroundEventDispatch.HostedService.EventDispatcherService},Mediate.BackgroundEventDispatch.Queue.EventQueue,Mediate.BackgroundEventDispatch.Abstractions.IEventQueueExceptionHandler)">
+            <summary>
+            Event dispatcher service constructor
+            </summary>
+            <param name="logger"></param>
+            <param name="backgroundEventQueue"></param>
+            <param name="exceptionHandler"></param>
+        </member>
+        <member name="M:Mediate.BackgroundEventDispatch.HostedService.EventDispatcherService.ExecuteAsync(System.Threading.CancellationToken)">
+            <summary>
+            Hosted service execute method
+            </summary>
+            <param name="stoppingToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Mediate.BackgroundEventDispatch.HostedService.EventDispatcherService.StopAsync(System.Threading.CancellationToken)">
+            <summary>
+            Hosted service stop method
+            </summary>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Mediate.BackgroundEventDispatch.Queue.EventQueue">
+            <summary>
+            Event queue for the EventQueueDispatchStrategy. <br/>
+            This class is public to allow registration into DI containers like Autofac, Unity, etc.<br/>
+            This shouldn't be used directly from user code. <br/>
+            </summary>
+        </member>
+        <member name="T:Mediate.BackgroundEventDispatch.Wrappers.QueuedEventWrapperBase">
+            <summary>
+            Wrapper class to represent a event into the event queue
+            </summary>
+        </member>
+        <member name="T:Mediate.BackgroundEventDispatch.Wrappers.QueuedEventWrapper`1">
+            <summary>
+            Wrapper class to represent a event into the event queue
+            </summary>
+        </member>
+        <member name="T:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions">
+            <summary>
+            Service collection extension methods
+            </summary>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.AddMediateEventQueueDispatchStrategy(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Configures Mediate to use the background queue event dispatch strategy with the DefaultEventQueueExceptionHandler.
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.AddMediateEventQueueDispatchStrategyCore(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Configures Mediate to use the background queue event dispatch strategy and returns a builder object to configure the queue.
+            </summary>
+            <param name="services"></param>
+        </member>
+    </members>
+</doc>

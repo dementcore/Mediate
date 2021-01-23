@@ -38,13 +38,6 @@ You can use one of the following methods:
     See :ref:`ParallelEventDispatchStrategy <refParallelEventDispatchStrategy>`
     for details.
 
-* ``AddMediateEventQueueDispatchStrategy``
-    Registers the background queue event dispatch strategy as a scoped service.
-    This method also registers a hosted service called ``EventDispatcherService`` 
-    and a queue called ``EventQueue`` as a singleton service.
-    See :ref:`EventQueueDispatchStrategy <refEventQueueDispatchStrategy>`
-    for details.
-
 .. _refAddCustomEventDispatchStrategy:
 
 * ``AddMediateCustomDispatchStrategy``

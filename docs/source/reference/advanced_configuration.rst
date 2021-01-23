@@ -9,11 +9,11 @@ See :ref:`Configuration <refAddMediateCore>` for details.
 This method returns a builder object that has the following methods:
 
 * ``AddServiceProviderHandlerProvider``
-    Registers a handler provider as a scoped service for queries and events that are retrieved from AspNetCore Service Provider.
+    Registers a handler provider as a scoped service for queries and events that are retrieved from the Service Provider.
     See :ref:`Providers <refHandlerProviders>` for details.
 
 * ``AddServiceProviderMiddlewareProvider``
-    Registers a middleware provider as a scoped service for queries and events that are retrieved from AspNetCore Service Provider.
+    Registers a middleware provider as a scoped service for queries and events that are retrieved from the Service Provider.
     See :ref:`Providers <refMiddlewareProviders>` for details.
 
 * ``AddCustomHandlerProvider``

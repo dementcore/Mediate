@@ -4,9 +4,6 @@
     <TargetFramework>net5.0</TargetFramework>
     <AssemblyName>Mediate.BackgroundEventDispatch</AssemblyName>
     <RootNamespace>Mediate.BackgroundEventDispatch</RootNamespace>
-  </PropertyGroup>
-
-  <PropertyGroup>
     <Authors>DementCore</Authors>
     <Company>DementCore</Company>
     <Product>Mediate.BackgroundEventDispatch</Product>
@@ -25,7 +22,14 @@
     <PackageTags>mediator;mediator-pattern;aspnetcore</PackageTags>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>D:\Proyectos\GitHub\Mediate\src\Mediate.BackgroundEventDispatch\Mediate.BackgroundEventDispatch.xml</DocumentationFile>
+  </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>D:\Proyectos\GitHub\Mediate\src\Mediate.BackgroundEventDispatch\Mediate.BackgroundEventDispatch.xml</DocumentationFile>
+  </PropertyGroup>
+  
   <ItemGroup>
     <ProjectReference Include="..\Mediate\Mediate.csproj" />
   </ItemGroup>
@@ -39,7 +43,7 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
-    <None Include="..\logo.png">
+    <None Include="..\..\logo.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>

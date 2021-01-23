@@ -21,9 +21,9 @@ In samples folder are samples for AspNetCore with Microsoft DI and with Autofac 
 
 ## Changelog
 
-## 1.0.6
+### 1.0.6
 
-# Changes
+#### Changes
 
 -   `IMediator.Dispatch` and `IMediator.Send` methods now throws an
     `InvalidOperationException` is there isn't any handlers registered.
@@ -38,7 +38,7 @@ In samples folder are samples for AspNetCore with Microsoft DI and with Autofac 
     This new methods will infer the result type, so there is no need to
     pass the query type and the result type in the method call.
 
-# Breaking Changes
+#### Breaking Changes
 
 -   The Event Queue Dispatch Strategy functionality has been moved to
     Mediate.BackgroundEventDispatch package to decouple Mediate from

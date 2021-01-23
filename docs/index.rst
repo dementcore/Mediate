@@ -91,3 +91,13 @@ __ FeatureRequest_
    source/reference/providers
    source/reference/generic_handlers
    source/reference/generic_middlewares
+
+.. toctree::
+   :maxdepth: 2
+   :hidden: 
+   :caption: Background Event Dispatch
+
+   source/BackgroundEventDispatch/background_event_dispatch
+   source/BackgroundEventDispatch/configuration
+   source/BackgroundEventDispatch/advanced_configuration
+   source/BackgroundEventDispatch/event_queue_exception_handler

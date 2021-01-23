@@ -8,7 +8,7 @@ namespace Mediate.BackgroundEventDispatch.Configuration
     public interface IMediateEventQueueBuilder
     {
         /// <summary>
-        /// Registers the DefaultEventQueueExceptionHandler that logs the error.
+        /// Registers the DefaultEventQueueExceptionHandler that logs the error into the ILogger.
         /// </summary>
         /// <returns></returns>
         IMediateEventQueueBuilder AddDefaultExceptionHandler();
