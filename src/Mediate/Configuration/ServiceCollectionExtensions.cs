@@ -2,12 +2,10 @@
 using Mediate.Abstractions;
 using Mediate.Configuration;
 using Mediate.DispatchStrategies;
-using Mediate.HostedService;
-using Mediate.Queue;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Collections.Generic;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -60,33 +58,6 @@ namespace Microsoft.Extensions.DependencyInjection
             }
 
             services.AddScoped<IEventDispatchStrategy, ParallelEventDispatchStrategy>();
-        }
-
-        /// <summary>
-        /// Configures Mediate to use the background queue event dispatch strategy.
-        /// Registers a hosted service called EventDispatcherService, a queue and EventQueueDispatchStrategy class.
-        /// </summary>
-        /// <param name="services"></param>
-        public static void AddMediateEventQueueDispatchStrategy(this IServiceCollection services)
-        {
-            if (services.Any(s => s.ServiceType == typeof(IEventDispatchStrategy)))
-            {
-                throw new InvalidOperationException("You have already registered an event dispatch strategy");
-            }
-
-            if (services.Any(s => s.ServiceType == typeof(EventQueue)))
-            {
-                throw new InvalidOperationException("You have already registered the EventQueue");
-            }
-
-            if (services.Any(s => s.ImplementationType == typeof(EventDispatcherService)))
-            {
-                throw new InvalidOperationException("You have already registered the EventDispatcherService hosted service");
-            }
-
-            services.AddScoped<IEventDispatchStrategy, EventQueueDispatchStrategy>();
-            services.AddSingleton<EventQueue>();
-            services.AddHostedService<EventDispatcherService>();
         }
 
         /// <summary>
@@ -150,7 +121,5 @@ namespace Microsoft.Extensions.DependencyInjection
             RegisterHelpers.RegisterClassesFromAssemblyAndType(services, typeof(IQueryHandler<,>), assemblyTypes, false, false);
             RegisterHelpers.RegisterClassesFromAssemblyAndType(services, typeof(IQueryMiddleware<,>), assemblyTypes, true, true);
         }
-
-
     }
 }

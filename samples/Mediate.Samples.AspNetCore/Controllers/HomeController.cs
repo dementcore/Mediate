@@ -38,7 +38,7 @@ namespace Mediate.Samples.AspNetCore.Controllers
         {
             SampleQuery query = new SampleQuery() { QueryData = model.Name };
 
-            SampleQueryResponse res = await _mediator.Send<SampleQuery, SampleQueryResponse>(query, cancellationToken);
+            SampleQueryResponse res = await _mediator.Send(query, cancellationToken);
 
             ViewBag.Response = res.QueryResponseData;
 
@@ -55,7 +55,7 @@ namespace Mediate.Samples.AspNetCore.Controllers
         {
             SampleComplexQuery query = new SampleComplexQuery() { QueryData = model.Name };
 
-            SampleComplexQueryResponse res = await _mediator.Send<SampleComplexQuery, SampleComplexQueryResponse>(query, cancellationToken);
+            SampleComplexQueryResponse res = await _mediator.Send(query, cancellationToken);
 
             ViewBag.Response = res.QueryResponseData;
 

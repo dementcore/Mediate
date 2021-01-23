@@ -68,4 +68,4 @@ Third, send the query through the mediator:
 
  MyQuery query = new MyQuery() { QueryData = "Dementcore" };
 
- string res = await _mediator.Send<MyQuery, string>(query);
+ string res = await _mediator.Send(query);

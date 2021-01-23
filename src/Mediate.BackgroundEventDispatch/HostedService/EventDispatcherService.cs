@@ -1,11 +1,13 @@
-﻿using Mediate.Queue;
+﻿using Mediate.BackgroundEventDispatch.Abstractions;
+using Mediate.BackgroundEventDispatch.Queue;
+using Mediate.BackgroundEventDispatch.Wrappers;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Mediate.HostedService
+namespace Mediate.BackgroundEventDispatch.HostedService
 {
     /// <summary>
     /// Job to handle the enqueued events. <br/>
@@ -16,28 +18,19 @@ namespace Mediate.HostedService
     {
         private readonly EventQueue _backgroundEventQueue;
         private readonly ILogger<EventDispatcherService> _logger;
+        private readonly IEventQueueExceptionHandler _exceptionHandler;
 
         /// <summary>
         /// Event dispatcher service constructor
         /// </summary>
         /// <param name="logger"></param>
         /// <param name="backgroundEventQueue"></param>
-        public EventDispatcherService(ILogger<EventDispatcherService> logger, EventQueue backgroundEventQueue)
+        /// <param name="exceptionHandler"></param>
+        public EventDispatcherService(ILogger<EventDispatcherService> logger, EventQueue backgroundEventQueue, IEventQueueExceptionHandler exceptionHandler)
         {
             _backgroundEventQueue = backgroundEventQueue;
             _logger = logger;
-        }
-
-        /// <summary>
-        /// Hosted service start method
-        /// </summary>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        public override Task StartAsync(CancellationToken cancellationToken)
-        {
-            _logger.LogInformation("BackgroundEventExecutionService execution started");
-
-            return base.StartAsync(cancellationToken);
+            _exceptionHandler = exceptionHandler;
         }
 
         /// <summary>
@@ -47,19 +40,17 @@ namespace Mediate.HostedService
         /// <returns></returns>
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("BackgroundEventExecutionService execution running");
-
             await Task.Run(async () =>
             {
                 while (!stoppingToken.IsCancellationRequested)
                 {
 
-                    if (!_backgroundEventQueue.HasEvents())
+                    if (!await _backgroundEventQueue.HasEvents(stoppingToken))
                     {
                         continue;
                     }
 
-                    QueuedEventWrapperBase job = _backgroundEventQueue.DequeueEvent();
+                    QueuedEventWrapperBase job = await _backgroundEventQueue.DequeueEvent(stoppingToken);
 
                     try
                     {
@@ -67,7 +58,7 @@ namespace Mediate.HostedService
                     }
                     catch (AggregateException ex)
                     {
-                        _logger.LogError(ex, $"Errors occurred executing event {job.EventName}");
+                        await _exceptionHandler.Handle(ex, job.EventName);
                     }
                 }
             }, stoppingToken);
@@ -80,8 +71,6 @@ namespace Mediate.HostedService
         /// <returns></returns>
         public override Task StopAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("BackgroundEventExecutionService stoped");
-
             return base.StopAsync(cancellationToken);
         }
     }

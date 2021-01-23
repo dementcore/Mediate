@@ -1,11 +1,12 @@
 ﻿using Mediate.Abstractions;
-using Mediate.Queue;
+using Mediate.BackgroundEventDispatch.Queue;
+using Mediate.BackgroundEventDispatch.Wrappers;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Mediate.DispatchStrategies
+namespace Mediate.BackgroundEventDispatch
 {
     /// <summary>
     /// Event dispatch strategy that enqueues events to be handled by a background job.
@@ -43,14 +44,13 @@ namespace Mediate.DispatchStrategies
         /// <param name="handlers">Event handlers</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public Task Dispatch<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers, CancellationToken cancellationToken) where TEvent : IEvent
+        public async Task Dispatch<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers, CancellationToken cancellationToken) where TEvent : IEvent
         {
+
             var queuedEvent = (QueuedEventWrapperBase)
                 Activator.CreateInstance(typeof(QueuedEventWrapper<>).MakeGenericType(typeof(TEvent)), @event, handlers);
 
-            _eventQueue.EnqueueEvent(queuedEvent);
-
-            return Task.CompletedTask;
+            await _eventQueue.EnqueueEvent(queuedEvent, cancellationToken);
         }
 
         /// <summary>

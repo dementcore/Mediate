@@ -6,7 +6,7 @@ An event dispatch strategy defines how the event handlers are invoked.
 
 Default event dispatch strategies
 =================================
-Mediate has three event dispatch strategies available out-of-the-box.
+Mediate has two event dispatch strategies available out-of-the-box.
 
 .. note:: 
  The event handlers are invoked in the same registration order.
@@ -26,17 +26,6 @@ Parallel Event Dispatch Strategy
 This strategy executes event handlers in parallel.
 
 .. important:: In case of exception in one event handler the rest of the handlers will be executed and then an AggregateException will be thrown when all handlers finish.
-
-.. _refEventQueueDispatchStrategy:
-
-Event Queue Dispatch Strategy
------------------------------
-This strategy enqueues event handlers to be executed by an Asp.Net Core hosted service. 
-This strategy is intented to fire and forget an event.
-
-.. important:: In case of exception in one event handler the rest of the handlers will be executed and then an AggregateException will be logged in the registered ILogger service.
-
-.. tip:: As good practices, try to control the exceptions in the event handler.
 
 .. _refCustomEventDispatchStrategy:
 

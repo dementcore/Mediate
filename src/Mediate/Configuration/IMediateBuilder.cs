@@ -34,5 +34,6 @@ namespace Mediate.Configuration
         /// <returns></returns>
         IMediateBuilder AddCustomMiddlewareProvider<TMiddlewareProvider>()
                     where TMiddlewareProvider : IMiddlewareProvider;
+
     }
 }
