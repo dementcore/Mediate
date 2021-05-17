@@ -37,29 +37,6 @@ namespace Mediate.Abstractions
         /// <summary>
         /// Sends a query to the mediator
         /// </summary>
-        /// <typeparam name="TQuery">Query type</typeparam>
-        /// <typeparam name="TResult">Query response type</typeparam>
-        /// <param name="query">Query data</param>
-        /// <returns>Query response</returns>
-        [Obsolete("This method is obsolete. Use IMediator.Send<TResult>(IQuery<TResult>) instead.", false)]
-        Task<TResult> Send<TQuery, TResult>(TQuery query)
-            where TQuery : IQuery<TResult>;
-
-        /// <summary>
-        /// Sends a query to the mediator
-        /// </summary>
-        /// <typeparam name="TQuery">Query type</typeparam>
-        /// <typeparam name="TResult">Query response type</typeparam>
-        /// <param name="query">Query data</param>
-        /// <param name="cancellationToken"></param>
-        /// <returns>Query response</returns>
-        [Obsolete("This method is obsolete. Use IMediator.Send<TResult>(IQuery<TResult>, CancellationToken) instead.", false)]
-        Task<TResult> Send<TQuery, TResult>(TQuery query, CancellationToken cancellationToken)
-            where TQuery : IQuery<TResult>;
-
-        /// <summary>
-        /// Sends a query to the mediator
-        /// </summary>
         /// <typeparam name="TResult">Query response type</typeparam>
         /// <param name="query">Query data</param>
         /// <returns>Query response</returns>
