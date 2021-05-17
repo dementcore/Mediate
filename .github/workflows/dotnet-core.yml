@@ -1,9 +1,7 @@
-name: .NET Core
+name: Publish Job
 
 on:
   push:
-    branches: [ master ]
-  pull_request:
     branches: [ master ]
 
 jobs:
