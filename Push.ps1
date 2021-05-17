@@ -4,7 +4,7 @@ if ([string]::IsNullOrEmpty($Env:NUGET_API_KEY)) {
     dotnet pack $Env:PROJECT_PATH -c Release -o Temp --no-build
       Get-ChildItem Temp\ -Filter "*.nupkg" | ForEach-Object {
         Write-Host "Pushing $($_.Name)"
-        dotnet nuget push $_ --source $Env:NUGET_URL --api-key $Env:NUGET_API_KEY
+        dotnet nuget push $_ --skip-duplicate --source $Env:NUGET_URL --api-key $Env:NUGET_API_KEY
         if ($lastexitcode -ne 0) {
             throw ("Exec: " + $errorMessage)
         }
