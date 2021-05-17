@@ -1,4 +1,28 @@
-﻿using Mediate.Abstractions;
+﻿// File: Mediator.cs
+// The MIT License
+//
+// Copyright (c) 2021 DementCore
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+//
+
+using Mediate.Abstractions;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -138,65 +162,6 @@ namespace Mediate
         public void Dispose()
         {
             GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// Sends a query to the mediator
-        /// </summary>
-        /// <typeparam name="TQuery">Query type</typeparam>
-        /// <typeparam name="TResult">Query response type</typeparam>
-        /// <param name="query">Query data</param>
-        /// <returns>Query response</returns>
-        [Obsolete("This method is obsolete. Use IMediator.Send<TResult>(IQuery<TResult>) instead.", false)]
-        public async Task<TResult> Send<TQuery, TResult>(TQuery query)
-            where TQuery : IQuery<TResult>
-        {
-            return await Send<TQuery, TResult>(query, default).ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// Sends a query to the mediator
-        /// </summary>
-        /// <typeparam name="TQuery">Query type</typeparam>
-        /// <typeparam name="TResult">Query response type</typeparam>
-        /// <param name="query">Query data</param>
-        /// <param name="cancellationToken"></param>
-        /// <returns>Query response</returns>
-        [Obsolete("This method is obsolete. Use IMediator.Send<TResult>(IQuery<TResult>, CancellationToken) instead.", false)]
-        public async Task<TResult> Send<TQuery, TResult>(TQuery query, CancellationToken cancellationToken)
-            where TQuery : IQuery<TResult>
-        {
-            if (query == null)
-            {
-                throw new ArgumentNullException(nameof(query));
-            }
-
-            IQueryHandler<TQuery, TResult> handler = await _queryHandlerProvider.GetHandler<TQuery, TResult>();
-
-            if (handler != null)
-            {
-
-                IEnumerable<IQueryMiddleware<TQuery, TResult>> middlewares = await _queryMiddlewareProvider.GetMiddlewares<TQuery, TResult>();
-
-                async Task<TResult> pipelineEnd()
-                {
-                    return await handler.Handle(query, cancellationToken);
-                }
-
-                NextMiddlewareDelegate<TResult> pipeline = middlewares
-                    .Reverse()
-                    .Aggregate((NextMiddlewareDelegate<TResult>)pipelineEnd, (next, middleware) =>
-                    {
-                        return async delegate
-                        {
-                            return await middleware.Invoke(query, cancellationToken, next);
-                        };
-                    });
-
-                return await pipeline();
-            }
-
-            return default;
         }
     }
 }

@@ -1,0 +1,38 @@
+name: Release Job
+
+on:
+  push:
+    tags:
+    - '*.*.*'
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+    runs-on: windows-latest
+   steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.100
+    - name: Build and Test
+      run: ./Build.ps1
+      shell: pwsh
+    - name: Push Mediate to NuGet
+      env:
+        NUGET_URL: https://api.nuget.org/v3/index.json
+        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        PROJECT_PATH: src/Mediate/Mediate.csproj
+      run: ./Push.ps1
+      shell: pwsh
+    - name: Push Mediate.BackgroundEventDispatch to NuGet
+      env:
+        NUGET_URL: https://api.nuget.org/v3/index.json
+        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        PROJECT_PATH: src/Mediate.BackgroundEventDispatch/Mediate.BackgroundEventDispatch.csproj
+      run: ./Push.ps1
+      shell: pwsh
