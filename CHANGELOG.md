@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.7
+
+### Changes
+
+- Removed obsolete method `IMediator.Send<TQuery, TResult>(TQuery)`
+- Removed obsolete method `IMediator.Send<TQuery, TResult>(TQuery, CancellationToken)`
+- Added Mediate symbol package.
+
 ## 1.0.6
 
 ### Changes
