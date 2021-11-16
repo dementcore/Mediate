@@ -142,9 +142,9 @@ namespace Microsoft.Extensions.DependencyInjection
             IEnumerable<Type> assemblyTypes = assembly.DefinedTypes;
 
             RegisterHelpers.RegisterClassesFromAssemblyAndType(services, typeof(IEventHandler<>), assemblyTypes, true, true);
-            //RegisterHelpers.RegisterClassesFromAssemblyAndType(services, typeof(IEventMiddleware<>), assemblyTypes, true, true);
-            //RegisterHelpers.RegisterClassesFromAssemblyAndType(services, typeof(IQueryHandler<,>), assemblyTypes, false, false);
-            //RegisterHelpers.RegisterClassesFromAssemblyAndType(services, typeof(IQueryMiddleware<,>), assemblyTypes, true, true);
+            RegisterHelpers.RegisterClassesFromAssemblyAndType(services, typeof(IEventMiddleware<>), assemblyTypes, true, true);
+            RegisterHelpers.RegisterClassesFromAssemblyAndType(services, typeof(IQueryHandler<,>), assemblyTypes, false, false);
+            RegisterHelpers.RegisterClassesFromAssemblyAndType(services, typeof(IQueryMiddleware<,>), assemblyTypes, true, true);
         }
     }
 }
