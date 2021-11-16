@@ -1,6 +1,7 @@
 name: Release Job
 
 on:
+  workflow_dispatch:
   push:
     tags:
     - '*.*.*'
