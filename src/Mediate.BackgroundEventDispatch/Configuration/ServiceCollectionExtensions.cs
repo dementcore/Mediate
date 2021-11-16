@@ -30,6 +30,7 @@ using Mediate.BackgroundEventDispatch.Queue;
 using Mediate.BackgroundEventDispatch.Configuration;
 using System;
 using System.Linq;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -65,9 +66,9 @@ namespace Microsoft.Extensions.DependencyInjection
                 throw new InvalidOperationException("You have already registered the EventDispatcherService hosted service");
             }
 
-            services.AddScoped<IEventDispatchStrategy, EventQueueDispatchStrategy>();
-            services.AddSingleton<EventQueue>();
-            services.AddSingleton<IEventQueueExceptionHandler,DefaultEventQueueExceptionHandler>();
+            services.TryAddScoped<IEventDispatchStrategy, EventQueueDispatchStrategy>();
+            services.TryAddSingleton<EventQueue>();
+            services.TryAddSingleton<IEventQueueExceptionHandler,DefaultEventQueueExceptionHandler>();
             services.AddHostedService<EventDispatcherService>();
         }
 
@@ -97,8 +98,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 throw new InvalidOperationException("You have already registered the EventDispatcherService hosted service");
             }
 
-            services.AddScoped<IEventDispatchStrategy, EventQueueDispatchStrategy>();
-            services.AddSingleton<EventQueue>();
+            services.TryAddScoped<IEventDispatchStrategy, EventQueueDispatchStrategy>();
+            services.TryAddSingleton<EventQueue>();
             services.AddHostedService<EventDispatcherService>();
 
             return new MediateEventQueueBuilder(services);

@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "EventWithMiddleware";
+}
+@model Mediate.Samples.AspNetCore6.Models.QueryMiddlewareModel
+<h6 class="display-4">Mediate complex event with middleware</h6>
+<p>This example uses 2 middlewares: </p>
+<p class="text-left">
+    The first middleware (BaseEventGenericMiddleware) illustrates how to perform an example validation.
+    Note: this is a generic middleware that handles all events derived from BaseEvent class.
+</p>
+<p></p>
+<p class="text-left">The second middleware (SampleComplexEventMiddleware) illustrates how to use a middleware to modify the event data.</p>
+
+<p></p>
+<p>
+    In this example we have 3 event handlers:
+</p>
+<p class="text-left">
+    The first event handler (SampleComplexEventHandler) waits 5 seconds and then launch an alert in the browser using a SignalR Hub with the event data modified from a middleware.
+</p>
+<p class="text-left">
+    The second event handler (GenericEventHandler) logs the received event in the console. Note: this is a generic handler that handles all events.
+</p>
+<p class="text-left">
+    The third event handler (BaseEventGenericEventHandler) logs the received event in the console. Note: this is a generic handler that handles all BaseEvent derived events.
+</p>
+<p></p>
+<p></p>
+<p>This example launch an event with the data filled in the field to show a welcome message in a alert.</p>
+<p>In the received alert message you will see the string [modified from middleware], that string is added from the SampleComplexEventMiddleware class</p>
+<form asp-action="EventMiddleware">
+    Name <input asp-for="Name" />
+    <span asp-validation-for="Name" class="text-danger"></span>
+    <button type="submit">Launch event</button>
+</form>

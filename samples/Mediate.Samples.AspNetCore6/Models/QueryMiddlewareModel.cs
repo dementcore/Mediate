@@ -1,4 +1,4 @@
-﻿// File: GenericEventHandler.cs
+﻿// File: QueryMiddlewareModel.cs
 // The MIT License
 //
 // Copyright (c) 2021 DementCore
@@ -22,29 +22,17 @@
 // SOFTWARE.
 //
 
-using Mediate.Abstractions;
-using Microsoft.Extensions.Logging;
-using System.Threading;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
 
-namespace Mediate.Samples.Shared.Event
+namespace Mediate.Samples.AspNetCore6.Models
 {
-    /// <summary>
-    /// This class catchs all events
-    /// </summary>
-    public class GenericEventHandler<T> : IEventHandler<T> where T : IEvent
+    public class QueryMiddlewareModel
     {
-        private readonly ILogger<GenericEventHandler<T>> _logger;
-        public GenericEventHandler(ILogger<GenericEventHandler<T>> logger)
-        {
-            _logger = logger;
-        }
-
-        public Task Handle(T @event, CancellationToken cancellationToken)
-        {
-            _logger.LogInformation("Received event: ", @event.ToString());
-
-            return Task.CompletedTask;
-        }
+        [Required]
+        public string Name { get; set; }
     }
 }

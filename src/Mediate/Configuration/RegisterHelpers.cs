@@ -23,6 +23,7 @@
 //
 
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,28 +38,38 @@ namespace Mediate.Configuration
         {
             string OpenTypeName = openType.Name;
 
+            //workaround for the .NET 6 issue https://github.com/dotnet/runtime/issues/57333 register first the open generic types and then the closed types
             foreach (Type assemblyType in assemblyTypes.Where(t => IsNotAbstract(t) && t.GetInterface(OpenTypeName) != null))
             {
-                if (IsClosedType(assemblyType))
-                {
-                    Type serviceType = assemblyType.GetInterface(OpenTypeName);
-
-
-                    if (!services.Any(
-                            s => s.ServiceType == serviceType &&
-                            (allowMultiple ? s.ImplementationType == assemblyType : true)
-                        ))
-                    {
-                        services.AddTransient(serviceType, assemblyType);
-                    }
-
-                }
-
                 if (IsOpenType(assemblyType) && allowGeneric)
                 {
                     if (!services.Any(s => s.ServiceType == openType && s.ImplementationType == assemblyType))
                     {
                         services.AddTransient(openType, assemblyType);
+                    }
+                }
+            }
+            
+            foreach (Type assemblyType in assemblyTypes.Where(t => IsNotAbstract(t) && t.GetInterface(OpenTypeName) != null))
+            {
+                if (IsClosedType(assemblyType))
+                {
+
+                    Type serviceType = assemblyType.GetInterface(OpenTypeName);
+
+                    if (allowMultiple)
+                    {
+                        if (!services.Any(s => s.ServiceType == serviceType))
+                        {
+                            services.AddTransient(serviceType, assemblyType);
+                        }
+                    }
+                    else
+                    {
+                        if (!services.Any(s => s.ServiceType == serviceType && s.ImplementationType == assemblyType))
+                        {
+                            services.AddTransient(serviceType, assemblyType);
+                        }
                     }
                 }
             }

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <Authors>DementCore</Authors>
     <Product>Mediate.BackgroundEventDispatch</Product>
     <Description>Mediate.BackgroundEventDispatch is an event dispatch strategy for Mediate that enqueues event handlers to be executed by an Asp.Net Core hosted service. This system is intented to fire and forget an event.</Description>
@@ -42,7 +42,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0">
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="MinVer" Version="2.5.0">
