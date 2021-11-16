@@ -18,3 +18,9 @@ to provide an easy communication mechanism to develop decoupled communication be
 ## Samples
 
 In samples folder are samples for AspNetCore with Microsoft DI.
+
+## Migration to .NET6
+
+The migration to .NET6 is not completed and fully tested because the feature of making generic event handlers 
+will not work as expected with the default ASP.Net DI Container. [Microsoft DI Issue](https://github.com/dotnet/runtime/issues/57333).
+When using this feature the DI Container will duplicate the concrete event handlers.
