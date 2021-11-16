@@ -23,4 +23,4 @@ In samples folder are samples for AspNetCore with Microsoft DI.
 
 The migration to .NET6 is completed and fully tested. 
 There is a workaround for an issue with Microsoft DI Container [Microsoft DI Issue](https://github.com/dotnet/runtime/issues/57333) that has been implemented and works as intended.
-With other DI Containers there is no known issues.
+This workaround not affects to other DI containers so is safe to use.
