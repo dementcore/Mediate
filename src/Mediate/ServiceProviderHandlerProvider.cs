@@ -55,7 +55,7 @@ namespace Mediate
         public Task<IEnumerable<IEventHandler<TEvent>>> GetHandlers<TEvent>() where TEvent : IEvent
         {
             IEnumerable<IEventHandler<TEvent>> services = _serviceProvider.GetServices<IEventHandler<TEvent>>();
-
+            
             IEnumerable<IEventHandler<TEvent>> handlers = new List<IEventHandler<TEvent>>();
 
             if (services is IEnumerable<IEventHandler<TEvent>>)
