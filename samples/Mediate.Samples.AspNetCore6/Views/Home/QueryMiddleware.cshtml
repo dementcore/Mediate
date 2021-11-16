@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "QueryWithMiddleware";
+}
+@model Mediate.Samples.AspNetCore6.Models.QueryMiddlewareModel
+
+<h6 class="display-4">Mediate complex query with middleware</h6>
+<p>This example uses 2 middlewares: </p>
+<p class="text-left">The first middleware (BaseQueryGenericMiddleware) illustrates how to perform an example validation. 
+    Note: this is a generic middleware that handles all querys derived from BaseQuery class.</p>
+<p></p>
+<p class="text-left">The second middleware (SampleComplexQueryMiddleware) illustrates how to use a middleware to modify the query data and the response data.</p>
+
+<p></p>
+<p></p>
+<p>This example launch a query with the data filled in the field to show a welcome message.</p>
+<p>In the received query response data you will see the string [modified from middleware], that string is added from the SampleComplexQueryMiddleware class</p>
+<form asp-action="QueryMiddleware">
+    Name <input asp-for="Name" />
+    <span asp-validation-for="Name" class="text-danger"></span>
+    <button type="submit">Send query</button>
+
+    <p>Received query response data: @ViewBag.Response</p>
+</form>

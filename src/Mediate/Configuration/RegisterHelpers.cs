@@ -23,6 +23,7 @@
 //
 
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,19 +40,26 @@ namespace Mediate.Configuration
 
             foreach (Type assemblyType in assemblyTypes.Where(t => IsNotAbstract(t) && t.GetInterface(OpenTypeName) != null))
             {
+
                 if (IsClosedType(assemblyType))
                 {
+
                     Type serviceType = assemblyType.GetInterface(OpenTypeName);
 
-
-                    if (!services.Any(
-                            s => s.ServiceType == serviceType &&
-                            (allowMultiple ? s.ImplementationType == assemblyType : true)
-                        ))
+                    if (allowMultiple)
                     {
-                        services.AddTransient(serviceType, assemblyType);
+                        if (!services.Any(s => s.ServiceType == serviceType))
+                        {
+                            services.AddTransient(serviceType, assemblyType);
+                        }
                     }
-
+                    else
+                    {
+                        if (!services.Any(s => s.ServiceType == serviceType && s.ImplementationType == assemblyType))
+                        {
+                            services.AddTransient(serviceType, assemblyType);
+                        }
+                    }
                 }
 
                 if (IsOpenType(assemblyType) && allowGeneric)

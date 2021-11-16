@@ -1,0 +1,15 @@
+﻿@{
+    ViewData["Title"] = "Query";
+}
+@model Mediate.Samples.AspNetCore6.Models.QueryMiddlewareModel
+
+<h6 class="display-4">Mediate single query</h6>
+
+<p>This example launch a query with the data filled in the field to show a welcome message.</p>
+<form asp-action="Query">
+    Name <input asp-for="Name" />
+    <span asp-validation-for="Name" class="text-danger"></span>
+    <button type="submit">Send query</button>
+
+    <p>Received query response data: @ViewBag.Response</p>
+</form>

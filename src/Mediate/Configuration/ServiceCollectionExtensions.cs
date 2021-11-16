@@ -26,6 +26,7 @@ using Mediate;
 using Mediate.Abstractions;
 using Mediate.Configuration;
 using Mediate.DispatchStrategies;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,7 +52,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 throw new InvalidOperationException("You have already registered a IMediator implementation");
             }
 
-            services.AddScoped<IMediator, Mediator>();
+            services.TryAddScoped<IMediator, Mediator>();
 
             return new MediateBuilder(services);
         }
@@ -81,7 +82,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 throw new InvalidOperationException("You have already registered an event dispatch strategy");
             }
 
-            services.AddScoped<IEventDispatchStrategy, ParallelEventDispatchStrategy>();
+            services.TryAddScoped<IEventDispatchStrategy, ParallelEventDispatchStrategy>();
         }
 
         /// <summary>
@@ -95,7 +96,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 throw new InvalidOperationException("You have already registered an event dispatch strategy");
             }
 
-            services.AddScoped<IEventDispatchStrategy, SequentialEventDispatchStrategy>();
+            services.TryAddScoped<IEventDispatchStrategy, SequentialEventDispatchStrategy>();
         }
 
         /// <summary>
@@ -123,7 +124,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 throw new InvalidOperationException("You have already registered an event dispatch strategy");
             }
 
-            services.Add(new ServiceDescriptor(typeof(IEventDispatchStrategy), typeof(TDispatchStrategy), lifetime));
+            services.TryAdd(new ServiceDescriptor(typeof(IEventDispatchStrategy), typeof(TDispatchStrategy), lifetime));
         }
 
         /// <summary>
@@ -141,9 +142,9 @@ namespace Microsoft.Extensions.DependencyInjection
             IEnumerable<Type> assemblyTypes = assembly.DefinedTypes;
 
             RegisterHelpers.RegisterClassesFromAssemblyAndType(services, typeof(IEventHandler<>), assemblyTypes, true, true);
-            RegisterHelpers.RegisterClassesFromAssemblyAndType(services, typeof(IEventMiddleware<>), assemblyTypes, true, true);
-            RegisterHelpers.RegisterClassesFromAssemblyAndType(services, typeof(IQueryHandler<,>), assemblyTypes, false, false);
-            RegisterHelpers.RegisterClassesFromAssemblyAndType(services, typeof(IQueryMiddleware<,>), assemblyTypes, true, true);
+            //RegisterHelpers.RegisterClassesFromAssemblyAndType(services, typeof(IEventMiddleware<>), assemblyTypes, true, true);
+            //RegisterHelpers.RegisterClassesFromAssemblyAndType(services, typeof(IQueryHandler<,>), assemblyTypes, false, false);
+            //RegisterHelpers.RegisterClassesFromAssemblyAndType(services, typeof(IQueryMiddleware<,>), assemblyTypes, true, true);
         }
     }
 }
