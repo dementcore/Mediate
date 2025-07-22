@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.1.2
+
+### Changes
+
+- Library and examples migrated to .NET 9
+
+## 1.1.0
+
+### Changes
+
+- Migrated to .NET 6
+
 ## 1.0.7
 
 ### Changes
