@@ -42,7 +42,7 @@ namespace Mediate.Samples.Shared.EventWithMiddleware
 
         public Task Handle(T @event, CancellationToken cancellationToken)
         {
-            _logger.LogDebug("Received base event derived event: ", @event);
+            _logger.LogInformation("Received base event derived event: {0}", @event);
 
             return Task.CompletedTask;
         }

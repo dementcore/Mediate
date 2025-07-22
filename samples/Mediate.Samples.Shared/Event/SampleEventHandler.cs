@@ -43,6 +43,9 @@ namespace Mediate.Samples.Shared.Event
 
         public async Task Handle(SampleEvent @event, CancellationToken cancellationToken)
         {
+            _logger.LogInformation("Received SampleEvent: {0}", @event);
+            _logger.LogInformation("Waiting 5 seconds");
+
             await Task.Delay(5000);
 
             await _hubContext.Clients.All.SendAsync("ReceiveMessage", $"Hi {@event.EventData}!!!");

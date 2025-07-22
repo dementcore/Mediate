@@ -42,7 +42,7 @@ namespace Mediate.Samples.Shared.Event
 
         public Task Handle(T @event, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Received event: ", @event.ToString());
+            _logger.LogInformation("Received event: {0}", @event.GetType().ToString());
 
             return Task.CompletedTask;
         }

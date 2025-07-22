@@ -19,7 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mediate.BackgroundEventDispatch", "src\Mediate.BackgroundEventDispatch\Mediate.BackgroundEventDispatch.csproj", "{F2BB71CE-1229-4376-BE79-967A4B6257C9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mediate.Samples.AspNetCore6", "samples\Mediate.Samples.AspNetCore6\Mediate.Samples.AspNetCore6.csproj", "{660EFA6E-302D-483B-8163-341AECBF38B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mediate.Samples.AspNetCore9MVC", "samples\Mediate.Samples.AspNetCore9MVC\Mediate.Samples.AspNetCore9MVC.csproj", "{660EFA6E-302D-483B-8163-341AECBF38B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

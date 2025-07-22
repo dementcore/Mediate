@@ -36,10 +36,10 @@ namespace Mediate.Configuration
     {
         internal static void RegisterClassesFromAssemblyAndType(IServiceCollection services, Type openType, IEnumerable<Type> assemblyTypes, bool allowMultiple, bool allowGeneric)
         {
-            string OpenTypeName = openType.Name;
+            string openTypeName = openType.Name;
 
             //workaround for the .NET 6 issue https://github.com/dotnet/runtime/issues/57333 register first the open generic types and then the closed types
-            foreach (Type assemblyType in assemblyTypes.Where(t => IsNotAbstract(t) && t.GetInterface(OpenTypeName) != null))
+            foreach (Type assemblyType in assemblyTypes.Where(t => IsNotAbstract(t) && t.GetInterface(openTypeName) != null))
             {
                 if (IsOpenType(assemblyType) && allowGeneric)
                 {
@@ -50,12 +50,12 @@ namespace Mediate.Configuration
                 }
             }
             
-            foreach (Type assemblyType in assemblyTypes.Where(t => IsNotAbstract(t) && t.GetInterface(OpenTypeName) != null))
+            foreach (Type assemblyType in assemblyTypes.Where(t => IsNotAbstract(t) && t.GetInterface(openTypeName) != null))
             {
                 if (IsClosedType(assemblyType))
                 {
 
-                    Type serviceType = assemblyType.GetInterface(OpenTypeName);
+                    Type serviceType = assemblyType.GetInterface(openTypeName);
 
                     if (allowMultiple)
                     {

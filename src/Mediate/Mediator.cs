@@ -72,7 +72,7 @@ namespace Mediate
         public async Task Dispatch<TEvent>(TEvent @event)
             where TEvent : IEvent
         {
-            await Dispatch(@event, default).ConfigureAwait(false);
+            await Dispatch(@event, CancellationToken.None).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -107,10 +107,8 @@ namespace Mediate
 
             NextMiddlewareDelegate pipeline = middlewares
                 .Reverse()
-                .Aggregate((NextMiddlewareDelegate)pipelineEnd, (next, middleware) =>
-                {
-                    return async delegate
-                    {
+                .Aggregate((NextMiddlewareDelegate)pipelineEnd, (next, middleware) => {
+                    return async delegate {
                         await middleware.Invoke(@event, cancellationToken, next);
                     };
                 });
@@ -126,7 +124,7 @@ namespace Mediate
         /// <returns></returns>
         public async Task<TResult> Send<TResult>(IQuery<TResult> query)
         {
-            return await Send(query, default).ConfigureAwait(false);
+            return await Send(query, CancellationToken.None).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -145,8 +143,7 @@ namespace Mediate
 
             Type queryType = query.GetType();
 
-            Wrappers.QueryWrapperBase queryWrapper = _queryWrappersCache.GetOrAdd(queryType, (queryType) =>
-            {
+            Wrappers.QueryWrapperBase queryWrapper = _queryWrappersCache.GetOrAdd(queryType, (queryType) => {
                 Type wrapperType = typeof(Wrappers.QueryWrapper<,>).MakeGenericType(query.GetType(), typeof(TResult));
 
                 return (Wrappers.QueryWrapperBase)Activator.CreateInstance(wrapperType, _queryHandlerProvider, _queryMiddlewareProvider);

@@ -56,19 +56,27 @@ namespace Mediate.DispatchStrategies
         /// <param name="handlers">Event handlers</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public Task Dispatch<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers, CancellationToken cancellationToken) where TEvent : IEvent
+        public async Task Dispatch<TEvent>(TEvent @event, IEnumerable<IEventHandler<TEvent>> handlers, CancellationToken cancellationToken) where TEvent : IEvent
         {
             ConcurrentQueue<Exception> exceptions = new ConcurrentQueue<Exception>();
 
-            Parallel.ForEach(handlers, async (handler) =>
-            {
+            await Parallel.ForEachAsync(handlers, async (handler, ct) => {
                 try
                 {
-                    await handler.Handle(@event, cancellationToken);
+                    ct.ThrowIfCancellationRequested();
+
+                    try
+                    {
+                        await handler.Handle(@event, cancellationToken);
+                    }
+                    catch (Exception ex)
+                    {
+                        exceptions.Enqueue(ex);
+                    }
                 }
-                catch (Exception ex)
+                catch (OperationCanceledException)
                 {
-                    exceptions.Enqueue(ex);
+                    //no op
                 }
             });
 
@@ -76,8 +84,6 @@ namespace Mediate.DispatchStrategies
             {
                 throw new AggregateException(exceptions);
             }
-
-            return Task.CompletedTask;
         }
 
         /// <summary>
