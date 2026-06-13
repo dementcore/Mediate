@@ -13,10 +13,6 @@ to provide an easy communication mechanism to develop decoupled communication be
 
 ## [Documentation](https://mediate.readthedocs.io/en/latest/)
 
-## Samples
-
-In samples folder are samples for AspNetCore with .Net DI.
-
 ## Fully compatible with .NET 9
 
 The migration to .NET9 is completed and fully tested. 
