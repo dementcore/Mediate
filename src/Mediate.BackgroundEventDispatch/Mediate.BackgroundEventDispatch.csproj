@@ -10,7 +10,7 @@
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/dementcore/Mediate</PackageProjectUrl>
     <RepositoryUrl>https://github.com/dementcore/Mediate</RepositoryUrl>
-    <Copyright>Copyright (c) 2021 DementCore</Copyright>
+    <Copyright>Copyright (c) 2026 DementCore</Copyright>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageTags>mediator;mediator-pattern;aspnetcore</PackageTags>
