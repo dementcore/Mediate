@@ -8,7 +8,7 @@ Pattern definition
 .. image:: /images/mediator_pattern.png
    :align: center
 
-The mediator pattern defines an object that encapsulates how different objects interacts.
+The mediator pattern defines an object that encapsulates how different objects interact.
 
 This ensures a low coupling between objects because none of them need to have a direct dependency on each other.
 

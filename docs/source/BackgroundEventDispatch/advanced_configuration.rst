@@ -9,7 +9,7 @@ See :ref:`Configuration <refAddMediateEventQueueDispatchStrategyCore>` for detai
 This method returns a builder object that has the following methods:
 
 * ``AddDefaultExceptionHandler``
-    Registers the DefaultEventQueueExceptionHandler that logs the error using the ILogger based logging system. .
+    Registers the DefaultEventQueueExceptionHandler that logs errors using the ILogger-based logging system.
     See :ref:`EventQueueExceptionHandler <refEventQueueExceptionHandler>`
 
 * ``AddCustomExceptionHandler``

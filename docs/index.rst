@@ -9,13 +9,13 @@ Welcome to Mediate!
 .. image:: images/logo.png
    :align: center
 
-Mediate is another simple and little in-process communication system based 
-in mediator pattern.
+Mediate is another simple and lightweight in-process communication system based
+on the mediator pattern.
 
 What attempts to provide this project?
 ======================================
 
-This project is mostly developed for learn and fun, but also attempts 
+This project is mostly developed for learning and fun, but also attempts 
 to provide an easy communication mechanism to develop decoupled communication between code layers.
 
 Contact

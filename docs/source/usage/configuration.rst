@@ -49,7 +49,7 @@ You can use one of the following methods:
 Automatic handlers and middlewares registration
 ===============================================
 
-Third, you have to register your handlers and middlewares into the container.
+Third, you have to register your handlers and middlewares with the container.
 
 You can do this manually or use the helper method ``AddMediateClassesFromAssembly(Assembly)``.
 

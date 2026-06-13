@@ -52,7 +52,7 @@ For example:
  
  public class MyQueryHandler : IQueryHandler<MyQuery, string>
  {
-    public Task<MyQueryResponse> Handle(MyQuery query, CancellationToken cancellationToken)
+    public Task<string> Handle(MyQuery query, CancellationToken cancellationToken)
     {
         //Example operation
         return Task.FromResult("Hello: " + query.QueryData);

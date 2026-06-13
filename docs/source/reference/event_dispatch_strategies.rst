@@ -9,7 +9,7 @@ Default event dispatch strategies
 Mediate has two event dispatch strategies available out-of-the-box.
 
 .. note:: 
- The event handlers are invoked in the same registration order.
+ Event handlers are invoked in the order they were registered.
 
 .. _refSequentialEventDispatchStrategy:
 

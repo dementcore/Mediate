@@ -17,7 +17,7 @@ Each middleware can do the following things:
 - Do logic before and after calling the next element in the pipeline.
 
 .. note:: 
- The middlewares are invoked in the same registration order.
+ Middlewares are invoked in the order they were registered.
 
 Query Middleware
 ================
@@ -99,7 +99,7 @@ To create an event middleware you have to implement the ``IEventMiddleware<TEven
 
     /// <summary>
     /// Interface to implement a middleware to process an event before it reaches it's handlers.
-    /// <typeparamref name="TEvent">Event type</typeparam>
+    /// <typeparam name="TEvent">Event type</typeparam>
     /// </summary>
     public interface IEventMiddleware<in TEvent> where TEvent : IEvent
     {

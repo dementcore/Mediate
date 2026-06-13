@@ -24,7 +24,7 @@ A query is defined by the ``IQuery`` generic interface
 
 Event
 =====
-An event is a message without response. You can think of an event like a notification that inform someone that something has happened. 
+An event is a message without a response. You can think of an event like a notification that inform someone that something has happened. 
 
 .. note:: A concrete event can have multiple concrete handlers.
 

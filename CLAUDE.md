@@ -36,19 +36,44 @@ src/
 - **`IMediator`** — central hub; exposes `Send<TResult>(IQuery<TResult>)` and `Dispatch(IEvent)`
 - **`IQuery<TResult>` / `IQueryHandler<TQuery, TResult>`** — request-response pattern; exactly one handler per query type
 - **`IEvent` / `IEventHandler<TEvent>`** — fan-out notification pattern; zero-to-many handlers
-- **`IQueryMiddleware<TQuery, TResult>` / `IEventMiddleware<TEvent>`** — pipeline decorators; applied in registration order
+- **`IQueryMiddleware<TQuery, TResult>` / `IEventMiddleware<TEvent>`** — pipeline decorators; applied in registration order; use `NextMiddlewareDelegate<TResult>` / `NextMiddlewareDelegate` to invoke the next element
 - **`IEventDispatchStrategy`** — swappable strategy controlling how event handlers are invoked:
-  - `SequentialEventDispatchStrategy` (default) — handlers run one after another
-  - `ParallelEventDispatchStrategy` — handlers run concurrently
-- **`IHandlerProvider` / `IMiddlewareProvider`** — resolve handlers and middleware from DI; default implementations use `IServiceProvider`
+  - `SequentialEventDispatchStrategy` (default) — handlers run one after another; collects exceptions into `AggregateException`
+  - `ParallelEventDispatchStrategy` — handlers run concurrently via `Parallel.ForEachAsync`
+- **Handler providers** — resolve handlers from DI:
+  - `IEventHandlerProvider` / `IQueryHandlerProvider` — granular interfaces
+  - `IHandlerProvider` — composite of both; default impl: `ServiceProviderHandlerProvider`
+- **Middleware providers** — resolve middleware from DI:
+  - `IEventMiddlewareProvider` / `IQueryMiddlewareProvider` — granular interfaces
+  - `IMiddlewareProvider` — composite of both; default impl: `ServiceProviderMiddlewareProvider`
 
 ### Background Dispatch Extension (`src/Mediate.BackgroundEventDispatch`)
 
-Adds `EventQueueDispatchStrategy`, which enqueues event handler invocations into an `IBackgroundTaskQueue` processed by an ASP.NET Core `IHostedService`. This decouples event processing from the HTTP request lifecycle (fire-and-forget).
+Adds `EventQueueDispatchStrategy`, which enqueues event handler invocations for fire-and-forget background processing. Key components:
+
+- **`EventQueue`** — thread-safe `ConcurrentQueue` with semaphore-based backpressure (capacity: 10)
+- **`EventDispatcherService`** — ASP.NET Core `BackgroundService` that polls the queue and processes events
+- **`IEventQueueExceptionHandler`** — handles exceptions thrown during background dispatch; default impl (`DefaultEventQueueExceptionHandler`) logs via `ILogger`
 
 ### DI Registration
 
-Both packages expose extension methods on `IServiceCollection` for registration. There is a documented workaround in place for Microsoft DI issue #57333 affecting open-generic resolution.
+Both packages expose extension methods on `IServiceCollection` for registration.
+
+**Core (`Mediate`) extension methods:**
+- `AddMediate()` — registers mediator + default providers (scoped); convenience shorthand
+- `AddMediateCore()` — registers mediator only; returns `IMediateBuilder` for fluent configuration
+  - `.AddServiceProviderHandlerProvider()` / `.AddServiceProviderMiddlewareProvider()` — default DI-backed providers
+  - `.AddCustomHandlerProvider<T>()` / `.AddCustomMiddlewareProvider<T>()` — plug in custom providers
+- `AddMediateSequentialEventDispatchStrategy()` — registers `SequentialEventDispatchStrategy` (scoped)
+- `AddMediateParallelEventDispatchStrategy()` — registers `ParallelEventDispatchStrategy` (scoped)
+- `AddMediateCustomDispatchStrategy<T>(ServiceLifetime)` — registers any custom strategy
+- `AddMediateClassesFromAssembly(Assembly)` — scans assembly and auto-registers all handlers and middlewares as transient (open generics included)
+
+**BackgroundEventDispatch extension methods:**
+- `AddMediateEventQueueDispatchStrategy()` — registers `EventQueueDispatchStrategy` + `DefaultEventQueueExceptionHandler` + `EventDispatcherService`
+- `AddMediateEventQueueDispatchStrategyCore()` — same but returns `IMediateEventQueueBuilder` for custom exception handler:
+  - `.AddDefaultExceptionHandler()` — registers `DefaultEventQueueExceptionHandler` (singleton)
+  - `.AddCustomExceptionHandler<T>()` — registers custom `IEventQueueExceptionHandler` (singleton)
 
 ## Code Style
 

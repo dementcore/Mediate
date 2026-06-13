@@ -4,7 +4,7 @@
 Events usage
 #############
 
-To send events, is the same that you have already seen in the previous page.
+Dispatching events follows the same pattern as the previous page.
 
 Event creation
 ==============

@@ -5,7 +5,7 @@ Event Queue Exception Handler
 #############################
 
 A Event Queue Exception Handler is a piece of logic that handles the errors produced 
-by event handlers when are executed in background by the event queue. You can use it to handle the exceptions in any form you want.
+by event handlers when executed in the background by the event queue. You can use it to handle the exceptions in any form you want.
 
 .. important:: In case of exception in one event handler the rest of the handlers will be executed and then an AggregateException will be generated.
 
