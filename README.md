@@ -13,8 +13,6 @@ to provide an easy communication mechanism to develop decoupled communication be
 
 ## [Documentation](https://mediate.readthedocs.io/en/latest/)
 
-## Fully compatible with .NET 9
+## Fully compatible with .NET 10
 
-The migration to .NET9 is completed and fully tested. 
-There is a workaround for an issue with Microsoft DI Container [Microsoft DI Issue](https://github.com/dotnet/runtime/issues/57333) that has been implemented and works as intended.
-This workaround not affects to other DI containers so it's safe to use.
+Migration to .NET10 is completed and fully tested.
