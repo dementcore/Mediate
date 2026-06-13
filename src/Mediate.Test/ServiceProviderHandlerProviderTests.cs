@@ -87,6 +87,14 @@ public sealed class ServiceProviderHandlerProviderTests
         Assert.That(handler, Is.Null);
     }
 
+    [Test]
+    public void Dispose_DoesNotThrow()
+    {
+        ServiceProviderHandlerProvider provider = BuildProvider(_ => { });
+
+        Assert.DoesNotThrow(() => provider.Dispose());
+    }
+
     private sealed class RecordingEventHandlerA : IEventHandler<TestEvent>
     {
         public Task Handle(TestEvent @event, CancellationToken cancellationToken) => Task.CompletedTask;

@@ -141,6 +141,14 @@ public sealed class SequentialEventDispatchStrategyTests
         Assert.That(capturedToken, Is.EqualTo(cts.Token));
     }
 
+    [Test]
+    public void Dispose_DoesNotThrow()
+    {
+        SequentialEventDispatchStrategy strategy = CreateStrategy();
+
+        Assert.DoesNotThrow(() => strategy.Dispose());
+    }
+
     private sealed class CapturingEventHandler : IEventHandler<TestEvent>
     {
         private readonly Action<CancellationToken> _capture;

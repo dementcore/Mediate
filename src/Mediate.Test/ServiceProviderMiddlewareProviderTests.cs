@@ -89,6 +89,14 @@ public sealed class ServiceProviderMiddlewareProviderTests
         Assert.That(middlewares, Is.Empty);
     }
 
+    [Test]
+    public void Dispose_DoesNotThrow()
+    {
+        ServiceProviderMiddlewareProvider provider = BuildProvider(_ => { });
+
+        Assert.DoesNotThrow(() => provider.Dispose());
+    }
+
     private sealed class NoOpEventMiddlewareA : IEventMiddleware<TestEvent>
     {
         public Task Invoke(TestEvent @event, CancellationToken cancellationToken, NextMiddlewareDelegate next)

@@ -113,6 +113,14 @@ public sealed class ParallelEventDispatchStrategyTests
         Assert.That(capturedToken, Is.EqualTo(cts.Token));
     }
 
+    [Test]
+    public void Dispose_DoesNotThrow()
+    {
+        ParallelEventDispatchStrategy strategy = CreateStrategy();
+
+        Assert.DoesNotThrow(() => strategy.Dispose());
+    }
+
     private sealed class LambdaEventHandler : IEventHandler<TestEvent>
     {
         private readonly Func<CancellationToken, Task> _handle;

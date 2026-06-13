@@ -188,6 +188,14 @@ public sealed class MediatorTests
         Assert.That(callCount, Is.EqualTo(2));
     }
 
+    [Test]
+    public void Dispose_DoesNotThrow()
+    {
+        Mediator mediator = CreateMediator(new FakeHandlerProvider());
+
+        Assert.DoesNotThrow(() => mediator.Dispose());
+    }
+
     private sealed class CountingQueryHandler : IQueryHandler<TestQuery, string>
     {
         private readonly Action _onHandle;
