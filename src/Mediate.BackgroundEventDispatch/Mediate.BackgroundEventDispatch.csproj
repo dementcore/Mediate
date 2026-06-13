@@ -8,6 +8,7 @@
         <PackageIcon>logo.png</PackageIcon>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageProjectUrl>https://github.com/dementcore/Mediate</PackageProjectUrl>
         <RepositoryUrl>https://github.com/dementcore/Mediate</RepositoryUrl>
         <Copyright>Copyright (c) 2026 DementCore</Copyright>
