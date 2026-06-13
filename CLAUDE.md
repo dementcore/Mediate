@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Mediate is a lightweight, in-process mediator library for .NET 9 enabling decoupled communication via query/handler and event/handler patterns with middleware support and pluggable dispatch strategies.
+Mediate is a lightweight, in-process mediator library for .NET 10 enabling decoupled communication via query/handler and event/handler patterns with middleware support and pluggable dispatch strategies.
 
 ## Build & Development Commands
 
@@ -17,24 +17,16 @@ dotnet build --no-restore
 
 # Run tests
 dotnet test --no-build --verbosity normal
-
-# Full release pipeline (clean → build Release → test Release)
-./Build.ps1
-
-# Pack and publish to NuGet (requires NUGET_API_KEY env var)
-./Push.ps1
 ```
 
 ## Solution Structure
 
 ```
 src/
-  Mediate/                              # Core NuGet package (net9.0)
-  Mediate.BackgroundEventDispatch/      # ASP.NET Core extension package (net9.0)
+  Mediate/                              # Core NuGet package (net10.0)
+  Mediate.BackgroundEventDispatch/      # ASP.NET Core extension package (net10.0)
   Mediate.Test/                         # Unit tests (net10.0, NUnit 4.x)
-samples/
-  Mediate.Samples.Shared/               # Shared query/event models and handlers
-  Mediate.Samples.AspNetCore9MVC/       # ASP.NET Core 9 MVC demo
+  Mediate.BackgroundEventDispatch.Test/ # Unit tests (net10.0, NUnit 4.x)
 ```
 
 ## Architecture

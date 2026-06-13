@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.3
+
+### Changes
+
+- Library migrated to .NET 10
+
 ## 1.1.2
 
 ### Changes
