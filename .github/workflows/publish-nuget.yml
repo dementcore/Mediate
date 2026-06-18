@@ -1,12 +1,8 @@
 name: Publish to NuGet
 
 on:
-  workflow_dispatch:
-    inputs:
-      package_version:
-        description: Package version to publish (for example: 1.2.3)
-        required: true
-        type: string
+  release:
+    types: [released]
 
 jobs:
   publish:
@@ -17,6 +13,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+      - name: Get version
+        id: version
+        run: |
+          TAG="${{ github.event.release.tag_name }}"
+          echo "value=${TAG#v}" >> $GITHUB_OUTPUT
       - name: Setup .NET
         uses: actions/setup-dotnet@v5
         with:
@@ -29,8 +30,8 @@ jobs:
         run: dotnet test --configuration Release --no-build --verbosity normal
       - name: Pack
         run: |
-          dotnet pack src/Mediate/Mediate.csproj --configuration Release --no-build --output ./artifacts /p:PackageVersion=${{ inputs.package_version }} /p:Version=${{ inputs.package_version }}
-          dotnet pack src/Mediate.BackgroundEventDispatch/Mediate.BackgroundEventDispatch.csproj --configuration Release --no-build --output ./artifacts /p:PackageVersion=${{ inputs.package_version }} /p:Version=${{ inputs.package_version }}
+          dotnet pack src/Mediate/Mediate.csproj --configuration Release --no-build --output ./artifacts /p:PackageVersion=${{ steps.version.outputs.value }} /p:Version=${{ steps.version.outputs.value }}
+          dotnet pack src/Mediate.BackgroundEventDispatch/Mediate.BackgroundEventDispatch.csproj --configuration Release --no-build --output ./artifacts /p:PackageVersion=${{ steps.version.outputs.value }} /p:Version=${{ steps.version.outputs.value }}
       - name: NuGet login (OIDC)
         uses: NuGet/login@v1
         id: login
