@@ -1,0 +1,42 @@
+<Project>
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <Authors>DementCore</Authors>
+        <Copyright>Copyright (c) 2026 DementCore</Copyright>
+        <Deterministic>true</Deterministic>
+    </PropertyGroup>
+
+    <!-- Shared NuGet package metadata for the packable projects -->
+    <PropertyGroup Condition="'$(IsPackable)' != 'false'">
+        <PackageIcon>logo.png</PackageIcon>
+        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+        <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageProjectUrl>https://github.com/dementcore/Mediate</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/dementcore/Mediate</RepositoryUrl>
+        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
+
+    <!-- Versioning (MinVer) + SourceLink / symbols -->
+    <PropertyGroup Condition="'$(IsPackable)' != 'false'">
+        <MinVerTagPrefix>v</MinVerTagPrefix>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    </PropertyGroup>
+
+    <ItemGroup Condition="'$(IsPackable)' != 'false'">
+        <None Include="$(MSBuildThisFileDirectory)LICENSE.md" Pack="true" PackagePath="" />
+        <None Include="$(MSBuildThisFileDirectory)README.md" Pack="true" PackagePath="" />
+        <None Include="$(MSBuildThisFileDirectory)logo.png" Pack="true" PackagePath="" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(IsPackable)' != 'false'">
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.300" PrivateAssets="all" />
+        <PackageReference Include="MinVer" Version="7.0.0" PrivateAssets="all" />
+    </ItemGroup>
+
+</Project>

@@ -1,26 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net10.0</TargetFramework>
-        <Authors>DementCore</Authors>
         <Product>Mediate.BackgroundEventDispatch</Product>
-        <Description>Mediate.BackgroundEventDispatch is an event dispatch strategy for Mediate that enqueues event handlers to be executed by an Asp.Net Core hosted service. This system is intented to fire and forget an event.</Description>
-        <PackageIcon>logo.png</PackageIcon>
-        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-        <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-        <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageProjectUrl>https://github.com/dementcore/Mediate</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/dementcore/Mediate</RepositoryUrl>
-        <Copyright>Copyright (c) 2026 DementCore</Copyright>
-        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <Description>Mediate.BackgroundEventDispatch is an event dispatch strategy for Mediate that enqueues event handlers to be executed by an Asp.Net Core hosted service. This system is intended to fire and forget an event.</Description>
         <PackageTags>mediator;mediator-pattern;aspnetcore</PackageTags>
-        <MinVerTagPrefix>v</MinVerTagPrefix>
-        <PublishRepositoryUrl>true</PublishRepositoryUrl>
-        <IncludeSymbols>true</IncludeSymbols>
-        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-        <EmbedUntrackedSources>true</EmbedUntrackedSources>
-        <Deterministic>true</Deterministic>
     </PropertyGroup>
 
     <ItemGroup>
@@ -29,30 +12,6 @@
 
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <None Include="..\..\LICENSE.md">
-            <Pack>True</Pack>
-            <PackagePath></PackagePath>
-        </None>
-        <None Include="..\..\README.md">
-            <Pack>True</Pack>
-            <PackagePath></PackagePath>
-        </None>
-        <None Include="..\..\logo.png">
-            <Pack>True</Pack>
-            <PackagePath></PackagePath>
-        </None>
-    </ItemGroup>
-
-    <ItemGroup>
-        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.300">
-            <PrivateAssets>all</PrivateAssets>
-        </PackageReference>
-        <PackageReference Include="MinVer" Version="7.0.0">
-            <PrivateAssets>all</PrivateAssets>
-        </PackageReference>
     </ItemGroup>
 
 </Project>
