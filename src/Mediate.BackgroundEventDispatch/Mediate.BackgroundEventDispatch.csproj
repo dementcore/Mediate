@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <Product>Mediate.BackgroundEventDispatch</Product>
-        <Description>Mediate.BackgroundEventDispatch is an event dispatch strategy for Mediate that enqueues event handlers to be executed by an Asp.Net Core hosted service. This system is intented to fire and forget an event.</Description>
+        <Description>Mediate.BackgroundEventDispatch is an event dispatch strategy for Mediate that enqueues event handlers to be executed by an Asp.Net Core hosted service. This system is intended to fire and forget an event.</Description>
         <PackageTags>mediator;mediator-pattern;aspnetcore</PackageTags>
     </PropertyGroup>
 

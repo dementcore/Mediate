@@ -7,15 +7,16 @@ on:
 jobs:
   publish:
     permissions:
+      contents: read
       id-token: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           fetch-depth: 0   # MinVer needs full history + tags
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4
         with:
           dotnet-version: '10.0.x'
       - name: Restore
@@ -28,12 +29,37 @@ jobs:
         run: |
           dotnet pack src/Mediate/Mediate.csproj --configuration Release --no-build --output ./artifacts
           dotnet pack src/Mediate.BackgroundEventDispatch/Mediate.BackgroundEventDispatch.csproj --configuration Release --no-build --output ./artifacts
+      - name: Verify artifacts
+        run: |
+          shopt -s nullglob
+          packages=(./artifacts/*.nupkg)
+          symbols=(./artifacts/*.snupkg)
+
+          if [ ${#packages[@]} -eq 0 ]; then
+            echo "No .nupkg packages found in ./artifacts"
+            exit 1
+          fi
+
+          if [ ${#symbols[@]} -eq 0 ]; then
+            echo "No .snupkg packages found in ./artifacts"
+            exit 1
+          fi
+
+          echo "Found packages to publish:"
+          ls -la ./artifacts
       - name: NuGet login (OIDC)
-        uses: NuGet/login@v1
+        uses: NuGet/login@ebc737b6fc418a6ca0073cf116ec8dc156d8b81e # v1
         id: login
         with:
           user: ${{ secrets.NUGET_USER }}
       - name: Push
         run: |
-          dotnet nuget push "./artifacts/*.nupkg" --api-key ${{ steps.login.outputs.NUGET_API_KEY  }} --source https://api.nuget.org/v3/index.json --skip-duplicate
-          dotnet nuget push "./artifacts/*.snupkg" --api-key ${{ steps.login.outputs.NUGET_API_KEY  }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+          shopt -s nullglob
+
+          for package in ./artifacts/*.nupkg; do
+            dotnet nuget push "$package" --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+          done
+
+          for symbols in ./artifacts/*.snupkg; do
+            dotnet nuget push "$symbols" --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+          done
