@@ -19,24 +19,17 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
 
-    <!-- Versioning (MinVer) + SourceLink / symbols -->
+    <!-- Symbols -->
     <PropertyGroup Condition="'$(IsPackable)' != 'false'">
-        <MinVerTagPrefix>v</MinVerTagPrefix>
-        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <EnableSourceLink>false</EnableSourceLink>
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-        <EmbedUntrackedSources>true</EmbedUntrackedSources>
     </PropertyGroup>
 
     <ItemGroup Condition="'$(IsPackable)' != 'false'">
         <None Include="$(MSBuildThisFileDirectory)LICENSE.md" Pack="true" PackagePath="" />
         <None Include="$(MSBuildThisFileDirectory)README.md" Pack="true" PackagePath="" />
         <None Include="$(MSBuildThisFileDirectory)logo.png" Pack="true" PackagePath="" />
-    </ItemGroup>
-
-    <ItemGroup Condition="'$(IsPackable)' != 'false'">
-        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.300" PrivateAssets="all" />
-        <PackageReference Include="MinVer" Version="7.0.0" PrivateAssets="all" />
     </ItemGroup>
 
 </Project>

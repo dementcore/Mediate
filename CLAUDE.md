@@ -88,7 +88,6 @@ Enforced via `.editorconfig`:
 
 ## Versioning & Packaging
 
-- **MinVer** derives package versions from git tags (prefix `v`, e.g., `v1.1.2`)
-- **SourceLink** embeds GitHub source references in packages
+- Package versions are provided explicitly at publish time via workflow inputs
 - Symbol packages (`.snupkg`) are produced alongside `.nupkg`
 - XML documentation is generated from `///` comments — keep public API documented

@@ -1,8 +1,12 @@
 name: Publish to NuGet
 
 on:
-  release:
-    types: [published]
+  workflow_dispatch:
+    inputs:
+      package_version:
+        description: Package version to publish (for example: 1.2.3)
+        required: true
+        type: string
 
 jobs:
   publish:
@@ -12,11 +16,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0   # MinVer needs full history + tags
+        uses: actions/checkout@v7
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '10.0.x'
       - name: Restore
@@ -27,26 +29,8 @@ jobs:
         run: dotnet test --configuration Release --no-build --verbosity normal
       - name: Pack
         run: |
-          dotnet pack src/Mediate/Mediate.csproj --configuration Release --no-build --output ./artifacts
-          dotnet pack src/Mediate.BackgroundEventDispatch/Mediate.BackgroundEventDispatch.csproj --configuration Release --no-build --output ./artifacts
-      - name: Verify artifacts
-        run: |
-          shopt -s nullglob
-          packages=(./artifacts/*.nupkg)
-          symbols=(./artifacts/*.snupkg)
-
-          if [ ${#packages[@]} -eq 0 ]; then
-            echo "No .nupkg packages found in ./artifacts"
-            exit 1
-          fi
-
-          if [ ${#symbols[@]} -eq 0 ]; then
-            echo "No .snupkg packages found in ./artifacts"
-            exit 1
-          fi
-
-          echo "Found packages to publish:"
-          ls -la ./artifacts
+          dotnet pack src/Mediate/Mediate.csproj --configuration Release --no-build --output ./artifacts /p:PackageVersion=${{ inputs.package_version }} /p:Version=${{ inputs.package_version }}
+          dotnet pack src/Mediate.BackgroundEventDispatch/Mediate.BackgroundEventDispatch.csproj --configuration Release --no-build --output ./artifacts /p:PackageVersion=${{ inputs.package_version }} /p:Version=${{ inputs.package_version }}
       - name: NuGet login (OIDC)
         uses: NuGet/login@v1
         id: login
@@ -54,12 +38,6 @@ jobs:
           user: ${{ secrets.NUGET_USER }}
       - name: Push
         run: |
-          shopt -s nullglob
+          dotnet nuget push "./artifacts/*.nupkg" --api-key ${{ steps.login.outputs.NUGET_API_KEY  }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+          dotnet nuget push "./artifacts/*.snupkg" --api-key ${{ steps.login.outputs.NUGET_API_KEY  }} --source https://api.nuget.org/v3/index.json --skip-duplicate
 
-          for package in ./artifacts/*.nupkg; do
-            dotnet nuget push "$package" --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
-          done
-
-          for symbols in ./artifacts/*.snupkg; do
-            dotnet nuget push "$symbols" --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
-          done
