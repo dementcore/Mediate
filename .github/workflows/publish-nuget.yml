@@ -45,8 +45,6 @@ jobs:
           user: ${{ secrets.NUGET_USER }}
 
       - name: Push
-        run: >
-          dotnet nuget push "./artifacts/*.nupkg"
-          --api-key ${{ steps.login.outputs.NUGET_API_KEY }}
-          --source https://api.nuget.org/v3/index.json
-          --skip-duplicate
+        run: |
+          dotnet nuget push "./artifacts/*.nupkg" --api-key ${{ steps.login.outputs.NUGET_AUTH_TOKEN }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+          dotnet nuget push "./artifacts/*.snupkg" --api-key ${{ steps.login.outputs.NUGET_AUTH_TOKEN }} --source https://api.nuget.org/v3/index.json --skip-duplicate
