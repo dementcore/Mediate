@@ -20,7 +20,7 @@
     </PropertyGroup>
 
     <!-- Versioning (MinVer) + SourceLink / symbols -->
-    <PropertyGroup>
+    <PropertyGroup Condition="'$(IsPackable)' != 'false'">
         <MinVerTagPrefix>v</MinVerTagPrefix>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <IncludeSymbols>true</IncludeSymbols>
