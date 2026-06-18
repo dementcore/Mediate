@@ -34,7 +34,7 @@
         <None Include="$(MSBuildThisFileDirectory)logo.png" Pack="true" PackagePath="" />
     </ItemGroup>
 
-    <ItemGroup>
+    <ItemGroup Condition="'$(IsPackable)' != 'false'">
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.300" PrivateAssets="all" />
         <PackageReference Include="MinVer" Version="7.0.0" PrivateAssets="all" />
     </ItemGroup>
