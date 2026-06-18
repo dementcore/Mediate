@@ -8,7 +8,7 @@
     </PropertyGroup>
 
     <!-- Shared NuGet package metadata for the packable projects -->
-    <PropertyGroup>
+    <PropertyGroup Condition="'$(IsPackable)' != 'false'">
         <PackageIcon>logo.png</PackageIcon>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
